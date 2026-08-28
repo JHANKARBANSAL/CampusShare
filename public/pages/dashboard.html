@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | CampusShare</title>
+  <link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+<body>
+
+  <!--
+    PAGE STRUCTURE (easy to explain in 4 parts):
+    1. NAVBAR        -> logo + menu (Home/My Activity/Profile) + bell + profile
+    2. GREETING      -> "Hi, Jhankar!" welcome text
+    3. ACTION CARDS  -> 2 big buttons: "I Need Something" / "I Can Help Someone"
+    4. REQUEST LIST  -> cards of students who need help (repeated 4 times)
+  -->
+
+  <!-- ===================== 1. NAVBAR ===================== -->
+  <header class="navbar">
+
+    <!-- Logo on the left -->
+    <div class="logo">
+      <span class="logo-icon">📖</span>
+      <span class="logo-text">CampusShare</span>
+    </div>
+
+    <!-- Menu links in the middle -->
+    <nav class="menu">
+      <a href="dashboard.html" class="menu-link active">🏠 Home</a>
+      <a href="#" class="menu-link">🗂️ My Activity</a>
+      <a href="#" class="menu-link">👤 Profile</a>
+    </nav>
+
+    <!-- Bell + profile on the right -->
+    <div class="navbar-right">
+      <button class="bell-btn">
+        🔔
+        <span class="bell-count">2</span>
+      </button>
+      <div class="profile-chip">
+        <span class="profile-avatar">J</span>
+        <span class="profile-name">Jhankar</span>
+        <span>▾</span>
+      </div>
+    </div>
+
+  </header>
+
+  <!-- ===================== MAIN CONTENT ===================== -->
+  <main class="container">
+
+    <!-- ===================== 2. GREETING ===================== -->
+    <h1 class="greeting">Hi, Jhankar! 👋</h1>
+    <p class="subtitle">What would you like to do today?</p>
+
+    <!-- ===================== 3. ACTION CARDS ===================== -->
+    <section class="action-cards">
+
+      <a href="./post-need.html" class="action-card">
+        <span class="action-icon">🔍</span>
+        <span class="action-info">
+          <span class="action-title">I Need Something</span>
+          <span class="action-desc">Post a request for what you need</span>
+        </span>
+        <span class="action-arrow">›</span>
+      </a>
+
+      <a href="#" class="action-card">
+        <span class="action-icon">🤝</span>
+        <span class="action-info">
+          <span class="action-title">I Can Help Someone</span>
+          <span class="action-desc">Browse requests &amp; offer help</span>
+        </span>
+        <span class="action-arrow">›</span>
+      </a>
+
+    </section>
+
+    <!-- ===================== 4. REQUEST LIST ===================== -->
+    <section class="requests">
+
+      <div class="requests-heading">
+        <h2>🔶 Students looking for help</h2>
+        <button class="filter-btn">⚙️ Filter</button>
+      </div>
+
+      <!--
+        Every card below has the SAME structure, just different text:
+        avatar -> name/branch -> item needed -> trust badge -> buttons
+        (easiest way to explain: "this block repeats 4 times with new data")
+      -->
+
+      <!-- Card 1 -->
+      <div class="request-card">
+        <div class="avatar" style="background:#FFD9C7">AS</div>
+        <div class="student-info">
+          <p class="student-name">Aarav Sharma ✅</p>
+          <p class="student-branch">B.Tech CSE · Batch 2027</p>
+        </div>
+        <div class="item-info">
+          <p class="item-title">Scientific Calculator</p>
+          <p class="item-desc">Need it for my maths exam.</p>
+          <p class="item-time">📅 Needed by: <b>Tomorrow, 10:00 AM</b> &nbsp; ⏰ Duration: <b>5 hours</b></p>
+        </div>
+        <div class="trust-info">
+          <span class="trust-badge high">🛡️ High Trust</span>
+          <span class="rating">⭐ 4.8 (10 reviews)</span>
+        </div>
+        <div class="action-buttons">
+          <button class="help-btn">I Can Help</button>
+          <a href="#" class="profile-link">View Profile</a>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="request-card">
+        <div class="avatar" style="background:#FFE1CF">NV</div>
+        <div class="student-info">
+          <p class="student-name">Neha Verma ✅</p>
+          <p class="student-branch">B.Tech ECE · Batch 2026</p>
+        </div>
+        <div class="item-info">
+          <p class="item-title">Tripod Stand</p>
+          <p class="item-desc">Need for a mini project video shoot.</p>
+          <p class="item-time">📅 Needed by: <b>28 Aug, 2025</b> &nbsp; ⏰ Duration: <b>2 days</b></p>
+        </div>
+        <div class="trust-info">
+          <span class="trust-badge high">🛡️ High Trust</span>
+          <span class="rating">⭐ 4.6 (8 reviews)</span>
+        </div>
+        <div class="action-buttons">
+          <button class="help-btn">I Can Help</button>
+          <a href="#" class="profile-link">View Profile</a>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="request-card">
+        <div class="avatar" style="background:#FFD9C7">RS</div>
+        <div class="student-info">
+          <p class="student-name">Rohan Singh ✅</p>
+          <p class="student-branch">B.Tech ME · Batch 2027</p>
+        </div>
+        <div class="item-info">
+          <p class="item-title">Lab Coat</p>
+          <p class="item-desc">Need for fluid mechanics lab.</p>
+          <p class="item-time">📅 Needed by: <b>29 Aug, 2025</b> &nbsp; ⏰ Duration: <b>3 days</b></p>
+        </div>
+        <div class="trust-info">
+          <span class="trust-badge good">🛡️ Good Trust</span>
+          <span class="rating">⭐ 4.3 (6 reviews)</span>
+        </div>
+        <div class="action-buttons">
+          <button class="help-btn">I Can Help</button>
+          <a href="#" class="profile-link">View Profile</a>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="request-card">
+        <div class="avatar" style="background:#FFE1CF">IP</div>
+        <div class="student-info">
+          <p class="student-name">Ishita Patel ✅</p>
+          <p class="student-branch">B.Tech CSE · Batch 2026</p>
+        </div>
+        <div class="item-info">
+          <p class="item-title">USB-C to HDMI Adapter</p>
+          <p class="item-desc">For presentation in seminar.</p>
+          <p class="item-time">📅 Needed by: <b>27 Aug, 2025</b> &nbsp; ⏰ Duration: <b>1 day</b></p>
+        </div>
+        <div class="trust-info">
+          <span class="trust-badge high">🛡️ High Trust</span>
+          <span class="rating">⭐ 4.9 (13 reviews)</span>
+        </div>
+        <div class="action-buttons">
+          <button class="help-btn">I Can Help</button>
+          <a href="#" class="profile-link">View Profile</a>
+        </div>
+      </div>
+
+      <a href="#" class="view-all">View all requests →</a>
+
+    </section>
+
+  </main>
+
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>

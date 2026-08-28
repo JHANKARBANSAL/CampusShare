@@ -1,0 +1,182 @@
+/* ==========================================================
+   CampusShare - Login Page
+   Simple version - no variables, just plain values.
+   ========================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #FDF6F2;   /* light peach page background */
+  color: #1F2933;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* ---------- Page wrapper (holds back arrow + card) ---------- */
+
+.page {
+  width: 100%;
+  max-width: 360px;
+}
+
+.back-arrow {
+  display: inline-block;
+  font-size: 1.3rem;
+  color: #1F2933;
+  text-decoration: none;
+  margin-bottom: 14px;
+}
+
+/* ---------- White card ---------- */
+
+.login-card {
+  background: white;
+  border-radius: 20px;
+  padding: 28px 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.login-title {
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+}
+
+.login-subtitle {
+  font-size: 0.85rem;
+  color: #8A8F98;
+  margin-bottom: 24px;
+}
+
+/* ---------- Form fields ---------- */
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.78rem;
+  color: #8A8F98;
+  margin-bottom: 6px;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.forgot-link {
+  font-size: 0.78rem;
+  color: #FF6B45;
+  text-decoration: none;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #F1E6DF;
+  border-radius: 10px;
+  background: #FDF6F2;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: #1F2933;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #FF6B45;
+  background: white;
+}
+
+/* ---------- Login button ---------- */
+
+.login-btn {
+  width: 100%;
+  background: #FF6B45;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 0;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.login-btn:hover {
+  background: #F0552F;
+}
+
+/* ---------- Divider line with text in the middle ---------- */
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #8A8F98;
+  font-size: 0.8rem;
+  margin: 22px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #F1E6DF;
+}
+
+.divider span {
+  padding: 0 10px;
+}
+
+/* ---------- Google / University buttons ---------- */
+
+.social-buttons {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.social-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #FDF6F2;
+  border: 1px solid #F1E6DF;
+  border-radius: 10px;
+  padding: 10px 0;
+  font-size: 0.82rem;
+  font-family: inherit;
+  color: #1F2933;
+  cursor: pointer;
+}
+
+.social-btn:hover {
+  border-color: #FF6B45;
+}
+
+/* ---------- "Don't have an account" link ---------- */
+
+.signup-text {
+  text-align: center;
+  font-size: 0.82rem;
+  color: #8A8F98;
+}
+
+.signup-text a {
+  color: #FF6B45;
+  font-weight: bold;
+  text-decoration: none;
+}

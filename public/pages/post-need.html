@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Post a Need | CampusShare</title>
+
+    <!-- Post Need page ki CSS -->
+    <link rel="stylesheet" href="../css/post-need.css">
+</head>
+
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <nav class="navbar">
+
+        <a href="./dashboard.html" class="brand">
+            CampusShare
+        </a>
+
+        <div class="nav-links">
+
+            <a href="./dashboard.html">
+                Home
+            </a>
+
+            <a href="./activity.html">
+                My Activity
+            </a>
+
+            <a href="./profile.html">
+                Profile
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="post-need-page">
+
+
+        <!-- BACK BUTTON -->
+
+        <a href="./dashboard.html"
+           class="back-link">
+
+            ← Back to Dashboard
+
+        </a>
+
+
+        <!-- =========================
+             FORM CARD
+        ========================== -->
+
+        <section class="form-card">
+
+            <div class="form-header">
+
+                <h1>I Need Something</h1>
+
+                <p>
+                    Tell the campus community what you're looking for.
+                </p>
+
+            </div>
+
+
+            <!-- Message shown after the form is submitted (hidden until JS shows it) -->
+            <div id="successMessage" class="success-message">
+                ✅ Your request has been posted!
+            </div>
+
+            <!-- =========================
+                 NEED FORM
+            ========================== -->
+
+            <form id="needForm">
+
+
+                <!-- ITEM NAME -->
+
+                <div class="form-group">
+
+                    <label for="itemName">
+                        What do you need?
+                    </label>
+
+                    <input
+                        type="text"
+                        id="itemName"
+                        name="itemName"
+                        placeholder="e.g. Scientific Calculator"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group">
+
+                    <label for="description">
+                        Why do you need it?
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="e.g. I need it for my mathematics exam."
+                        rows="5"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- DATE AND TIME -->
+
+                <div class="form-group">
+
+                    <label for="neededBy">
+                        When do you need it?
+                    </label>
+
+                    <input
+                        type="datetime-local"
+                        id="neededBy"
+                        name="neededBy"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DURATION -->
+
+                <div class="form-group">
+
+                    <label for="duration">
+                        For how long?
+                    </label>
+
+                    <input
+                        type="text"
+                        id="duration"
+                        name="duration"
+                        placeholder="e.g. 5 hours / 2 days"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- FORM BUTTONS -->
+
+                <div class="form-actions">
+
+                    <a href="./dashboard.html"
+                       class="cancel-btn">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="submit-btn">
+
+                        Post Request
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+            <p id="Message"></p>
+
+        </section>
+
+    </main>
+
+
+    <!-- Post Need page ki JavaScript -->
+
+    <script src="../js/post-need.js"></script>
+
+</body>
+
+</html>

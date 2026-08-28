@@ -1,0 +1,323 @@
+/* ==========================================================
+   CampusShare - Dashboard Stylesheet
+   Simple version - no variables, just plain values.
+   4 parts: 1. Base setup  2. Navbar  3. Greeting + Cards  4. Requests
+   ========================================================== */
+
+/* ---------- 1. BASE SETUP ---------- */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* padding/border included in width, easier sizing */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #FDF6F2;   /* light peach page background */
+  color: #1F2933;         /* main text color (dark gray) */
+}
+
+/* ---------- 2. NAVBAR ---------- */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* logo left, menu center, profile right */
+  background: white;
+  border-bottom: 1px solid #F1E6DF;
+  padding: 14px 32px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.logo-icon {
+  background: #FF6B45;   /* orange */
+  color: white;
+  padding: 6px 8px;
+  border-radius: 8px;
+}
+
+.menu {
+  display: flex;
+  gap: 28px;
+}
+
+.menu-link {
+  text-decoration: none;
+  color: #8A8F98;         /* faded gray text */
+  font-size: 0.95rem;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent; /* space kept so active link doesn't jump */
+}
+
+.menu-link.active {
+  color: #FF6B45;
+  border-bottom: 2px solid #FF6B45;
+  font-weight: bold;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.bell-btn {
+  position: relative;
+  background: none;
+  border: 1px solid #F1E6DF;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+}
+
+.bell-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: red;
+  color: white;
+  font-size: 0.65rem;
+  border-radius: 50%;
+  padding: 1px 5px;
+}
+
+.profile-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile-avatar {
+  background: #FF6B45;
+  color: white;
+  font-weight: bold;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- 3. GREETING + ACTION CARDS ---------- */
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;      /* centers the content on the page */
+  padding: 32px 24px;
+}
+
+.greeting {
+  font-size: 1.7rem;
+}
+
+.subtitle {
+  color: #8A8F98;
+  margin: 4px 0 24px;
+}
+
+.action-cards {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 36px;
+}
+
+.action-card {
+  flex: 1;                /* both cards take equal width */
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: white;
+  border: 1px solid #F1E6DF;
+  border-radius: 16px;
+  padding: 20px;
+  text-decoration: none;
+  color: #1F2933;
+}
+
+.action-icon {
+  background: #FDE7DD;   /* light orange box */
+  color: #FF6B45;
+  font-size: 1.4rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.action-title {
+  font-weight: bold;
+}
+
+.action-desc {
+  font-size: 0.85rem;
+  color: #8A8F98;
+}
+
+.action-arrow {
+  color: #8A8F98;
+  font-size: 1.4rem;
+}
+
+/* ---------- 4. REQUEST CARDS LIST ---------- */
+
+.requests-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.filter-btn {
+  background: white;
+  border: 1px solid #F1E6DF;
+  border-radius: 999px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+/* Each student request is one row/card. Same layout, repeated for every card. */
+.request-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: white;
+  border: 1px solid #F1E6DF;
+  border-radius: 16px;
+  padding: 18px 22px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;         /* lets content stack nicely on small screens */
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: #B4491F;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.student-info {
+  width: 160px;
+}
+
+.student-name {
+  font-weight: bold;
+}
+
+.student-branch {
+  font-size: 0.8rem;
+  color: #8A8F98;
+}
+
+.item-info {
+  flex: 1;
+  min-width: 220px;
+}
+
+.item-title {
+  font-weight: bold;
+}
+
+.item-desc {
+  font-size: 0.85rem;
+  color: #8A8F98;
+  margin-bottom: 6px;
+}
+
+.item-time {
+  font-size: 0.8rem;
+  color: #8A8F98;
+}
+
+.trust-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 130px;
+}
+
+.trust-badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.trust-badge.high {
+  background: #E9F9EE;   /* light green */
+  color: #15803D;
+}
+
+.trust-badge.good {
+  background: #FEF6E7;   /* light yellow */
+  color: #B45309;
+}
+
+.rating {
+  font-size: 0.8rem;
+  color: #8A8F98;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 130px;
+}
+
+.help-btn {
+  width: 100%;
+  background: #FF6B45;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.profile-link {
+  color: #FF6B45;
+  font-size: 0.8rem;
+  text-decoration: none;
+}
+
+.view-all {
+  display: block;
+  text-align: center;
+  margin-top: 16px;
+  color: #FF6B45;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* ---------- Responsive: stack navbar menu on small screens ---------- */
+@media (max-width: 800px) {
+  .menu { display: none; }
+  .action-cards { flex-direction: column; }
+}

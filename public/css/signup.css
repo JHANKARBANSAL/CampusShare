@@ -1,0 +1,191 @@
+/* ==========================================================
+   CampusShare - Sign Up Page
+   Simple version - no variables, just plain values.
+   ========================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #FDF6F2;   /* light peach page background */
+  color: #1F2933;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+/* ---------- Page wrapper (holds back arrow + card) ---------- */
+
+.page {
+  width: 100%;
+  max-width: 360px;
+}
+
+.back-arrow {
+  display: inline-block;
+  font-size: 1.3rem;
+  color: #1F2933;
+  text-decoration: none;
+  margin-bottom: 14px;
+}
+
+/* ---------- White card ---------- */
+
+.signup-card {
+  background: white;
+  border-radius: 20px;
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.signup-title {
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+}
+
+.signup-subtitle {
+  font-size: 0.85rem;
+  color: #8A8F98;
+  margin-bottom: 22px;
+}
+
+/* ---------- Profile picture upload ---------- */
+
+.avatar-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.avatar-circle {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: #FFE1CF;   /* light orange circle */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.camera-icon {
+  font-size: 1.5rem;
+}
+
+.avatar-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.dot-orange {
+  background: #FF6B45;
+}
+
+.dot-blue {
+  background: #4F8EF7;
+}
+
+.avatar-label {
+  font-size: 0.75rem;
+  color: #8A8F98;
+  margin-top: 8px;
+}
+
+/* ---------- Form fields (left aligned inside the centered card) ---------- */
+
+.form-group {
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.78rem;
+  color: #8A8F98;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #F1E6DF;
+  border-radius: 10px;
+  background: #FDF6F2;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: #1F2933;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #FF6B45;
+  background: white;
+}
+
+/* Password field has an eye icon inside it */
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 38px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* ---------- Submit button ---------- */
+
+.signup-btn {
+  width: 100%;
+  background: #FF6B45;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 13px 0;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 6px;
+}
+
+.signup-btn:hover {
+  background: #F0552F;
+}
+
+/* ---------- "Already have an account" link ---------- */
+
+.login-text {
+  text-align: center;
+  font-size: 0.82rem;
+  color: #8A8F98;
+  margin-top: 18px;
+}
+
+.login-text a {
+  color: #FF6B45;
+  font-weight: bold;
+  text-decoration: none;
+}

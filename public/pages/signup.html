@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Sign Up | CampusShare</title>
+
+  <link rel="stylesheet" href="../css/signup.css" />
+</head>
+
+<body>
+
+  <div class="page">
+
+    <!-- Back to Login -->
+    <a href="./login.html" class="back-arrow">←</a>
+
+
+    <div class="signup-card">
+
+      <h1 class="signup-title">
+        Create your account
+      </h1>
+
+      <p class="signup-subtitle">
+        Join your campus community
+      </p>
+
+
+      <!-- Profile Picture -->
+      <div class="avatar-upload">
+
+        <div class="avatar-circle">
+
+          <span class="camera-icon">
+            📷
+          </span>
+
+          <span class="avatar-dots">
+
+            <span class="dot dot-orange"></span>
+
+            <span class="dot dot-blue"></span>
+
+          </span>
+
+        </div>
+
+        <p class="avatar-label">
+          Upload Profile Picture
+        </p>
+
+      </div>
+
+
+      <!-- SIGNUP FORM -->
+
+      <form id="signupForm">
+
+
+        <!-- Full Name -->
+
+        <div class="form-group">
+
+          <label for="fullName">
+            Full Name
+          </label>
+
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            placeholder="Enter your full name"
+            required
+          >
+
+        </div>
+
+
+        <!-- University Email -->
+
+        <div class="form-group">
+
+          <label for="email">
+            University Email
+          </label>
+
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="name@university.edu"
+            required
+          >
+
+        </div>
+
+
+        <!-- Branch -->
+
+        <div class="form-group">
+
+          <label for="branch">
+            Branch
+          </label>
+
+          <input
+            type="text"
+            id="branch"
+            name="branch"
+            placeholder="e.g. CSE"
+            required
+          >
+
+        </div>
+
+
+        <!-- Batch -->
+
+        <div class="form-group">
+
+          <label for="batch">
+            Batch / Year
+          </label>
+
+          <input
+            type="text"
+            id="batch"
+            name="batch"
+            placeholder="e.g. 2027"
+            required
+          >
+
+        </div>
+
+
+        <!-- Enrollment Number -->
+
+        <div class="form-group">
+
+          <label for="enrollmentNumber">
+            Enrollment Number
+          </label>
+
+          <input
+            type="text"
+            id="enrollmentNumber"
+            name="enrollmentNumber"
+            placeholder="Enter enrollment number"
+            required
+          >
+
+        </div>
+
+
+        <!-- Password -->
+
+        <div class="form-group">
+
+          <label for="password">
+            Password
+          </label>
+
+          <div class="password-wrapper">
+
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Create a password"
+              required
+            >
+
+            <span class="toggle-password">
+              👁️
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- Signup Button -->
+
+        <button
+          type="submit"
+          class="signup-btn"
+        >
+          Sign Up
+        </button>
+
+
+      </form>
+
+
+      <!-- Message from Backend -->
+
+      <p id="message"></p>
+
+
+      <!-- Login Link -->
+
+      <p class="login-text">
+
+        Already have an account?
+
+        <a href="./login.html">
+          Login
+        </a>
+
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- Signup JavaScript -->
+
+  <script src="../js/signup.js"></script>
+
+</body>
+
+</html>
