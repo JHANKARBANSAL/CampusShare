@@ -55,6 +55,13 @@ body {
   margin-bottom: 24px;
 }
 
+/* Message shown after login attempt (success or error text from backend) */
+#message {
+  font-size: 0.85rem;
+  color: #DC2626;      /* red - most messages here will be errors */
+  margin-bottom: 12px;
+}
+
 /* ---------- Form fields ---------- */
 
 .form-group {

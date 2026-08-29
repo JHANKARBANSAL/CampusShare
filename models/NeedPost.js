@@ -1,40 +1,40 @@
 const mongoose=require("mongoose");
 
-const NeedPost=new mongoose.Schema({
+const needPostSchema = new mongoose.Schema({
 
     //kis student ne request ki hia 
     requestedBy:
     {
         type: mongoose.Schema.Types.ObjectId,
         ref:"User",
-        required:True
+        required:true
 
     },
 
     itemName:
     {
         type:String,
-        required:True,
+        required:true,
         trim:true
     },
 
-    itemDescription:
+    description:
     {
         type:String,
-         required:True,
+         required:true,
          trim:true
     },
 
-    whenNeeded:
+    neededBy:
     {
         type:Date,
-        required:True
+        required:true
     },
 
-    Duration:
+    durationValue:
     {
         type:Number,
-        required: True
+        required: true
     },
 
      durationUnit: {
@@ -56,5 +56,5 @@ const NeedPost=new mongoose.Schema({
     }
 );
 
-const needpost= mongoose.model(NeedPost,"needpostschema");
-module.exports=NeedPost;
+const NeedPost = mongoose.model("NeedPost", needPostSchema);
+module.exports = NeedPost;

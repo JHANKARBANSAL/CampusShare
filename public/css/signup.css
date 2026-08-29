@@ -56,6 +56,13 @@ body {
   margin-bottom: 22px;
 }
 
+/* Message shown after signup attempt (success or error text from backend) */
+#message {
+  font-size: 0.85rem;
+  color: #DC2626;      /* red - most messages here will be errors */
+  margin-bottom: 12px;
+}
+
 /* ---------- Profile picture upload ---------- */
 
 .avatar-upload {

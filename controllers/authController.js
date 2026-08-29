@@ -73,14 +73,14 @@ const login=async(req,res)=>
             password}=req.body;
 
             //checing if it matches woth the stored data 
-            const user=User.findOne({
-                email:email});
+            const user = await User.findOne({
+                email});
 
 
 
                 if(!user)
                 {
-                    return res.Status(401).json({
+                    return res.status(401).json({
                         message:"user not found"
                     });
                 }

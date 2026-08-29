@@ -156,12 +156,17 @@
                     </label>
 
                     <input
-                        type="text"
-                        id="duration"
+                        type="number"
+                        id="durationValue"
                         name="duration"
-                        placeholder="e.g. 5 hours / 2 days"
+                        placeholder="e.g. 5"
                         required
                     >
+                    <select id="durationUnit" required>
+  <option value="hours">Hours</option>
+  <option value="days">Days</option>
+  <option value="weeks">Weeks</option>
+</select>
 
                 </div>
 

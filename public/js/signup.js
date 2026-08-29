@@ -47,4 +47,12 @@ signupForm.addEventListener("submit", async (event) => {
     document.getElementById("message").textContent =
         data.message;
 
+
+    // Agar signup successful hua, to thodi der baad login page par le jao
+    if (response.ok) {
+        setTimeout(() => {
+            window.location.href = "./login.html";
+        }, 1200);
+    }
+
 });

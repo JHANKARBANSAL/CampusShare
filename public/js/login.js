@@ -22,5 +22,12 @@ meraForm.addEventListener("submit", async (event) => {
 
     const data = await response.json();
 
-    console.log(data);
+    // Backend ka message ab page par bhi dikhega (sirf console mein nahi)
+    document.getElementById("message").textContent = data.message;
+
+    // Agar login successful hua, token save karo aur dashboard par jao
+    if (response.ok) {
+        localStorage.setItem("token", data.token);
+        window.location.href = "./dashboard.html";
+    }
 });
