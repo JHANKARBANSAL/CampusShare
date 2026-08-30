@@ -1,226 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Sign Up | CampusShare</title>
-
-  <link rel="stylesheet" href="../css/signup.css" />
+  <title>Create account | CampusShare</title>
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/auth.css" />
 </head>
+<body class="auth-body">
 
-<body>
+  <div class="auth-split">
 
-  <div class="page">
+    <!-- ============ LEFT: identity + value proposition ============ -->
+    <aside class="auth-aside">
+      <a href="./signup.html" class="brand auth-brand" id="asideBrand">CampusShare</a>
 
-    <!-- Back to Login -->
-    <a href="./login.html" class="back-arrow">←</a>
-
-
-    <div class="signup-card">
-
-      <h1 class="signup-title">
-        Create your account
-      </h1>
-
-      <p class="signup-subtitle">
-        Join your campus community
-      </p>
-
-
-      <!-- Profile Picture -->
-      <div class="avatar-upload">
-
-        <div class="avatar-circle">
-
-          <span class="camera-icon">
-            📷
-          </span>
-
-          <span class="avatar-dots">
-
-            <span class="dot dot-orange"></span>
-
-            <span class="dot dot-blue"></span>
-
-          </span>
-
-        </div>
-
-        <p class="avatar-label">
-          Upload Profile Picture
-        </p>
-
+      <div class="auth-pitch">
+        <h2>Borrow less.<br />Share more.<br />Build community.</h2>
+        <p>The things you need for one afternoon are already sitting in someone's hostel room.</p>
       </div>
 
+      <ul class="auth-points" id="authPoints"></ul>
+    </aside>
 
-      <!-- SIGNUP FORM -->
+    <!-- ============ RIGHT: form ============ -->
+    <main class="auth-main">
+      <div class="auth-card">
 
-      <form id="signupForm">
-
-
-        <!-- Full Name -->
-
-        <div class="form-group">
-
-          <label for="fullName">
-            Full Name
-          </label>
-
-          <input
-            type="text"
-            id="fullName"
-            name="fullName"
-            placeholder="Enter your full name"
-            required
-          >
-
-        </div>
-
-
-        <!-- University Email -->
-
-        <div class="form-group">
-
-          <label for="email">
-            University Email
-          </label>
-
-          <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="name@university.edu"
-            required
-          >
-
-        </div>
-
-
-        <!-- Branch -->
-
-        <div class="form-group">
-
-          <label for="branch">
-            Branch
-          </label>
-
-          <input
-            type="text"
-            id="branch"
-            name="branch"
-            placeholder="e.g. CSE"
-            required
-          >
-
-        </div>
-
-
-        <!-- Batch -->
-
-        <div class="form-group">
-
-          <label for="batch">
-            Batch / Year
-          </label>
-
-          <input
-            type="text"
-            id="batch"
-            name="batch"
-            placeholder="e.g. 2027"
-            required
-          >
-
-        </div>
-
-
-        <!-- Enrollment Number -->
-
-        <div class="form-group">
-
-          <label for="enrollmentNumber">
-            Enrollment Number
-          </label>
-
-          <input
-            type="text"
-            id="enrollmentNumber"
-            name="enrollmentNumber"
-            placeholder="Enter enrollment number"
-            required
-          >
-
-        </div>
-
-
-        <!-- Password -->
-
-        <div class="form-group">
-
-          <label for="password">
-            Password
-          </label>
-
-          <div class="password-wrapper">
-
-            <input
-              type="password"
-              id="password"
-              name="password"
-              placeholder="Create a password"
-              required
-            >
-
-            <span class="toggle-password">
-              👁️
-            </span>
-
-          </div>
-
-        </div>
-
-
-        <!-- Signup Button -->
-
-        <button
-          type="submit"
-          class="signup-btn"
-        >
-          Sign Up
-        </button>
-
-
-      </form>
-
-
-      <!-- Message from Backend -->
-
-      <p id="message"></p>
-
-
-      <!-- Login Link -->
-
-      <p class="login-text">
-
-        Already have an account?
-
-        <a href="./login.html">
-          Login
+        <a href="./login.html" class="auth-back" id="authBack">
+          <span class="sr-only">Back to log in</span>
         </a>
 
-      </p>
+        <h1 class="auth-title">Create your account</h1>
+        <p class="auth-subtitle">Join your campus community in under a minute.</p>
 
-    </div>
+        <!-- Backend message (signup.js writes here) -->
+        <p id="message" class="form-message" role="alert"></p>
+
+        <form id="signupForm" novalidate>
+
+          <div class="field">
+            <label for="fullName">Full name</label>
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              class="input"
+              placeholder="Enter your full name"
+              autocomplete="name"
+              data-label="Full name"
+              required
+            />
+            <p class="field-error" id="fullNameError"></p>
+          </div>
+
+          <div class="field">
+            <label for="email">University email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="input"
+              placeholder="you@university.edu"
+              autocomplete="email"
+              data-label="University email"
+              required
+            />
+            <p class="field-error" id="emailError"></p>
+          </div>
+
+          <!-- Academic details are grouped so the form reads as two short
+               steps rather than one long column of identical inputs. -->
+          <div class="field-group">
+            <p class="field-group-title">Campus details</p>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="branch">Branch</label>
+                <input
+                  type="text"
+                  id="branch"
+                  name="branch"
+                  class="input"
+                  placeholder="e.g. CSE"
+                  data-label="Branch"
+                  required
+                />
+                <p class="field-error" id="branchError"></p>
+              </div>
+
+              <div class="field">
+                <label for="batch">Batch</label>
+                <input
+                  type="text"
+                  id="batch"
+                  name="batch"
+                  class="input"
+                  placeholder="e.g. 2027"
+                  inputmode="numeric"
+                  data-label="Batch"
+                  required
+                />
+                <p class="field-error" id="batchError"></p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="enrollmentNumber">Enrollment number</label>
+              <input
+                type="text"
+                id="enrollmentNumber"
+                name="enrollmentNumber"
+                class="input"
+                placeholder="Enter your enrollment number"
+                data-label="Enrollment number"
+                required
+              />
+              <p class="field-error" id="enrollmentNumberError"></p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="password-wrap">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="input"
+                placeholder="Create a password"
+                autocomplete="new-password"
+                data-label="Password"
+                data-minlength="6"
+                required
+              />
+              <button type="button" class="password-toggle" data-target="password" aria-label="Show password" aria-pressed="false"></button>
+            </div>
+            <p class="field-hint">Use at least 6 characters.</p>
+            <p class="field-error" id="passwordError"></p>
+          </div>
+
+          <!-- Honest note: /api/auth/signup accepts no image, so we point at
+               the profile page instead of showing an uploader that does nothing. -->
+          <p class="auth-note" id="photoNote">
+            <span>You can add a profile photo and get verified from your profile once you are in.</span>
+          </p>
+
+          <button type="submit" class="btn btn-primary btn-block" id="signupBtn">Create account</button>
+
+        </form>
+
+        <p class="auth-alt">Already have an account? <a href="./login.html">Log in</a></p>
+
+      </div>
+    </main>
 
   </div>
 
-
-  <!-- Signup JavaScript -->
-
+  <script src="../js/ui.js"></script>
+  <script src="../js/auth-ui.js"></script>
   <script src="../js/signup.js"></script>
-
 </body>
-
 </html>

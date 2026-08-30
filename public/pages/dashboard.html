@@ -3,102 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard | CampusShare</title>
+  <title>Explore | CampusShare</title>
+  <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/dashboard.css" />
 </head>
 <body>
 
-  <!--
-    PAGE STRUCTURE (easy to explain in 4 parts):
-    1. NAVBAR        -> logo + menu (Home/My Activity/Profile) + bell + profile
-    2. GREETING      -> "Hi, Jhankar!" welcome text
-    3. ACTION CARDS  -> 2 big buttons: "I Need Something" / "I Can Help Someone"
-    4. REQUEST LIST  -> cards of students who need help (repeated 4 times)
-  -->
+  <!-- Shared app navigation, built by ui.js so every page stays identical -->
+  <header id="appbar"></header>
 
-  <!-- ===================== 1. NAVBAR ===================== -->
-  <header class="navbar">
-
-    <!-- Logo on the left -->
-    <div class="logo">
-      <span class="logo-icon">📖</span>
-      <span class="logo-text">CampusShare</span>
-    </div>
-
-    <!-- Menu links in the middle -->
-    <nav class="menu">
-      <a href="dashboard.html" class="menu-link active">🏠 Home</a>
-      <a href="#" class="menu-link">🗂️ My Activity</a>
-      <a href="#" class="menu-link">👤 Profile</a>
-    </nav>
-
-    <!-- Bell + profile on the right -->
-    <div class="navbar-right">
-      <button class="bell-btn">
-        🔔
-        <span class="bell-count">2</span>
-      </button>
-      <div class="profile-chip">
-        <span class="profile-avatar">J</span>
-        <span class="profile-name">Jhankar</span>
-        <span>▾</span>
-      </div>
-    </div>
-
-  </header>
-
-  <!-- ===================== MAIN CONTENT ===================== -->
   <main class="container">
 
-    <!-- ===================== 2. GREETING ===================== -->
-    <h1 class="greeting">Hi, Jhankar! 👋</h1>
-    <p class="subtitle">What would you like to do today?</p>
+    <!-- ============ DISCOVERY HEADER ============ -->
+    <section class="discover">
+      <h1 class="discover-greeting" id="dashGreeting">Welcome back</h1>
+      <p class="discover-sub">Find what you need around campus.</p>
 
-    <!-- ===================== 3. ACTION CARDS ===================== -->
-    <section class="action-cards">
+      <form class="search-form" id="searchForm" role="search">
+        <label class="sr-only" for="searchInput">Search requests</label>
+        <span class="search-icon" id="searchIcon" aria-hidden="true"></span>
+        <input
+          type="search"
+          id="searchInput"
+          class="input search-input"
+          placeholder="Search calculator, textbook, tripod..."
+          autocomplete="off"
+        />
+        <button type="button" id="searchClear" class="search-clear" aria-label="Clear search" hidden></button>
+      </form>
 
-      <a href="./post-need.html" class="action-card">
-        <span class="action-icon">🔍</span>
-        <span class="action-info">
-          <span class="action-title">I Need Something</span>
-          <span class="action-desc">Post a request for what you need</span>
-        </span>
-        <span class="action-arrow">›</span>
-      </a>
-
-      <a href="#" class="action-card">
-        <span class="action-icon">🤝</span>
-        <span class="action-info">
-          <span class="action-title">I Can Help Someone</span>
-          <span class="action-desc">Browse requests &amp; offer help</span>
-        </span>
-        <span class="action-arrow">›</span>
-      </a>
-
+      <!-- Quick filters run against the item name and description of real
+           requests — the API has no category field, so these are search
+           shortcuts rather than a fixed taxonomy. -->
+      <div class="chip-row" id="quickFilters" role="group" aria-label="Quick filters"></div>
     </section>
 
-    <!-- ===================== 4. REQUEST LIST ===================== -->
-    <section class="requests">
+    <!-- ============ REQUEST FEED ============ -->
+    <section class="requests" aria-labelledby="requestsHeading">
 
-      <div class="requests-heading">
-        <h2>🔶 Students looking for help</h2>
-        <button class="filter-btn">⚙️ Filter</button>
+      <div class="requests-bar">
+        <div>
+          <h2 id="requestsHeading">Requests near you</h2>
+          <p class="requests-count" id="requestsCount" aria-live="polite"></p>
+        </div>
+
+        <div class="chip-row sort-row" id="sortControls" role="group" aria-label="Sort and filter requests"></div>
       </div>
 
-      <!--
-        Every card below has the SAME structure, just different text:
-        avatar -> name/branch -> item needed -> trust badge -> buttons
-        (easiest way to explain: "this block repeats 4 times with new data")
-      -->
-
-      
-<div id="requestsContainer"></div>
-      <a href="#" class="view-all">View all requests →</a>
+      <!-- Cards are injected here from GET /api/needs -->
+      <div id="requestsContainer" class="requests-grid" aria-busy="true"></div>
 
     </section>
 
   </main>
 
+  <nav id="bottomNav"></nav>
+
+  <script src="../js/ui.js"></script>
   <script src="../js/dashboard.js"></script>
 </body>
 </html>

@@ -48,6 +48,21 @@ const getAllNeeds = async (req, res) => {
     }
 };
 
+// Sirf logged-in user ke apne posted needs dena (Profile page ke liye)
+const getMyNeeds = async (req, res) => {
+    try {
+        const needs = await NeedPost.find({ requestedBy: req.user.id })
+            .sort({ createdAt: -1 });
+
+        return res.status(200).json({ needs });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Something went wrong" });
+    }
+};
+
+
 module.exports = {
-    createNeed, getAllNeeds
+    createNeed, getAllNeeds, getMyNeeds
 };

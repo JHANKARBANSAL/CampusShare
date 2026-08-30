@@ -1,323 +1,235 @@
-/* ==========================================================
-   CampusShare - Dashboard Stylesheet
-   Simple version - no variables, just plain values.
-   4 parts: 1. Base setup  2. Navbar  3. Greeting + Cards  4. Requests
-   ========================================================== */
+/* ==========================================================================
+   Dashboard / Explore — discovery header + request feed
+   Depends on theme.css for tokens and primitives.
+   ========================================================================== */
 
-/* ---------- 1. BASE SETUP ---------- */
+/* ---- Discovery header -------------------------------------------------- */
+.discover { margin-bottom: var(--space-6); }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box; /* padding/border included in width, easier sizing */
+.discover-greeting {
+  font-size: var(--fs-3xl);
+  letter-spacing: -0.025em;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  background: #FDF6F2;   /* light peach page background */
-  color: #1F2933;         /* main text color (dark gray) */
+.discover-sub {
+  color: var(--text-secondary);
+  font-size: var(--fs-md);
+  margin-top: var(--space-2);
 }
 
-/* ---------- 2. NAVBAR ---------- */
-
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; /* logo left, menu center, profile right */
-  background: white;
-  border-bottom: 1px solid #F1E6DF;
-  padding: 14px 32px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
-.logo-icon {
-  background: #FF6B45;   /* orange */
-  color: white;
-  padding: 6px 8px;
-  border-radius: 8px;
-}
-
-.menu {
-  display: flex;
-  gap: 28px;
-}
-
-.menu-link {
-  text-decoration: none;
-  color: #8A8F98;         /* faded gray text */
-  font-size: 0.95rem;
-  padding-bottom: 4px;
-  border-bottom: 2px solid transparent; /* space kept so active link doesn't jump */
-}
-
-.menu-link.active {
-  color: #FF6B45;
-  border-bottom: 2px solid #FF6B45;
-  font-weight: bold;
-}
-
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.bell-btn {
+.search-form {
   position: relative;
-  background: none;
-  border: 1px solid #F1E6DF;
-  border-radius: 50%;
-  width: 38px;
-  height: 38px;
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  margin: var(--space-5) 0 var(--space-4);
+  max-width: 620px;
 }
 
-.bell-count {
+.search-icon {
   position: absolute;
-  top: -4px;
-  right: -4px;
-  background: red;
-  color: white;
-  font-size: 0.65rem;
-  border-radius: 50%;
-  padding: 1px 5px;
+  left: var(--space-4);
+  display: inline-flex;
+  color: var(--text-secondary);
+  pointer-events: none;
 }
 
-.profile-chip {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+.search-input {
+  min-height: 52px;
+  padding-left: 46px;
+  padding-right: 46px;
+  border-radius: var(--r-full);
+  font-size: var(--fs-md);
+  box-shadow: var(--shadow-xs);
 }
+.search-input::-webkit-search-cancel-button { display: none; }
 
-.profile-avatar {
-  background: #FF6B45;
-  color: white;
-  font-weight: bold;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ---------- 3. GREETING + ACTION CARDS ---------- */
-
-.container {
-  max-width: 1080px;
-  margin: 0 auto;      /* centers the content on the page */
-  padding: 32px 24px;
-}
-
-.greeting {
-  font-size: 1.7rem;
-}
-
-.subtitle {
-  color: #8A8F98;
-  margin: 4px 0 24px;
-}
-
-.action-cards {
-  display: flex;
-  gap: 18px;
-  margin-bottom: 36px;
-}
-
-.action-card {
-  flex: 1;                /* both cards take equal width */
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background: white;
-  border: 1px solid #F1E6DF;
-  border-radius: 16px;
-  padding: 20px;
-  text-decoration: none;
-  color: #1F2933;
-}
-
-.action-icon {
-  background: #FDE7DD;   /* light orange box */
-  color: #FF6B45;
-  font-size: 1.4rem;
-  width: 50px;
-  height: 50px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.action-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.action-title {
-  font-weight: bold;
-}
-
-.action-desc {
-  font-size: 0.85rem;
-  color: #8A8F98;
-}
-
-.action-arrow {
-  color: #8A8F98;
-  font-size: 1.4rem;
-}
-
-/* ---------- 4. REQUEST CARDS LIST ---------- */
-
-.requests-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-.filter-btn {
-  background: white;
-  border: 1px solid #F1E6DF;
-  border-radius: 999px;
-  padding: 8px 16px;
+.search-clear {
+  position: absolute;
+  right: 8px;
+  width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: 0; border-radius: var(--r-full);
+  color: var(--text-secondary);
   cursor: pointer;
+  transition: background var(--t), color var(--t);
+}
+.search-clear:hover { background: var(--surface-soft); color: var(--text); }
+
+/* ---- Feed header ------------------------------------------------------- */
+.requests-bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
 }
 
-/* Each student request is one row/card. Same layout, repeated for every card. */
+.requests-bar h2 { font-size: var(--fs-xl); }
+
+.requests-count {
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.sort-row { flex: 0 1 auto; }
+
+/* ---- Feed grid --------------------------------------------------------- */
+.requests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: var(--space-4);
+  align-items: start;
+}
+
+/* State blocks span the whole grid instead of sitting in one column */
+.requests-grid > .state { grid-column: 1 / -1; }
+
+/* ---- Request card ------------------------------------------------------ */
 .request-card {
   display: flex;
-  align-items: center;
-  gap: 18px;
-  background: white;
-  border: 1px solid #F1E6DF;
-  border-radius: 16px;
-  padding: 18px 22px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;         /* lets content stack nicely on small screens */
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-xs);
+  transition: border-color var(--t), box-shadow var(--t), transform var(--t);
+}
+.request-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
 }
 
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  color: #B4491F;
-  font-weight: bold;
+/* Identity row */
+.request-person {
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  gap: var(--space-3);
+  min-width: 0;
 }
 
-.student-info {
-  width: 160px;
-}
-
-.student-name {
-  font-weight: bold;
-}
-
-.student-branch {
-  font-size: 0.8rem;
-  color: #8A8F98;
-}
-
-.item-info {
-  flex: 1;
-  min-width: 220px;
-}
-
-.item-title {
-  font-weight: bold;
-}
-
-.item-desc {
-  font-size: 0.85rem;
-  color: #8A8F98;
-  margin-bottom: 6px;
-}
-
-.item-time {
-  font-size: 0.8rem;
-  color: #8A8F98;
-}
-
-.trust-info {
+.request-person-text {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+}
+
+.request-name {
+  display: flex;
+  align-items: center;
   gap: 6px;
-  width: 130px;
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--text);
 }
+.request-name .verified { color: var(--success); }
 
-.trust-badge {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: bold;
-  padding: 4px 10px;
-  border-radius: 999px;
-  width: fit-content;
-}
-
-.trust-badge.high {
-  background: #E9F9EE;   /* light green */
-  color: #15803D;
-}
-
-.trust-badge.good {
-  background: #FEF6E7;   /* light yellow */
-  color: #B45309;
-}
-
-.rating {
-  font-size: 0.8rem;
-  color: #8A8F98;
-}
-
-.action-buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  width: 130px;
-}
-
-.help-btn {
-  width: 100%;
-  background: #FF6B45;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 0;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.profile-link {
-  color: #FF6B45;
-  font-size: 0.8rem;
-  text-decoration: none;
-}
-
-.view-all {
+.request-meta {
   display: block;
-  text-align: center;
-  margin-top: 16px;
-  color: #FF6B45;
-  font-weight: bold;
-  text-decoration: none;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
 }
 
-/* ---------- Responsive: stack navbar menu on small screens ---------- */
-@media (max-width: 800px) {
-  .menu { display: none; }
-  .action-cards { flex-direction: column; }
+.request-posted {
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  align-self: flex-start;
+}
+
+/* Item block — the most prominent information after identity */
+.request-item-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.request-item {
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  overflow-wrap: anywhere;
+}
+
+.request-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.request-desc {
+  margin-top: var(--space-2);
+  color: var(--text-secondary);
+  font-size: var(--fs-base);
+  overflow-wrap: anywhere;
+}
+
+/* Metadata */
+.request-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+}
+
+.request-fact {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+.request-fact strong { color: var(--text); font-weight: 500; }
+.request-fact .icon { color: var(--text-secondary); }
+
+/* Actions */
+.request-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+.request-actions .own-note {
+  margin-right: auto;
+  font-size: var(--fs-sm);
+  color: var(--text-secondary);
+}
+
+/* ---- Skeleton card ----------------------------------------------------- */
+.skeleton-card {
+  padding: var(--space-5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+}
+.skeleton-row { display: flex; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }
+.skeleton-line { height: 12px; margin-bottom: 10px; }
+
+/* ---- Responsive -------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .requests-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+}
+
+@media (max-width: 768px) {
+  .discover-greeting { font-size: var(--fs-2xl); }
+  .search-input { min-height: 48px; }
+  .requests-grid { grid-template-columns: 1fr; }
+  .requests-bar { align-items: flex-start; }
+  .sort-row { width: 100%; }
+}
+
+@media (max-width: 420px) {
+  .request-item-head { flex-direction: column; }
+  .request-badges { justify-content: flex-start; }
+  .request-actions { flex-direction: column-reverse; align-items: stretch; }
+  .request-actions .btn { width: 100%; }
+  .request-actions .own-note { margin: 0 0 var(--space-1); text-align: center; }
 }

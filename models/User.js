@@ -15,6 +15,20 @@ const userSchema = new mongoose.Schema(
             lowercase: true,
             trim: true
         },
+        profileImage: {
+    type: String,
+    default: ""
+},
+idCardImage: {
+    type: String,
+    default: ""
+},
+
+verificationStatus: {
+    type: String,
+    enum: ["unverified", "pending", "verified", "rejected"],
+    default: "unverified"
+},
 
         password: {
             type: String,
@@ -35,11 +49,6 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true,
             unique: true
-        },
-
-        profileImage: {
-            type: String,
-            default: ""
         },
 
         isVerified: {

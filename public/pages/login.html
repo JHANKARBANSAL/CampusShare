@@ -3,69 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login | CampusShare</title>
-  <link rel="stylesheet" href="../css/login.css" />
+  <title>Log in | CampusShare</title>
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/auth.css" />
 </head>
-<body>
+<body class="auth-body">
 
-  <!--
-    PAGE STRUCTURE (easy to explain):
-    1. Back arrow (goes to signup page)
-    2. White card with the login form inside it
-  -->
+  <div class="auth-split">
 
-  <div class="page">
+    <!-- ============ LEFT: identity + value proposition ============ -->
+    <aside class="auth-aside">
+      <a href="./login.html" class="brand auth-brand" id="asideBrand">CampusShare</a>
 
-    <a href="./signup.html" class="back-arrow">←</a>
+      <div class="auth-pitch">
+        <h2>Borrow less.<br />Share more.<br />Build community.</h2>
+        <p>The things you need for one afternoon are already sitting in someone's hostel room.</p>
+      </div>
 
-    <div class="login-card">
+      <ul class="auth-points" id="authPoints"></ul>
+    </aside>
 
-      <h1 class="login-title">Welcome back! 👋</h1>
-      <p class="login-subtitle">Login to continue</p>
+    <!-- ============ RIGHT: form ============ -->
+    <main class="auth-main">
+      <div class="auth-card">
 
-      <!-- Backend ka message (success/error) yahan dikhega -->
-      <p id="message"></p>
+        <a href="./signup.html" class="auth-back" id="authBack">
+          <span class="sr-only">Back to sign up</span>
+        </a>
 
-      <!-- Login form -->
-      <form id="loginForm">
+        <h1 class="auth-title">Welcome back</h1>
+        <p class="auth-subtitle">Log in to see what your campus needs today.</p>
 
-        <div class="form-group">
-          <label for="email">Email / University Email</label>
-          <input type="email" id="email" name="email" placeholder="e.g. jhankar@bmu.edu.in" required>
-        </div>
+        <!-- Backend message (login.js writes here) -->
+        <p id="message" class="form-message" role="alert"></p>
 
-        <div class="form-group">
-          <div class="label-row">
-            <label for="password">Password</label>
-            <a href="#" class="forgot-link">Forgot?</a>
+        <form id="loginForm" novalidate>
+
+          <div class="field">
+            <label for="email">University email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="input"
+              placeholder="you@university.edu"
+              autocomplete="email"
+              data-label="University email"
+              required
+            />
+            <p class="field-error" id="emailError"></p>
           </div>
-          <input type="password" id="password" name="password" placeholder="Enter your password" required>
-        </div>
 
-        <button type="submit" class="login-btn">Login</button>
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="password-wrap">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="input"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                data-label="Password"
+                required
+              />
+              <button type="button" class="password-toggle" data-target="password" aria-label="Show password" aria-pressed="false"></button>
+            </div>
+            <p class="field-error" id="passwordError"></p>
+          </div>
 
-      </form>
+          <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Continue</button>
 
-      <!-- Divider -->
-      <div class="divider">
-        <span>or continue with</span>
+        </form>
+
+        <p class="auth-alt">New here? <a href="./signup.html">Create an account</a></p>
+
       </div>
+    </main>
 
-      <!-- Other login options -->
-      <div class="social-buttons">
-        <button type="button" class="social-btn">
-          <span>🔵</span> Google
-        </button>
-        <button type="button" class="social-btn">
-          <span>🎓</span> University Email
-        </button>
-      </div>
-
-      <p class="signup-text">Don't have an account? <a href="./signup.html">Signup</a></p>
-
-    </div>
   </div>
 
+  <script src="../js/ui.js"></script>
+  <script src="../js/auth-ui.js"></script>
   <script src="../js/login.js"></script>
 </body>
 </html>

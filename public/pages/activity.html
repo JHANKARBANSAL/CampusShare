@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Activity | CampusShare</title>
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/activity.css" />
+</head>
+<body>
+
+  <header id="appbar"></header>
+
+  <main class="container">
+
+    <header class="activity-header">
+      <h1 class="page-title">My Activity</h1>
+      <p class="page-sub">Students offering to help with the things you asked for.</p>
+    </header>
+
+    <!-- Cards are injected here from GET /api/offers/received -->
+    <div id="offersContainer" class="offers-list" aria-busy="true" aria-live="polite"></div>
+
+  </main>
+
+  <nav id="bottomNav"></nav>
+
+  <script src="../js/ui.js"></script>
+  <script src="../js/activity.js"></script>
+</body>
+</html>

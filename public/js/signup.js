@@ -1,58 +1,56 @@
-// Signup form ko HTML se pakda
-const signupForm = document.getElementById("signupForm");
+/* Signup — endpoint and request body unchanged (POST /api/auth/signup). */
 
+document.addEventListener("DOMContentLoaded", () => {
 
-// Jab user Sign Up button dabaye
-signupForm.addEventListener("submit", async (event) => {
+  const form = document.getElementById("signupForm");
+  const button = document.getElementById("signupBtn");
+  const messageEl = document.getElementById("message");
 
-    // Form ka normal reload rok diya
+  form.addEventListener("submit", async (event) => {
+
     event.preventDefault();
+    CSAuth.setMessage(messageEl, "");
 
+    if (!CSAuth.validateForm(form)) return;
 
-    // HTML inputs se values nikali
-    const name = document.getElementById("fullName").value;
-    const email = document.getElementById("email").value;
-    const branch = document.getElementById("branch").value;
-    const batch = document.getElementById("batch").value;
-    const enrollmentNumber =
-        document.getElementById("enrollmentNumber").value;
+    const name = document.getElementById("fullName").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const branch = document.getElementById("branch").value.trim();
+    const batch = document.getElementById("batch").value.trim();
+    const enrollmentNumber = document.getElementById("enrollmentNumber").value.trim();
     const password = document.getElementById("password").value;
 
+    CSAuth.setLoading(button, true, "Creating account");
 
-    // Backend ko request bheji
-    const response = await fetch("/api/auth/signup", {
-
+    try {
+      const response = await fetch("/api/auth/signup", {
         method: "POST",
-
-        headers: {
-            "Content-Type": "application/json"
-        },
-
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            name: name,
-            email: email,
-            password: password,
-            branch: branch,
-            batch: batch,
-            enrollmentNumber: enrollmentNumber
+          name: name,
+          email: email,
+          password: password,
+          branch: branch,
+          batch: batch,
+          enrollmentNumber: enrollmentNumber
         })
-    });
+      });
 
+      const data = await response.json();
 
-    // Backend ke JSON response ko JS object banaya
-    const data = await response.json();
+      if (response.ok) {
+        CSAuth.setMessage(messageEl, data.message || "Account created. Taking you to log in...", "success");
+        setTimeout(() => { window.location.href = "./login.html"; }, 1200);
+        return;
+      }
 
+      CSAuth.setMessage(messageEl, data.message || "We could not create your account.", "error");
+      CSAuth.setLoading(button, false);
 
-    // Backend ka message HTML par show karo
-    document.getElementById("message").textContent =
-        data.message;
-
-
-    // Agar signup successful hua, to thodi der baad login page par le jao
-    if (response.ok) {
-        setTimeout(() => {
-            window.location.href = "./login.html";
-        }, 1200);
+    } catch (error) {
+      console.log("Signup error:", error);
+      CSAuth.setMessage(messageEl, "Network problem. Check your connection and try again.", "error");
+      CSAuth.setLoading(button, false);
     }
-
+  });
 });

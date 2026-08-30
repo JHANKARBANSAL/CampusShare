@@ -1,212 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Post a Need | CampusShare</title>
-
-    <!-- Post Need page ki CSS -->
-    <link rel="stylesheet" href="../css/post-need.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post a Need | CampusShare</title>
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/post-need.css" />
 </head>
-
-
 <body>
 
-    <!-- =========================
-         NAVBAR
-    ========================== -->
+  <header id="appbar"></header>
 
-    <nav class="navbar">
+  <main class="container container-narrow">
 
-        <a href="./dashboard.html" class="brand">
-            CampusShare
-        </a>
+    <a href="./dashboard.html" class="back-link" id="backLink">
+      <span>Back to Explore</span>
+    </a>
 
-        <div class="nav-links">
+    <header class="post-header">
+      <h1 class="page-title">Ask your campus</h1>
+      <p class="page-sub">Four short questions. Students nearby will see your request straight away.</p>
+    </header>
 
-            <a href="./dashboard.html">
-                Home
-            </a>
+    <!-- Shown by post-need.js after a successful POST /api/needs -->
+    <div id="successMessage" class="success-panel" role="status"></div>
 
-            <a href="./activity.html">
-                My Activity
-            </a>
+    <form id="needForm" class="post-form" novalidate>
 
-            <a href="./profile.html">
-                Profile
-            </a>
-
+      <!-- ---- 1. Item ---- -->
+      <section class="form-step">
+        <div class="step-head">
+          <span class="step-num" aria-hidden="true">1</span>
+          <div>
+            <label for="itemName" class="step-title">What are you looking for?</label>
+            <p class="step-help">Name the single item you need.</p>
+          </div>
         </div>
 
-    </nav>
+        <input
+          type="text"
+          id="itemName"
+          name="itemName"
+          class="input"
+          placeholder="e.g. Scientific calculator"
+          maxlength="80"
+          data-label="Item name"
+          required
+        />
+        <p class="field-error" id="itemNameError"></p>
 
+        <!-- Tapping a suggestion just fills the input — no hidden category is
+             sent, because the API has no category field. -->
+        <div class="suggestions" id="itemSuggestions" role="group" aria-label="Common requests"></div>
+      </section>
 
-    <!-- =========================
-         MAIN CONTENT
-    ========================== -->
+      <!-- ---- 2. Reason ---- -->
+      <section class="form-step">
+        <div class="step-head">
+          <span class="step-num" aria-hidden="true">2</span>
+          <div>
+            <label for="description" class="step-title">Why do you need it?</label>
+            <p class="step-help">A little context makes people far more likely to help.</p>
+          </div>
+        </div>
 
-    <main class="post-need-page">
+        <textarea
+          id="description"
+          name="description"
+          class="textarea"
+          placeholder="e.g. Mine broke and I have a maths exam tomorrow morning."
+          rows="4"
+          maxlength="300"
+          data-label="Reason"
+          required
+        ></textarea>
+        <div class="textarea-foot">
+          <p class="field-error" id="descriptionError"></p>
+          <p class="char-count" id="descriptionCount" aria-live="polite">0 / 300</p>
+        </div>
+      </section>
 
+      <!-- ---- 3 + 4. Timing ---- -->
+      <section class="form-step">
+        <div class="step-head">
+          <span class="step-num" aria-hidden="true">3</span>
+          <div>
+            <span class="step-title">When do you need it, and for how long?</span>
+            <p class="step-help">Set a pickup time and how long you will keep it.</p>
+          </div>
+        </div>
 
-        <!-- BACK BUTTON -->
+        <div class="timing-grid">
+          <div class="field">
+            <label for="neededBy">Needed by</label>
+            <input
+              type="datetime-local"
+              id="neededBy"
+              name="neededBy"
+              class="input"
+              data-label="Date and time"
+              required
+            />
+            <p class="field-error" id="neededByError"></p>
+          </div>
 
-        <a href="./dashboard.html"
-           class="back-link">
-
-            ← Back to Dashboard
-
-        </a>
-
-
-        <!-- =========================
-             FORM CARD
-        ========================== -->
-
-        <section class="form-card">
-
-            <div class="form-header">
-
-                <h1>I Need Something</h1>
-
-                <p>
-                    Tell the campus community what you're looking for.
-                </p>
-
+          <div class="field">
+            <label for="durationValue">Borrow duration</label>
+            <div class="duration-row">
+              <input
+                type="number"
+                id="durationValue"
+                name="duration"
+                class="input"
+                placeholder="4"
+                min="1"
+                max="365"
+                data-label="Duration"
+                required
+              />
+              <label class="sr-only" for="durationUnit">Duration unit</label>
+              <select id="durationUnit" class="select" required>
+                <option value="hours">Hours</option>
+                <option value="days">Days</option>
+                <option value="weeks">Weeks</option>
+              </select>
             </div>
+            <p class="field-error" id="durationValueError"></p>
+          </div>
+        </div>
+      </section>
 
+      <p class="visibility-note" id="visibilityNote">
+        <span>Your request will be visible to verified students in your campus community.</span>
+      </p>
 
-            <!-- Message shown after the form is submitted (hidden until JS shows it) -->
-            <div id="successMessage" class="success-message">
-                ✅ Your request has been posted!
-            </div>
+      <!-- Backend message (post-need.js writes here) -->
+      <p id="Message" class="form-message" role="alert"></p>
 
-            <!-- =========================
-                 NEED FORM
-            ========================== -->
+      <div class="form-actions">
+        <a href="./dashboard.html" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary" id="submitBtn">Post request</button>
+      </div>
 
-            <form id="needForm">
+    </form>
 
+  </main>
 
-                <!-- ITEM NAME -->
+  <nav id="bottomNav"></nav>
 
-                <div class="form-group">
-
-                    <label for="itemName">
-                        What do you need?
-                    </label>
-
-                    <input
-                        type="text"
-                        id="itemName"
-                        name="itemName"
-                        placeholder="e.g. Scientific Calculator"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- DESCRIPTION -->
-
-                <div class="form-group">
-
-                    <label for="description">
-                        Why do you need it?
-                    </label>
-
-                    <textarea
-                        id="description"
-                        name="description"
-                        placeholder="e.g. I need it for my mathematics exam."
-                        rows="5"
-                        required
-                    ></textarea>
-
-                </div>
-
-
-                <!-- DATE AND TIME -->
-
-                <div class="form-group">
-
-                    <label for="neededBy">
-                        When do you need it?
-                    </label>
-
-                    <input
-                        type="datetime-local"
-                        id="neededBy"
-                        name="neededBy"
-                        required
-                    >
-
-                </div>
-
-
-                <!-- DURATION -->
-
-                <div class="form-group">
-
-                    <label for="duration">
-                        For how long?
-                    </label>
-
-                    <input
-                        type="number"
-                        id="durationValue"
-                        name="duration"
-                        placeholder="e.g. 5"
-                        required
-                    >
-                    <select id="durationUnit" required>
-  <option value="hours">Hours</option>
-  <option value="days">Days</option>
-  <option value="weeks">Weeks</option>
-</select>
-
-                </div>
-
-
-                <!-- FORM BUTTONS -->
-
-                <div class="form-actions">
-
-                    <a href="./dashboard.html"
-                       class="cancel-btn">
-
-                        Cancel
-
-                    </a>
-
-
-                    <button
-                        type="submit"
-                        class="submit-btn">
-
-                        Post Request
-
-                    </button>
-
-                </div>
-
-
-            </form>
-
-            <p id="Message"></p>
-
-        </section>
-
-    </main>
-
-
-    <!-- Post Need page ki JavaScript -->
-
-    <script src="../js/post-need.js"></script>
-
+  <script src="../js/ui.js"></script>
+  <script src="../js/auth-ui.js"></script>
+  <script src="../js/post-need.js"></script>
 </body>
-
 </html>
