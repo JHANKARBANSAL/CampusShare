@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Profile | CampusShare</title>
+
+  <link rel="stylesheet" href="../css/profile.css">
+</head>
+
+<body>
+
+
+  <!-- =========================================
+       1. NAVBAR
+  ========================================== -->
+
+  <header class="navbar">
+
+    <!-- Logo (website ka asli logo) -->
+    <a href="./dashboard.html" class="logo">
+      <img
+        src="../images/image-removebg-preview (1).png"
+        alt="CampusShare"
+        class="logo-image"
+      >
+    </a>
+
+
+    <!-- Beech ke menu links -->
+    <nav class="menu">
+
+      <a href="./dashboard.html" class="nav-link">
+        <span class="nav-icon">⌂</span>
+        Home
+      </a>
+
+      <a href="./activity.html" class="nav-link">
+        <span class="nav-icon">▤</span>
+        My Activity
+      </a>
+
+      <a href="./dashboard.html#requests" class="nav-link">
+        <span class="nav-icon">⌕</span>
+        Looking For
+      </a>
+
+      <a href="./profile.html" class="nav-link active">
+        <span class="nav-icon">☺</span>
+        Profile
+      </a>
+
+    </nav>
+
+
+    <!-- Right side: bell + user -->
+    <div class="navbar-right">
+
+      <span class="bell">🔔</span>
+
+      <span class="nav-divider"></span>
+
+      <div class="nav-user">
+        <span class="nav-avatar">J</span>
+        <span id="navUserName">Jhankar</span>
+        <span class="arrow">⌄</span>
+      </div>
+
+    </div>
+
+  </header>
+
+
+
+  <!-- =========================================
+       2. PAGE CONTENT
+  ========================================== -->
+
+  <main class="profile-page">
+
+
+    <!-- Back link -->
+    <a href="./dashboard.html" class="back-link">
+      <span>←</span>
+      Back to Home
+    </a>
+
+
+
+    <!-- =========================================
+         3. PROFILE CARD (photo + details)
+    ========================================== -->
+
+    <section class="profile-card">
+
+
+      <!-- LEFT SIDE : photo -->
+      <div class="profile-left">
+
+        <div class="photo-wrapper">
+
+          <!-- ================================================
+               APNI PHOTO YAHAN DAALO
+               Bas neeche wali src badal dena, jaise:
+               src="../images/my-photo.png"
+          ================================================= -->
+          <img
+            id="profileImage"
+            src="../images/icons8-customer-48.png"
+            alt="Profile photo"
+            class="profile-photo"
+          >
+
+          <!-- Camera button photo ke corner par -->
+          <button id="changePhotoBtn" class="camera-btn" type="button">
+            📷
+          </button>
+
+          <input
+            type="file"
+            id="profilePhotoInput"
+            accept="image/jpeg,image/png,image/webp"
+            hidden
+          >
+
+        </div>
+
+
+        <button id="changeProfileBtn" class="outline-btn" type="button">
+          ✎ Change Profile
+        </button>
+
+      </div>
+
+
+      <!-- RIGHT SIDE : details -->
+      <div class="profile-right">
+
+        <div class="name-row">
+
+          <h1 id="profileName">Jhankar Bansal</h1>
+
+          <span class="verified-tick">✔</span>
+
+        </div>
+
+
+        <div class="quote-row">
+
+          <p id="profileQuote" class="quote">
+            "Helping today, building trust for a better campus tomorrow."
+          </p>
+
+          <button class="edit-icon" type="button">✎</button>
+
+        </div>
+
+
+        <!-- Detail rows -->
+        <ul class="detail-list">
+
+          <li class="detail-row">
+            <span class="detail-icon">▦</span>
+            <span class="detail-label">Branch</span>
+            <span id="profileBranch" class="detail-value">
+              Computer Science Engineering
+            </span>
+          </li>
+
+          <li class="detail-row">
+            <span class="detail-icon">▤</span>
+            <span class="detail-label">Batch Year</span>
+            <span id="profileBatch" class="detail-value">
+              2023 – 2027
+            </span>
+          </li>
+
+          <li class="detail-row">
+            <span class="detail-icon">▣</span>
+            <span class="detail-label">Course</span>
+            <span id="profileCourse" class="detail-value">
+              B.Tech
+            </span>
+          </li>
+
+          <li class="detail-row">
+            <span class="detail-icon">✉</span>
+            <span class="detail-label">Email</span>
+            <span id="profileEmail" class="detail-value">
+              jhankar.bansal@bmu.edu.in
+            </span>
+          </li>
+
+        </ul>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================================
+         4. ABOUT ME
+    ========================================== -->
+
+    <section class="about-card">
+
+      <div class="about-icon">
+        ☺
+      </div>
+
+      <div class="about-text">
+
+        <h2>About Me</h2>
+
+        <p id="profileAbout">
+          Hey! I'm Jhankar, a passionate and curious learner who loves solving
+          problems and helping peers. I believe in sharing knowledge and
+          building a supportive campus community.
+        </p>
+
+      </div>
+
+      <!-- Corner ki dotted decoration -->
+      <span class="dots"></span>
+
+      <button class="edit-about" type="button">
+        ✎ Edit About
+      </button>
+
+    </section>
+
+
+
+    <!-- =========================================
+         5. STAT CARDS (4 boxes)
+    ========================================== -->
+
+    <section class="stats-grid">
+
+
+      <div class="stat-card">
+
+        <div class="stat-top">
+          <span class="stat-icon green">👥</span>
+
+          <span class="stat-head">
+            <span id="peopleHelpedCount" class="stat-number green-text">24</span>
+            <span class="stat-label green-text">People Helped</span>
+          </span>
+        </div>
+
+        <p class="stat-desc">
+          You've lent or helped<br>
+          24 people so far.
+        </p>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-top">
+          <span class="stat-icon blue">🙌</span>
+
+          <span class="stat-head">
+            <span id="askedCount" class="stat-number blue-text">15</span>
+            <span class="stat-label blue-text">Asked for Help</span>
+          </span>
+        </div>
+
+        <p class="stat-desc">
+          You've asked for help<br>
+          15 times.
+        </p>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-top">
+          <span class="stat-icon orange">✓</span>
+
+          <span class="stat-head">
+            <span id="activeHelpsCount" class="stat-number orange-text">8</span>
+            <span class="stat-label orange-text">Active Helps</span>
+          </span>
+        </div>
+
+        <p class="stat-desc">
+          Requests you're<br>
+          currently helping with.
+        </p>
+
+      </div>
+
+
+      <div class="stat-card">
+
+        <div class="stat-top">
+          <span class="stat-icon purple">🔖</span>
+
+          <span class="stat-head">
+            <span id="activeBorrowsCount" class="stat-number purple-text">5</span>
+            <span class="stat-label purple-text">Active Borrows</span>
+          </span>
+        </div>
+
+        <p class="stat-desc">
+          Items you've borrowed<br>
+          and not yet returned.
+        </p>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================================
+         6. TRUST SCORE
+    ========================================== -->
+
+    <section class="trust-card">
+
+
+      <!-- LEFT : score circle -->
+      <div class="trust-left">
+
+        <h2>
+          Trust Score
+          <span class="trust-badge-icon">★</span>
+        </h2>
+
+        <p class="trust-note">
+          Your trust score reflects your
+          reliability in the community.
+        </p>
+
+
+        <!-- Circle: 82% orange, baaki light.
+             conic-gradient se banaya hai, koi library nahi. -->
+        <div class="score-ring">
+
+          <div class="score-inner">
+            <span id="trustScore" class="score-number">0</span>
+            <span class="score-total">/100</span>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- RIGHT : progress rows -->
+      <div class="trust-right">
+
+
+        <div class="trust-row">
+
+          <span class="trust-icon green">🛡️</span>
+
+          <div class="trust-info">
+            <h4>Successful Returns</h4>
+            <p>Items returned successfully</p>
+            <div class="bar">
+              <span class="fill green-fill" style="width: 0%"></span>
+            </div>
+          </div>
+
+          <span class="trust-value green-text">0/0</span>
+
+        </div>
+
+
+        <div class="trust-row">
+
+          <span class="trust-icon blue">⏰</span>
+
+          <div class="trust-info">
+            <h4>Returned On Time</h4>
+            <p>Returned within the agreed time</p>
+            <div class="bar">
+              <span class="fill blue-fill" style="width: 0%"></span>
+            </div>
+          </div>
+
+          <span class="trust-value blue-text">0/0</span>
+
+        </div>
+
+
+        <div class="trust-row">
+
+          <span class="trust-icon orange">⏱️</span>
+
+          <div class="trust-info">
+            <h4>Late Returns</h4>
+            <p>Returned after the agreed time</p>
+            <div class="bar">
+              <span class="fill orange-fill" style="width: 0%"></span>
+            </div>
+          </div>
+
+          <span class="trust-value orange-text">0/0</span>
+
+        </div>
+
+
+        <div class="trust-row">
+
+          <span class="trust-icon red">⚠️</span>
+
+          <div class="trust-info">
+            <h4>Issues / Disputes</h4>
+            <p>Disputes or issues raised</p>
+            <div class="bar">
+              <span class="fill red-fill" style="width: 0%"></span>
+            </div>
+          </div>
+
+          <span class="trust-value red-text">0/0</span>
+
+        </div>
+
+
+        <!-- Bottom tip -->
+        <div class="trust-tip">
+          💡 Keep helping and returning on time to earn more trust!
+        </div>
+
+      </div>
+
+
+      <!-- Corner decorations -->
+      <span class="dots trust-dots"></span>
+      <span class="ribbon">🏅</span>
+
+    </section>
+
+
+
+    <!-- =========================================
+         7. LOG OUT
+    ========================================== -->
+
+    <section class="logout-card">
+
+      <button id="logoutBtn" class="logout-btn" type="button">
+        ⇥ Log Out
+      </button>
+
+    </section>
+
+
+  </main>
+
+
+  <script src="../js/profile.js"></script>
+
+</body>
+
+</html>

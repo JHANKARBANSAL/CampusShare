@@ -16,73 +16,166 @@
     4. REQUEST LIST  -> cards of students who need help (repeated 4 times)
   -->
 
-  <!-- ===================== 1. NAVBAR ===================== -->
+  <!-- ================= NAVBAR ================= -->
+
   <header class="navbar">
 
-    <!-- Logo on the left -->
-    
-    <div class="logo">
-  <img
-    src="../images/image-removebg-preview (1).png"
-    alt="CampusShare"
-    class="logo-image"
-  >
-</div>
+    <!-- Logo -->
+    <a href="./dashboard.html" class="logo">
+      <img
+        src="../images/image-removebg-preview (1).png"
+        alt="CampusShare"
+        class="logo-image"
+      >
+    </a>
 
-    <!-- Menu links in the middle -->
+
+    <!-- Navigation -->
     <nav class="menu">
-      <a href="dashboard.html" class="menu-link active">🏠 Home</a>
-      <a href="#" class="menu-link">🗂️ My Activity</a>
-      <a href="#" class="menu-link">👤 Profile</a>
+
+      <a href="./dashboard.html" class="nav-link active">
+        <span>⌂</span>
+        Home
+      </a>
+
+      <a href="#requests" class="nav-link">
+        <span>⌕</span>
+        Explore
+      </a>
+
+      <a href="./activity.html" class="nav-link">
+        <span>▣</span>
+        My Activity
+      </a>
+
+      <a href="./profile.html" class="nav-link">
+        <span>♙</span>
+        Profile
+      </a>
+
     </nav>
 
-    <!-- Bell + profile on the right -->
+
+    <!-- Right side -->
     <div class="navbar-right">
-      <button class="bell-btn">
-        🔔
-        <span class="bell-count">2</span>
-      </button>
-      <div class="profile-chip">
-        <span class="profile-avatar">J</span>
-        <span class="profile-name">Jhankar</span>
-        <span>▾</span>
+
+      <div class="nav-user">
+        <div class="nav-avatar">J</div>
+
+        <span>Jhankar</span>
+
+        <span class="arrow">⌄</span>
       </div>
+
     </div>
 
   </header>
 
-  <!-- ===================== MAIN CONTENT ===================== -->
-  <main class="container">
 
-    <!-- ===================== 2. GREETING ===================== -->
-    <h1 class="greeting">Hi, Jhankar! 👋</h1>
-    <p class="subtitle">What would you like to do today?</p>
+  <!-- ================= DASHBOARD TOP ================= -->
 
-    <!-- ===================== 3. ACTION CARDS ===================== -->
-    <section class="action-cards">
+  <main class="dashboard">
 
-      <a href="./post-need.html" class="action-card">
-        <span class="action-icon">🔍</span>
-        <span class="action-info">
-          <span class="action-title">I Need Something</span>
-          <span class="action-desc">Post a request for what you need</span>
-        </span>
-        <span class="action-arrow">›</span>
-      </a>
+    <!-- HERO -->
 
-      <a href="#" class="action-card">
-        <span class="action-icon">🤝</span>
-        <span class="action-info">
-          <span class="action-title">I Can Help Someone</span>
-          <span class="action-desc">Browse requests &amp; offer help</span>
-        </span>
-        <span class="action-arrow">›</span>
+    <section class="hero">
+
+      <div class="hero-text">
+
+        <h1>
+          Hey, <span id="dashboardUserName">Jhankar</span>! 👋
+        </h1>
+
+        <h2>
+          Let's make campus life easier together.
+        </h2>
+
+        <p>
+          Find what you need or help someone who does.
+        </p>
+
+      </div>
+
+
+      <!-- YOUR STUDENT IMAGE -->
+
+      <div class="hero-image">
+
+        <img
+          src="../images/Happy student-pana.png"
+          alt="Campus students helping each other"
+        >
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= ACTION CARDS ================= -->
+
+    <section class="dashboard-actions">
+
+      <!-- NEED SOMETHING -->
+
+      <div class="action-card need-card">
+
+        <div class="action-icon">
+          ✎
+        </div>
+
+        <div class="action-content">
+
+          <h3>Need Something?</h3>
+
+          <p>
+            Post what you need and get<br>
+            help from your campus.
+          </p>
+
+          <a href="./post-need.html" class="action-button">
+            Post a Need
+            <span>→</span>
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- HELP SOMEONE -->
+
+      <a href="#requests" class="action-card help-card">
+
+        <div class="action-icon">
+          🤝
+        </div>
+
+        <div class="action-content">
+
+          <h3>Want to Help?</h3>
+
+          <p>
+            See what's needed around<br>
+            you and lend a hand.
+          </p>
+
+          <span class="action-button">
+            Browse Requests
+            <span>→</span>
+          </span>
+
+        </div>
+
       </a>
 
     </section>
 
-    <!-- ===================== 4. REQUEST LIST ===================== -->
-    <section class="requests">
+
+    <!-- =================================================
+         EXISTING "STUDENTS LOOKING FOR HELP" SECTION
+         ================================================= -->
+
+    <section id="requests" class="requests">
 
       <div class="requests-heading">
         <h2>🔶 Students looking for help</h2>

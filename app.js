@@ -1,6 +1,7 @@
 const express = require("express");
 const authRoutes = require("./routes/authRoutes");
 const needRoutes = require("./routes/needRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 
 const app = express();
@@ -20,5 +21,6 @@ app.use(express.static("public"));
 // Signup/login routes
 app.use("/api/auth", authRoutes);
 app.use("/api/needs", needRoutes);
+app.use("/api/users", userRoutes);
 
 module.exports = app;
