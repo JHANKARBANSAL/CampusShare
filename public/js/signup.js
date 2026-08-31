@@ -17,6 +17,7 @@ signupForm.addEventListener("submit", async (event) => {
     const enrollmentNumber =
         document.getElementById("enrollmentNumber").value;
     const password = document.getElementById("password").value;
+    
 
 
     // Backend ko request bheji

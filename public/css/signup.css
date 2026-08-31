@@ -1,7 +1,6 @@
-/* ==========================================================
-   CampusShare - Sign Up Page
-   Simple version - no variables, just plain values.
-   ========================================================== */
+/* =========================
+   BASIC RESET
+========================= */
 
 * {
   margin: 0;
@@ -10,189 +9,540 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background: #FDF6F2;   /* light peach page background */
-  color: #1F2933;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #152238;
 }
 
-/* ---------- Page wrapper (holds back arrow + card) ---------- */
+
+/* =========================
+   FULL PAGE
+========================= */
 
 .page {
   width: 100%;
-  max-width: 360px;
+  min-height: 100vh;
+
+  display: flex;
 }
+
+
+/* =========================
+   LEFT SIDE
+========================= */
+
+.signup-left {
+  width: 47%;
+  min-height: 100vh;
+
+ 
+  background-image: url("../images/campus-background.png");
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  /* Bottom padding 0 so the illustration
+     can sit flush at the bottom edge */
+  padding: 45px 80px;
+
+  position: relative;
+  overflow: hidden;
+
+  /* Stack: logo -> content -> illustration */
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* LOGO */
+
+.brand-logo img {
+  width: 215px;
+  max-width: 100%;
+  height: auto;
+
+  object-fit: contain;
+
+  display: block;
+}
+
+
+/* INTRO */
+
+.left-content {
+  /* Small breathing gap under the logo,
+     not a big empty block */
+  margin-top: 42px;
+
+  max-width: 520px;
+}
+
+
+.hero-title {
+  font-size: 42px;
+  line-height: 1.15;
+
+  color: #10233d;
+
+  margin-bottom: 18px;
+}
+
+
+.hero-title span {
+  display: block;
+
+  color: #ff6845;
+}
+
+
+.hero-description {
+  max-width: 440px;
+
+  font-size: 16px;
+  line-height: 1.65;
+
+  color: #566174;
+
+  margin-bottom: 26px;
+}
+
+
+/* FEATURES */
+
+.feature {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 14px;
+
+  margin-bottom: 16px;
+}
+
+
+.feature-icon {
+  width: 60px;
+  height: 60px;
+
+  min-width: 44px;
+
+  border-radius: 50%;
+
+  background: #ffe2d4;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 20px;
+}
+
+
+/* Illustration inside a feature bubble.
+   Slightly smaller than the 44px circle so
+   the peach ring still shows around it. */
+
+.feature-img {
+  width: 45px;
+  height: 45px;
+
+  object-fit: contain;
+}
+
+
+.feature h3 {
+  font-size: 15px;
+
+  margin-bottom: 4px;
+
+  color: #152238;
+}
+
+
+.feature p {
+  max-width: 300px;
+
+  font-size: 13.5px;
+  line-height: 1.5;
+
+  color: #566174;
+}
+
+
+/* BOTTOM ILLUSTRATION */
+
+.campus-decoration {
+  /* margin-top:auto pushes it to the bottom
+     instead of overlapping the features */
+  margin-top: auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  padding-top: 20px;
+
+  pointer-events: none;
+}
+
+
+.campus-image {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+
+  object-fit: contain;
+  display: block;
+}
+
+
+/* =========================
+   RIGHT SIDE
+========================= */
+
+.signup-right {
+  width: 53%;
+
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #ffffff;
+
+  position: relative;
+
+  padding: 35px 70px;
+}
+
+
+/* BACK BUTTON */
 
 .back-arrow {
-  display: inline-block;
-  font-size: 1.3rem;
-  color: #1F2933;
+  position: absolute;
+
+  top: 30px;
+  left: 35px;
+
   text-decoration: none;
-  margin-bottom: 14px;
+
+  color: #152238;
+
+  font-size: 27px;
 }
 
-/* ---------- White card ---------- */
+
+/* =========================
+   SIGNUP CARD
+========================= */
 
 .signup-card {
-  background: white;
-  border-radius: 20px;
-  padding: 28px 24px;
-  text-align: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 560px;
+
+  background: transparent;
+
+  box-shadow: none;
+
+  border-radius: 0;
+
+  padding: 0;
 }
+
+
+/* TITLE */
 
 .signup-title {
-  font-size: 1.3rem;
-  margin-bottom: 4px;
+  text-align: center;
+
+  font-size: 32px;
+
+  margin-bottom: 7px;
+
+  color: #10233d;
 }
+
 
 .signup-subtitle {
-  font-size: 0.85rem;
-  color: #8A8F98;
-  margin-bottom: 22px;
+  text-align: center;
+
+  color: #7a8393;
+
+  font-size: 16px;
+
+  margin-bottom: 25px;
 }
 
-/* Message shown after signup attempt (success or error text from backend) */
-#message {
-  font-size: 0.85rem;
-  color: #DC2626;      /* red - most messages here will be errors */
-  margin-bottom: 12px;
-}
 
-/* ---------- Profile picture upload ---------- */
+
+/* =========================
+   PROFILE PICTURE
+========================= */
 
 .avatar-upload {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 22px;
+
+  margin-bottom: 25px;
+
+  cursor: pointer;
 }
+
 
 .avatar-circle {
-  width: 84px;
-  height: 84px;
+  width: 96px;
+  height: 96px;
+
   border-radius: 50%;
-  background: #FFE1CF;   /* light orange circle */
+
+  background: #ffede4;
+
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  gap: 4px;
+  align-items: center;
+
+  position: relative;
+
+  margin-bottom: 8px;
 }
+
 
 .camera-icon {
-  font-size: 1.5rem;
-}
-
-.avatar-dots {
   display: flex;
-  gap: 5px;
+  align-items: center;
+  justify-content: center;
 }
 
-.dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+
+.default-profile-image {
+  width: 48px;
+  height: 48px;
+
+  object-fit: contain;
 }
 
-.dot-orange {
-  background: #FF6B45;
-}
-
-.dot-blue {
-  background: #4F8EF7;
-}
 
 .avatar-label {
-  font-size: 0.75rem;
-  color: #8A8F98;
-  margin-top: 8px;
+  color: #737d8f;
+
+  font-size: 14px;
 }
 
-/* ---------- Form fields (left aligned inside the centered card) ---------- */
+
+/* Existing dots hidden because
+   profile icon is being used now */
+
+.avatar-dots {
+  display: none;
+}
+
+
+
+/* =========================
+   FORM
+========================= */
 
 .form-group {
-  text-align: left;
-  margin-bottom: 16px;
+  margin-bottom: 17px;
 }
+
 
 .form-group label {
   display: block;
-  font-size: 0.78rem;
-  color: #8A8F98;
-  margin-bottom: 6px;
+
+  color: #667085;
+
+  font-size: 14px;
+
+  margin-bottom: 7px;
 }
+
 
 .form-group input {
   width: 100%;
-  padding: 11px 12px;
-  border: 1px solid #F1E6DF;
-  border-radius: 10px;
-  background: #FDF6F2;
-  font-size: 0.9rem;
-  font-family: inherit;
-  color: #1F2933;
+
+  height: 48px;
+
+  border: 1px solid #d6d9df;
+
+  border-radius: 8px;
+
+  padding: 0 15px;
+
+  font-size: 15px;
+
+  outline: none;
+
+  background: #ffffff;
+
+  transition: 0.2s;
 }
+
 
 .form-group input:focus {
-  outline: none;
-  border-color: #FF6B45;
-  background: white;
+  border-color: #ff6845;
+
+  box-shadow: 0 0 0 3px rgba(255, 104, 69, 0.08);
 }
 
-/* Password field has an eye icon inside it */
+
+
+/* =========================
+   PASSWORD
+========================= */
 
 .password-wrapper {
   position: relative;
 }
 
+
 .password-wrapper input {
-  padding-right: 38px;
+  padding-right: 48px;
 }
+
 
 .toggle-password {
   position: absolute;
-  right: 12px;
+
+  right: 15px;
   top: 50%;
+
   transform: translateY(-50%);
-  font-size: 0.9rem;
+
   cursor: pointer;
+
+  font-size: 16px;
 }
 
-/* ---------- Submit button ---------- */
+
+
+/* =========================
+   SIGNUP BUTTON
+========================= */
 
 .signup-btn {
   width: 100%;
-  background: #FF6B45;
-  color: white;
+
+  height: 50px;
+
   border: none;
-  border-radius: 10px;
-  padding: 13px 0;
-  font-size: 0.95rem;
-  font-weight: bold;
+
+  border-radius: 8px;
+
+  background: #ff6845;
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
   cursor: pointer;
-  margin-top: 6px;
+
+  margin-top: 5px;
+
+  transition: 0.2s;
 }
+
 
 .signup-btn:hover {
-  background: #F0552F;
+  background: #f45d3b;
 }
 
-/* ---------- "Already have an account" link ---------- */
+
+
+/* =========================
+   BACKEND MESSAGE
+========================= */
+
+#message {
+  text-align: center;
+
+  margin-top: 12px;
+
+  font-size: 14px;
+}
+
+
+
+/* =========================
+   OR DIVIDER
+========================= */
+
+.login-divider {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  margin: 20px 0 14px;
+}
+
+
+.login-divider span {
+  flex: 1;
+
+  height: 1px;
+
+  background: #e3e5e8;
+}
+
+
+.login-divider p {
+  color: #777;
+
+  font-size: 13px;
+}
+
+
+
+/* =========================
+   LOGIN TEXT
+========================= */
 
 .login-text {
   text-align: center;
-  font-size: 0.82rem;
-  color: #8A8F98;
-  margin-top: 18px;
+
+  color: #7a8393;
+
+  font-size: 15px;
 }
 
+
 .login-text a {
-  color: #FF6B45;
-  font-weight: bold;
   text-decoration: none;
+
+  color: #ff6845;
+
+  font-weight: 600;
+}
+
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+  .page {
+    display: block;
+  }
+
+
+  .signup-left {
+    display: none;
+  }
+
+
+  .signup-right {
+    width: 100%;
+
+    padding: 50px 25px;
+  }
+
+
+  .signup-card {
+    max-width: 520px;
+  }
+
 }
