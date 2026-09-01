@@ -9,40 +9,88 @@
 
     <title>Post a Need | CampusShare</title>
 
-    <!-- Post Need page ki CSS -->
+    <!-- Load order wahi hai jo baaki pages pe hai:
+         tokens -> components -> nav -> page ki apni CSS.
+
+         Pehle yahan sirf nav.css aur post-need.css thi. nav.css
+         poori tarah var(--card), var(--line), var(--s-6) jaise
+         tokens pe chalti hai, aur wo tokens is page pe load hi
+         nahi hote the - isliye navbar yahan baaki pages se
+         alag dikhta tha. -->
+
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/nav.css">
     <link rel="stylesheet" href="../css/post-need.css">
 </head>
 
 
 <body>
 
+<!-- Icon sprite. Baaki pages ki tarah navbar ke icons ab
+     yahan se aate hain, PNG files se nahi. -->
+<script src="../js/icons.js"></script>
+
     <!-- =========================
          NAVBAR
     ========================== -->
 
-    <nav class="navbar">
+  <!-- ================= NAVBAR =================
+       Ye markup HAR page pe bilkul same hai.
+       Style nav.css me hai, naam nav.js bharta hai.
+  ========================================== -->
 
-        <a href="./dashboard.html" class="brand">
-            CampusShare
+  <header class="navbar">
+
+    <a href="./dashboard.html" class="logo">
+      <img
+        src="../images/image-removebg-preview (1).png"
+        alt="CampusShare"
+        class="logo-image"
+      >
+    </a>
+
+    <span class="nav-divider"></span>
+
+    <nav class="menu">
+
+        <a href="./dashboard.html" class="nav-link">
+          <svg class="icon nav-icon" aria-hidden="true"><use href="#i-home"></use></svg>
+          <span>Home</span>
         </a>
 
-        <div class="nav-links">
+        <a href="./activity.html" class="nav-link">
+          <svg class="icon nav-icon" aria-hidden="true"><use href="#i-activity"></use></svg>
+          <span>My Activity</span>
+        </a>
 
-            <a href="./dashboard.html">
-                Home
-            </a>
+        <a href="./post-need.html" class="nav-link active">
+          <svg class="icon nav-icon" aria-hidden="true"><use href="#i-search"></use></svg>
+          <span>Looking For</span>
+        </a>
 
-            <a href="./activity.html">
-                My Activity
-            </a>
-
-            <a href="./profile.html">
-                Profile
-            </a>
-
-        </div>
+        <a href="./profile.html" class="nav-link">
+          <svg class="icon nav-icon" aria-hidden="true"><use href="#i-user"></use></svg>
+          <span>Profile</span>
+        </a>
 
     </nav>
+
+    <span class="nav-divider"></span>
+
+    <div class="navbar-right">
+
+      <a href="./profile.html" class="nav-user">
+        <span class="nav-avatar" id="navAvatar">J</span>
+        <span id="navUserName">Loading...</span>
+        <span class="arrow">
+          <svg class="icon" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+        </span>
+      </a>
+
+    </div>
+
+  </header>
 
 
     <!-- =========================
@@ -207,6 +255,7 @@
 
     <script src="../js/post-need.js"></script>
 
+    <script src="../js/nav.js"></script>
 </body>
 
 </html>

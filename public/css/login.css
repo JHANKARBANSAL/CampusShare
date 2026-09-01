@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
 /* ==========================================================
    CampusShare - Login Page
    Simple version - no variables, just plain values.
@@ -10,7 +12,7 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
   background: #FDF6F2;   /* light peach page background */
   color: #1F2933;
   min-height: 100vh;

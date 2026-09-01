@@ -10,7 +10,8 @@ const upload =
 
 const {
   getMyProfile,
-  uploadProfilePhoto
+  uploadProfilePhoto,
+  getMyStats
 } = require("../controllers/userController");
 
 
@@ -21,6 +22,16 @@ router.get(
   "/me",
   authMiddleware,
   getMyProfile
+);
+
+
+
+// Stats + trust score (profile page ke numbers)
+
+router.get(
+  "/me/stats",
+  authMiddleware,
+  getMyStats
 );
 
 

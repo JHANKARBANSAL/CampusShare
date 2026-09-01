@@ -186,9 +186,10 @@ profilePhotoInput.addEventListener(
 
       if (!response.ok) {
 
-        alert(
+        showToast(
           data.message ||
-          "Unable to upload image"
+          "Unable to upload image",
+          "error"
         );
 
         return;
@@ -201,9 +202,7 @@ profilePhotoInput.addEventListener(
         data.profileImage;
 
 
-      alert(
-        "Profile photo updated"
-      );
+      showToast("Profile photo updated");
 
     }
 
@@ -239,8 +238,115 @@ logoutBtn.addEventListener(
 
 
 
+
+// ==========================================
+// STATS + TRUST SCORE (live data)
+// ==========================================
+
+// Bar ki width nikalne ke liye chhota helper
+function percent(part, total) {
+
+  if (!total) {
+    return 0;
+  }
+
+  return Math.round((part / total) * 100);
+}
+
+
+async function loadStats() {
+
+  try {
+
+    const response = await fetch("/api/users/me/stats", {
+
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+
+    });
+
+
+    const data = await response.json();
+
+
+    if (!response.ok) {
+      console.log(data.message);
+      return;
+    }
+
+
+    const stats = data.stats;
+    const trust = data.trust;
+
+
+    // ---- 4 cards ----
+
+    document.getElementById("peopleHelpedCount").textContent =
+      stats.peopleHelped;
+
+    document.getElementById("askedCount").textContent =
+      stats.askedForHelp;
+
+    document.getElementById("activeHelpsCount").textContent =
+      stats.activeHelps;
+
+    document.getElementById("activeBorrowsCount").textContent =
+      stats.activeBorrows;
+
+
+    // ---- score number ----
+
+    document.getElementById("trustScore").textContent =
+      trust.score;
+
+
+    // ---- score circle ----
+    // conic-gradient me sirf percentage badalna hai
+
+    // Wahi orange jo tokens.css me hai (--brand)
+    document.getElementById("scoreRing").style.background =
+      "conic-gradient(#ff6845 0% " + trust.score + "%, " +
+      "#f1e7e1 " + trust.score + "% 100%)";
+
+
+    // ---- 4 rows: value + bar ----
+
+    const rows = [
+      ["successValue", "successBar", trust.successful],
+      ["onTimeValue",  "onTimeBar",  trust.onTime],
+      ["lateValue",    "lateBar",    trust.late],
+      ["issuesValue",  "issuesBar",  trust.issues]
+    ];
+
+    rows.forEach((row) => {
+
+      const valueId = row[0];
+      const barId = row[1];
+      const count = row[2];
+
+      document.getElementById(valueId).textContent =
+        count + "/" + trust.total;
+
+      document.getElementById(barId).style.width =
+        percent(count, trust.total) + "%";
+
+    });
+
+  }
+
+  catch (error) {
+
+    console.log("Stats loading error:", error);
+  }
+
+}
+
+
+
 // ==========================================
 // START
 // ==========================================
 
 loadProfile();
+loadStats();

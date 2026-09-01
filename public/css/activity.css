@@ -1,0 +1,729 @@
+/* ==========================================================
+   CampusShare - MY ACTIVITY
+
+   Buttons, status pills aur empty state components.css me
+   hain - yahan sirf is page ka layout hai.
+
+   Rule wahi hai jo tokens.css me likha hai: yahan koi raw
+   hex nahi. Sab kuch var(--...) se aata hai, taaki brand ka
+   orange ek hi jagah se badle.
+   ========================================================== */
+
+
+/* ==========================================================
+   CAROUSEL
+
+   Har slide do hisson me hai: baayein taraf likha hua,
+   daayein taraf image jo poori dikhti hai (object-fit:
+   contain, isliye kuch crop nahi hota).
+   ========================================================== */
+
+.carousel {
+    position: relative;
+    overflow: hidden;
+
+    height: 260px;
+
+    border-radius: var(--r-lg);
+    background: var(--brand-soft);
+}
+
+.carousel-track {
+    display: flex;
+
+    height: 100%;
+
+    transition: transform 0.55s cubic-bezier(.4, 0, .2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .carousel-track {
+        transition: none;
+    }
+}
+
+.carousel-slide {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    align-items: center;
+    gap: var(--s-6);
+
+    /* min-width: 100% zaroori hai - warna flex slides ko
+       sikod kar ek hi screen me thoons deta hai. */
+    min-width: 100%;
+    height: 100%;
+
+    padding: var(--s-8) var(--s-12);
+}
+
+.slide-text h2 {
+    margin: 0;
+
+    font-size: var(--text-2xl);
+    font-weight: var(--w-black);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+
+    color: var(--ink);
+}
+
+.slide-text p {
+    margin: var(--s-2) 0 0;
+
+    max-width: 46ch;
+
+    color: var(--ink-2);
+    font-size: var(--text-sm);
+}
+
+.slide-art {
+    display: block;
+
+    width: 100%;
+    max-height: 210px;
+
+    object-fit: contain;
+}
+
+
+/* Slide ke alag-alag mood. Sirf background badalta hai. */
+
+.slide-2 { background: var(--info-bg); }
+.slide-3 { background: var(--ok-bg); }
+
+
+/* ---------- ARROWS ---------- */
+
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+
+    display: grid;
+    place-items: center;
+
+    width: 38px;
+    height: 38px;
+
+    border: 1px solid var(--line);
+    border-radius: var(--r-full);
+
+    background: var(--card);
+    color: var(--ink);
+
+    cursor: pointer;
+
+    box-shadow: var(--shadow-sm);
+
+    transition: background 0.15s ease;
+}
+
+.carousel-arrow:hover {
+    background: var(--line-soft);
+}
+
+.carousel-arrow .icon {
+    width: 18px;
+    height: 18px;
+}
+
+.carousel-arrow.previous { left: var(--s-3); }
+.carousel-arrow.next     { right: var(--s-3); }
+
+
+/* ---------- DOTS ---------- */
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--s-2);
+
+    height: 34px;
+}
+
+.carousel-dot {
+    width: 8px;
+    height: 8px;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: var(--line);
+
+    cursor: pointer;
+    padding: 0;
+
+    transition: background 0.15s ease, width 0.15s ease;
+}
+
+.carousel-dot.active {
+    width: 22px;
+    border-radius: var(--r-full);
+
+    background: var(--brand);
+}
+
+
+/* ==========================================================
+   FILTERS
+
+   Ye ek radio group hai, isliye har button pe
+   aria-pressed hai (activity.js update karta hai).
+   ========================================================== */
+
+.activity-filters {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    margin: var(--s-6) 0 var(--s-8);
+    padding: 5px;
+
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+
+    background: var(--card);
+}
+
+.filter {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-2);
+
+    min-height: 46px;
+
+    border: 0;
+    border-radius: var(--r-sm);
+
+    background: transparent;
+    color: var(--ink-2);
+
+    font-family: inherit;
+    font-size: var(--text-sm);
+    font-weight: var(--w-semi);
+
+    cursor: pointer;
+
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.filter .icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Do buttons ke beech ki patli lakeer. Active button pe
+   nahi dikhti, warna uska background kata hua lagta hai. */
+
+.filter:not(:last-child)::after {
+    content: "";
+
+    position: absolute;
+    right: 0;
+
+    width: 1px;
+    height: 24px;
+
+    background: var(--line);
+}
+
+.filter:hover {
+    background: var(--line-soft);
+}
+
+.filter.active {
+    background: var(--brand-soft);
+    color: var(--brand-dark);
+}
+
+.filter.active::after,
+.filter.active + .filter::after {
+    opacity: 0;
+}
+
+/* Kitne card is filter me hain */
+.filter-count {
+    color: var(--faint);
+    font-weight: var(--w-semi);
+}
+
+.filter.active .filter-count {
+    color: var(--brand);
+}
+
+
+/* ==========================================================
+   SECTION HEADING
+
+   Pehle ye chhoti uppercase grey line thi. Ab har section ka
+   apna rang hai - lending orange, borrowing blue - taaki
+   scroll karte waqt turant pata chale ki kaunsa hissa hai.
+   ========================================================== */
+
+.activity-block {
+    margin-bottom: var(--s-12);
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+
+    margin: 0 0 var(--s-4);
+}
+
+.heading-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+
+    color: #ffffff;
+}
+
+.heading-icon .icon {
+    width: 20px;
+    height: 20px;
+}
+
+.helping-icon {
+    background: var(--brand);
+    box-shadow: 0 5px 13px -4px var(--brand);
+}
+
+.borrowed-icon {
+    background: var(--info);
+    box-shadow: 0 5px 13px -4px var(--info);
+}
+
+.section-heading h2 {
+    margin: 0;
+
+    font-size: var(--text-xl);
+    font-weight: var(--w-bold);
+    letter-spacing: -0.02em;
+}
+
+.helping-heading h2  { color: var(--brand-dark); }
+.borrowed-heading h2 { color: var(--info); }
+
+.section-count {
+    color: var(--faint);
+    font-size: var(--text-sm);
+    font-weight: var(--w-semi);
+}
+
+
+/* ==========================================================
+   EK TRANSACTION CARD
+
+   Layout: icon | item + person | time/return | status | buttons
+
+   Fixed columns isliye hain taaki har row me status aur
+   buttons ek hi vertical line pe aayein. Pehle sab flex me
+   tha aur har card me button alag jagah pe lagta tha.
+   ========================================================== */
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+}
+
+.tx-card {
+    display: grid;
+    grid-template-columns:
+        84px
+        minmax(180px, 1fr)
+        minmax(190px, 0.85fr)
+        auto
+        auto;
+    align-items: center;
+    gap: var(--s-4);
+
+    padding: var(--s-4) var(--s-6) var(--s-4) var(--s-4);
+
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease;
+}
+
+.tx-card:hover {
+    transform: translateY(-1px);
+
+    border-color: var(--brand-line);
+    box-shadow: var(--shadow-md);
+}
+
+/* Filter ne is card ko chhupa diya */
+.tx-card.hidden {
+    display: none;
+}
+
+
+/* ---------- LEFT ICON ----------
+   Round hai, card ke square corners se contrast banata hai.
+   Tone class activity.js status ke hisaab se lagata hai. */
+
+.tx-icon {
+    display: grid;
+    place-items: center;
+
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+
+    background: var(--line-soft);
+    color: var(--ink-2);
+}
+
+.tx-icon .icon {
+    width: 32px;
+    height: 32px;
+    stroke-width: 1.5;
+}
+
+.tx-icon-green  { background: var(--ok-bg);      color: var(--ok); }
+.tx-icon-blue   { background: var(--info-bg);    color: var(--info); }
+.tx-icon-orange { background: var(--brand-soft); color: var(--brand-dark); }
+.tx-icon-red    { background: var(--danger-bg);  color: var(--danger); }
+
+
+/* ---------- ITEM + PERSON ---------- */
+
+.tx-info {
+    min-width: 0;
+}
+
+.tx-item {
+    margin: 0 0 3px;
+
+    font-size: var(--text-md);
+    font-weight: var(--w-bold);
+    letter-spacing: -0.015em;
+
+    /* Lambe item names layout nahi todte */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tx-person {
+    margin: 0;
+
+    color: var(--ink-2);
+    font-size: var(--text-xs);
+}
+
+.tx-person b {
+    font-weight: var(--w-semi);
+}
+
+.tx-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+
+    margin: var(--s-2) 0 0;
+
+    color: var(--muted);
+    font-size: var(--text-2xs);
+    font-weight: var(--w-medium);
+}
+
+.meta-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+
+    background: var(--faint);
+}
+
+
+/* ---------- TIME / RETURN ----------
+   Do lakeeron ke beech, taaki ye card ka apna hissa lage. */
+
+.tx-when {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-3);
+
+    padding: var(--s-1) var(--s-6);
+
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+}
+
+.tx-when-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-3);
+}
+
+.tx-when-row .icon {
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+
+    color: var(--muted);
+}
+
+.tx-when-row div {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+
+    min-width: 0;
+}
+
+.tx-when-row span {
+    color: var(--muted);
+    font-size: var(--text-2xs);
+}
+
+.tx-when-row b {
+    color: var(--ink);
+    font-size: var(--text-xs);
+    font-weight: var(--w-bold);
+}
+
+/* Late item ki date laal */
+.tx-when-row.is-late .icon,
+.tx-when-row.is-late b {
+    color: var(--danger);
+}
+
+
+/* ---------- STATUS ---------- */
+
+.tx-pills {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+
+    min-width: 128px;
+}
+
+
+/* ---------- BUTTONS ---------- */
+
+.tx-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+
+    min-width: 132px;
+}
+
+/* Jab is bande ke liye koi action nahi bacha */
+.tx-wait {
+    color: var(--faint);
+    font-size: var(--text-2xs);
+    text-align: center;
+}
+
+
+/* Section me card to hain, par is filter me ek bhi nahi */
+.filter-empty {
+    margin: 0;
+    padding: var(--s-6);
+
+    border: 1px dashed var(--line);
+    border-radius: var(--r-md);
+
+    color: var(--muted);
+    font-size: var(--text-xs);
+    text-align: center;
+}
+
+
+/* ==========================================================
+   OVERDUE
+
+   Pehle sirf ek chhota laal badge lagta tha jo miss ho jaata
+   tha. Ab poore card ka border laal hota hai.
+   ========================================================== */
+
+.tx-card.is-overdue {
+    border-color: #f3cfc9;
+    background: #fffcfb;
+}
+
+
+/* ==========================================================
+   TIP
+   ========================================================== */
+
+.tip-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: var(--s-4);
+
+    margin-top: var(--s-8);
+    padding: var(--s-4) var(--s-6);
+
+    border: 1px solid #d9e4fb;
+    border-radius: var(--r-md);
+
+    background: var(--info-bg);
+}
+
+.tip-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+    background: var(--info);
+    color: #ffffff;
+}
+
+.tip-icon .icon {
+    width: 20px;
+    height: 20px;
+}
+
+.tip-text strong {
+    color: var(--info);
+    font-size: var(--text-sm);
+}
+
+.tip-text p {
+    margin: 2px 0 0;
+
+    color: var(--ink-2);
+    font-size: var(--text-xs);
+    line-height: 1.6;
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+@media (max-width: 1040px) {
+
+    /* Buttons apni line pe chale jaate hain, baaki row waisi
+       hi rehti hai. */
+    .tx-card {
+        grid-template-columns: 84px minmax(160px, 1fr) minmax(180px, 0.8fr) auto;
+    }
+
+    .tx-actions {
+        grid-column: 2 / -1;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+}
+
+
+@media (max-width: 860px) {
+
+    .carousel {
+        height: auto;
+    }
+
+    .carousel-slide {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: var(--s-4);
+
+        padding: var(--s-6);
+        text-align: center;
+    }
+
+    .slide-art {
+        max-height: 150px;
+    }
+
+    .activity-filters {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2px;
+    }
+
+    .filter::after {
+        display: none;
+    }
+
+    /* Card ek column me khul jaata hai. Icon aur naam upar,
+       baaki sab uske neeche. */
+    .tx-card {
+        grid-template-columns: 64px 1fr;
+        row-gap: var(--s-3);
+        padding: var(--s-4);
+    }
+
+    .tx-icon {
+        width: 56px;
+        height: 56px;
+    }
+
+    .tx-icon .icon {
+        width: 26px;
+        height: 26px;
+    }
+
+    .tx-when,
+    .tx-pills,
+    .tx-actions {
+        grid-column: 2;
+    }
+
+    .tx-when {
+        flex-direction: row;
+        gap: var(--s-6);
+
+        padding: var(--s-3) 0 0;
+
+        border-left: 0;
+        border-right: 0;
+        border-top: 1px solid var(--line);
+    }
+
+    .tx-pills {
+        flex-direction: row;
+        min-width: 0;
+    }
+
+    .tx-actions {
+        flex-direction: row;
+        min-width: 0;
+    }
+}
+
+
+@media (max-width: 540px) {
+
+    .slide-text h2 {
+        font-size: var(--text-xl);
+    }
+
+    .carousel-arrow {
+        display: none;
+    }
+
+    .tx-when {
+        flex-direction: column;
+        gap: var(--s-2);
+    }
+}

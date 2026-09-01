@@ -11,43 +11,13 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
   background: #FDF6F2;   /* light peach page background */
   color: #1F2933;         /* main text color */
 }
 
 /* ---------- Navbar (same style as dashboard) ---------- */
 
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: white;
-  border-bottom: 1px solid #F1E6DF;
-  padding: 14px 32px;
-}
-
-.navbar .brand {
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #1F2933;
-  text-decoration: none;
-}
-
-.nav-links {
-  display: flex;
-  gap: 24px;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: #8A8F98;
-  font-size: 0.95rem;
-}
-
-.nav-links a:hover {
-  color: #FF6B45;
-}
 
 /* ---------- Page layout ---------- */
 

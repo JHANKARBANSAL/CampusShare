@@ -1,0 +1,1012 @@
+/* ==========================================================
+   CampusShare - TRANSACTION DETAILS
+
+   Ye file sirf is ek page ka layout deti hai. Buttons,
+   cards, chips, callout, empty state aur toast pehle se
+   components.css me hain - yahan dobara nahi likhe.
+
+   Load order: tokens.css -> components.css -> nav.css -> yeh
+
+   Rule (tokens.css se): koi raw hex nahi. Sab var() se.
+   ========================================================== */
+
+
+/* ==========================================================
+   SHELL
+
+   .page-content ko transaction-details.js replace kar deta
+   hai jab URL me ?id= nahi hota, isliye ye sirf ek wrapper
+   hai - iske andar koi layout assume nahi kiya gaya.
+   ========================================================== */
+
+.page-content {
+    display: block;
+}
+
+
+/* Back link .btn .btn-quiet hai, to colour aur padding
+   components.css se aa jaate hain. Sirf jagah chahiye. */
+
+.back-link {
+    margin: 0 0 var(--s-4) calc(var(--s-2) * -1);
+}
+
+.back-link .icon {
+    width: 15px;
+    height: 15px;
+}
+
+
+/* ==========================================================
+   TITLE ROW
+
+   Page ka heading item ka naam hai (#itemName), aur uske
+   neeche ek hi line me status, transaction id aur accepted
+   date - taaki teen chhoti cheezein teen alag rows na le.
+   ========================================================== */
+
+.title-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-4);
+
+    margin-bottom: var(--s-6);
+}
+
+
+/* NOTE: JS me `pill.className = "status-pill"` likha hai,
+   jo HTML wali "pill" class ko hata deta hai. Isliye ye
+   pill ki tarah dikhne ke liye khud poora style rakhta hai,
+   components.css pe depend nahi karta. */
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 4px 11px;
+    border-radius: var(--r-full);
+
+    background: var(--brand-soft);
+    color: var(--brand-dark);
+
+    font-size: var(--text-2xs);
+    font-weight: var(--w-bold);
+
+    white-space: nowrap;
+}
+
+/* Status ke hisaab se colour. Ye classes JS lagata hai. */
+
+.status-pill.is-late {
+    background: var(--danger-bg);
+    color: var(--danger);
+}
+
+.status-pill.is-done {
+    background: var(--ok-bg);
+    color: var(--ok);
+}
+
+.status-pill.is-ended {
+    background: var(--line-soft);
+    color: var(--muted);
+}
+
+
+/* Transaction id - Mongo ka 24-character id hai, isliye
+   monospace aur chhota, warna heading se compete karta hai */
+
+.txn-id {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-1);
+
+    color: var(--faint);
+    font-size: var(--text-2xs);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+.copy-btn {
+    display: grid;
+    place-items: center;
+
+    width: 24px;
+    height: 24px;
+    padding: 0;
+
+    background: transparent;
+    border: none;
+    border-radius: var(--r-sm);
+
+    color: var(--faint);
+    cursor: pointer;
+
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.copy-btn:hover {
+    background: var(--line-soft);
+    color: var(--ink-2);
+}
+
+.copy-btn .icon {
+    width: 13px;
+    height: 13px;
+}
+
+
+.accepted-on {
+    margin-left: auto;
+
+    color: var(--muted);
+    font-size: var(--text-xs);
+}
+
+
+/* ==========================================================
+   HORIZONTAL STEPPER
+
+   Chaar steps (JS "Item Handed Over" wala skip karta hai
+   kyunki uski date "Borrowed" se same hoti hai).
+
+   Line har dot ke peeche se guzarti hai. Isliye line ko
+   ::before se banaya hai .stp pe, .stepper pe nahi - warna
+   pehle aur aakhri dot ke bahar bhi nikal jaati.
+   ========================================================== */
+
+.stepper-card {
+    padding: var(--s-6) var(--s-4);
+    margin-bottom: var(--s-6);
+}
+
+.stepper {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+}
+
+.stp {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+}
+
+/* Do dots ke beech ki line */
+.stp:not(:first-child)::before {
+    content: "";
+
+    position: absolute;
+    top: 15px;
+    right: 50%;
+    left: -50%;
+
+    height: 2px;
+    background: var(--line);
+}
+
+/* Poora ho chuka step, to uski aane wali line bhi bhari hui */
+.stp.done::before {
+    background: var(--brand);
+}
+
+.stp.current::before {
+    background: var(--brand);
+}
+
+
+.stp-dot {
+    position: relative;
+    z-index: 1;
+
+    display: grid;
+    place-items: center;
+
+    width: 32px;
+    height: 32px;
+    margin-bottom: var(--s-2);
+
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 50%;
+
+    color: var(--faint);
+}
+
+.stp-dot .icon {
+    width: 15px;
+    height: 15px;
+}
+
+.stp.done .stp-dot {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #ffffff;
+}
+
+/* Abhi kahan hain - ring se alag dikhta hai, sirf colour
+   se nahi, taaki done aur current confuse na ho */
+.stp.current .stp-dot {
+    background: var(--card);
+    border-color: var(--brand);
+    color: var(--brand-dark);
+
+    box-shadow: 0 0 0 4px var(--brand-soft);
+}
+
+
+.stp-label {
+    font-size: var(--text-2xs);
+    font-weight: var(--w-semi);
+    color: var(--muted);
+}
+
+.stp.done .stp-label,
+.stp.current .stp-label {
+    color: var(--ink);
+}
+
+.stp.current .stp-label {
+    font-weight: var(--w-bold);
+}
+
+.stp-date {
+    margin-top: 2px;
+
+    font-size: var(--text-2xs);
+    color: var(--faint);
+}
+
+
+/* ==========================================================
+   GRID
+
+   Left me content, right me actions + summary. Right column
+   295px fixed hai - usme sirf buttons aur label/value rows
+   hain, to usko fluid rakhne ka koi fayda nahi.
+   ========================================================== */
+
+.content-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 295px;
+    align-items: start;
+    gap: var(--s-4);
+}
+
+.left-column,
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+}
+
+/* Right column scroll ke saath saath chalta rahe */
+.right-column {
+    position: sticky;
+    top: var(--s-4);
+}
+
+
+/* ==========================================================
+   ITEM DETAILS
+   ========================================================== */
+
+.item-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-4);
+}
+
+.item-thumb {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 52px;
+    height: 52px;
+    border-radius: var(--r-md);
+
+    background: var(--brand-soft);
+    color: var(--brand-dark);
+}
+
+.item-thumb .icon {
+    width: 22px;
+    height: 22px;
+}
+
+.item-text {
+    min-width: 0;
+}
+
+.item-description {
+    margin: 0;
+
+    color: var(--ink-2);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+}
+
+.item-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2);
+
+    margin-top: var(--s-3);
+}
+
+
+/* ==========================================================
+   BORROWER + LENDER
+
+   Do chhote cards side-by-side. Role ka label upar hai
+   taaki naam padhne se pehle pata chale kaun kaun hai.
+   ========================================================== */
+
+.people-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-4);
+}
+
+.person-card {
+    padding: var(--s-4);
+}
+
+.role-tag {
+    display: block;
+    margin-bottom: var(--s-3);
+
+    color: var(--muted);
+    font-size: var(--text-2xs);
+    font-weight: var(--w-bold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.person-row {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+}
+
+.person-photo {
+    flex-shrink: 0;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+    object-fit: cover;
+    background: var(--line-soft);
+}
+
+.person-text {
+    min-width: 0;
+}
+
+.person-text h3 {
+    margin: 0;
+
+    font-size: var(--text-sm);
+    font-weight: var(--w-bold);
+    letter-spacing: -0.01em;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.person-text p {
+    margin: 2px 0 0;
+
+    color: var(--muted);
+    font-size: var(--text-2xs);
+}
+
+
+/* "You" - taaki turant pata chale is transaction me
+   main borrower hoon ya lender */
+
+.you-tag {
+    margin-left: auto;
+    padding: 3px 8px;
+    border-radius: var(--r-full);
+
+    background: var(--brand);
+    color: #ffffff;
+
+    font-size: var(--text-2xs);
+    font-weight: var(--w-bold);
+}
+
+
+/* ==========================================================
+   VERTICAL TIMELINE
+
+   Stepper upar summary deta hai, ye neeche har step ka
+   poora time dikhata hai.
+   ========================================================== */
+
+.timeline-item {
+    position: relative;
+
+    display: flex;
+    gap: var(--s-3);
+
+    padding-bottom: var(--s-6);
+}
+
+/* Neeche jaane wali line. Aakhri item pe nahi - JS uspe
+   "last" class lagata hai. */
+.timeline-item:not(.last)::before {
+    content: "";
+
+    position: absolute;
+    top: 22px;
+    bottom: 0;
+    left: 10px;
+
+    width: 2px;
+    background: var(--line);
+}
+
+.timeline-item.completed:not(.last)::before {
+    background: var(--brand-line);
+}
+
+.timeline-item.last {
+    padding-bottom: 0;
+}
+
+
+.timeline-marker {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 22px;
+    height: 22px;
+
+    background: var(--card);
+    border: 2px solid var(--line);
+    border-radius: 50%;
+
+    color: #ffffff;
+}
+
+.timeline-marker .icon {
+    width: 11px;
+    height: 11px;
+}
+
+.timeline-item.completed .timeline-marker {
+    background: var(--brand);
+    border-color: var(--brand);
+}
+
+.timeline-item.current .timeline-marker {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 3px var(--brand-soft);
+}
+
+/* Current step ke andar ka bharaa hua dot (JS banata hai) */
+.current-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+
+    background: var(--brand);
+}
+
+
+.timeline-content {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s-3);
+
+    flex: 1;
+    min-width: 0;
+}
+
+.timeline-content h3 {
+    margin: 0;
+
+    font-size: var(--text-sm);
+    font-weight: var(--w-semi);
+}
+
+.timeline-content p {
+    margin: 2px 0 0;
+
+    color: var(--muted);
+    font-size: var(--text-2xs);
+}
+
+.timeline-date {
+    flex-shrink: 0;
+
+    color: var(--faint);
+    font-size: var(--text-2xs);
+    white-space: nowrap;
+}
+
+/* Jo step abhi hua hi nahi, wo halka rehta hai */
+.timeline-item.pending .timeline-content h3,
+.timeline-item.pending .timeline-content p {
+    color: var(--faint);
+}
+
+.timeline-item.current .timeline-content h3 {
+    font-weight: var(--w-bold);
+}
+
+
+/* ==========================================================
+   ACTIONS PANEL
+
+   Sirf ek button dikhta hai - jo is waqt is bande ka kaam
+   hai. Report an Issue uske neeche, quiet style me.
+   ========================================================== */
+
+.action-button {
+    margin-bottom: var(--s-2);
+}
+
+.action-button:last-child {
+    margin-bottom: 0;
+}
+
+.action-button .icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* Report an Issue - .btn .btn-ghost ke upar */
+.action-button.danger {
+    color: var(--danger);
+    border-color: var(--line);
+}
+
+.action-button.danger:hover:not(:disabled) {
+    background: var(--danger-bg);
+    border-color: var(--danger-bg);
+}
+
+
+.loading-action {
+    margin: 0;
+
+    color: var(--faint);
+    font-size: var(--text-xs);
+}
+
+
+/* Jab dusre bande ki baari hai */
+.waiting-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-2);
+
+    min-height: 40px;
+    padding: 0 var(--s-3);
+    border-radius: var(--r-sm);
+
+    background: var(--line-soft);
+    color: var(--muted);
+
+    font-size: var(--text-xs);
+    font-weight: var(--w-semi);
+    text-align: center;
+}
+
+.waiting-box .icon {
+    width: 15px;
+    height: 15px;
+}
+
+
+/* Issue already report ho chuka hai */
+.reported-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-2);
+
+    min-height: 40px;
+    margin-top: var(--s-2);
+    padding: 0 var(--s-3);
+    border-radius: var(--r-sm);
+
+    background: var(--danger-bg);
+    color: var(--danger);
+
+    font-size: var(--text-xs);
+    font-weight: var(--w-semi);
+}
+
+.reported-box .icon {
+    width: 15px;
+    height: 15px;
+}
+
+
+/* ==========================================================
+   SUMMARY
+   ========================================================== */
+
+.summary-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s-3);
+
+    padding: var(--s-3) 0;
+    border-bottom: 1px solid var(--line-soft);
+}
+
+.summary-row:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.summary-row span {
+    color: var(--muted);
+    font-size: var(--text-xs);
+}
+
+.summary-row b {
+    font-size: var(--text-xs);
+    font-weight: var(--w-semi);
+    text-align: right;
+}
+
+/* Expected return nikal chuka hai - JS "late" class lagata hai */
+.summary-row b.late {
+    color: var(--danger);
+}
+
+
+/* ==========================================================
+   EMPTY STATE
+
+   Ye tab dikhta hai jab URL me ?id= nahi hai. Box khud
+   components.css se aata hai, yahan sirf icon ka size.
+   ========================================================== */
+
+.no-transaction-icon {
+    width: 34px;
+    height: 34px;
+    margin-bottom: var(--s-3);
+
+    color: var(--brand);
+}
+
+
+/* ==========================================================
+   REPORT AN ISSUE MODAL
+
+   NOTE: JS `classList.add("open")` karta hai, "show" nahi.
+   ========================================================== */
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 900;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: var(--s-4);
+
+    background: rgba(31, 26, 23, 0.45);
+}
+
+.modal-overlay.open {
+    display: flex;
+}
+
+.modal {
+    position: relative;
+
+    width: min(480px, 100%);
+    max-height: 88vh;
+    overflow-y: auto;
+
+    padding: var(--s-6);
+
+    background: var(--card);
+    border-radius: var(--r-lg);
+    box-shadow: 0 24px 60px -20px rgba(31, 26, 23, 0.4);
+}
+
+.modal h2 {
+    margin: 0;
+
+    font-size: var(--text-xl);
+    font-weight: var(--w-bold);
+    letter-spacing: -0.02em;
+}
+
+.modal-sub {
+    margin: var(--s-1) 0 var(--s-6);
+
+    color: var(--muted);
+    font-size: var(--text-xs);
+}
+
+.modal-close {
+    position: absolute;
+    top: var(--s-4);
+    right: var(--s-4);
+
+    display: grid;
+    place-items: center;
+
+    width: 30px;
+    height: 30px;
+    padding: 0;
+
+    background: transparent;
+    border: none;
+    border-radius: var(--r-sm);
+
+    color: var(--muted);
+    cursor: pointer;
+
+    transition: background 0.15s ease;
+}
+
+.modal-close:hover {
+    background: var(--line-soft);
+    color: var(--ink);
+}
+
+.modal-close .icon {
+    width: 17px;
+    height: 17px;
+}
+
+
+/* ---------- FIELD LABEL ---------- */
+
+.field-label {
+    margin: var(--s-6) 0 var(--s-3);
+
+    font-size: var(--text-2xs);
+    font-weight: var(--w-bold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.field-label:first-of-type {
+    margin-top: 0;
+}
+
+
+/* ---------- REASONS ----------
+
+   Poora row clickable hai (label hai), sirf chhota radio
+   nahi - chhote radio pe click karna irritating hota hai.
+   ---------------------------------------------------- */
+
+.reason-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+}
+
+.reason {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+
+    padding: var(--s-3);
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+
+    font-size: var(--text-sm);
+    cursor: pointer;
+
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.reason:hover {
+    background: var(--line-soft);
+}
+
+.reason input {
+    flex-shrink: 0;
+
+    width: 16px;
+    height: 16px;
+    margin: 0;
+
+    accent-color: var(--brand);
+    cursor: pointer;
+}
+
+/* Chuna hua reason - :has() se, taaki JS ko kuch extra
+   class lagane ki zarurat na pade */
+.reason:has(input:checked) {
+    background: var(--brand-soft);
+    border-color: var(--brand-line);
+}
+
+
+/* ---------- DESCRIPTION ---------- */
+
+.textarea-wrap {
+    position: relative;
+}
+
+#disputeDescription {
+    display: block;
+    width: 100%;
+    height: 100px;
+    resize: vertical;
+
+    padding: var(--s-3);
+    padding-bottom: var(--s-6);
+
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+
+    font-family: inherit;
+    font-size: var(--text-sm);
+    color: var(--ink);
+}
+
+#disputeDescription::placeholder {
+    color: var(--faint);
+}
+
+#disputeDescription:focus {
+    outline: none;
+    border-color: var(--brand);
+}
+
+.char-count {
+    position: absolute;
+    right: var(--s-3);
+    bottom: var(--s-3);
+
+    color: var(--faint);
+    font-size: var(--text-2xs);
+}
+
+
+/* ---------- PHOTOS ---------- */
+
+.upload-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s-1);
+
+    padding: var(--s-6) var(--s-4);
+
+    background: var(--ground);
+    border: 1px dashed var(--line);
+    border-radius: var(--r-sm);
+
+    text-align: center;
+    cursor: pointer;
+
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.upload-box:hover {
+    background: var(--brand-soft);
+    border-color: var(--brand-line);
+}
+
+.upload-box .icon {
+    width: 20px;
+    height: 20px;
+    color: var(--muted);
+}
+
+.upload-box span {
+    font-size: var(--text-xs);
+    color: var(--ink-2);
+}
+
+.upload-box strong {
+    color: var(--brand-dark);
+    font-weight: var(--w-bold);
+}
+
+.upload-box small {
+    font-size: var(--text-2xs);
+    color: var(--faint);
+}
+
+
+.file-names {
+    margin: var(--s-2) 0 0;
+
+    color: var(--muted);
+    font-size: var(--text-2xs);
+    word-break: break-all;
+}
+
+
+/* ---------- ERROR + BUTTONS ---------- */
+
+.modal-error {
+    margin: var(--s-4) 0 0;
+    padding: var(--s-2) var(--s-3);
+    border-radius: var(--r-sm);
+
+    background: var(--danger-bg);
+    color: var(--danger);
+
+    font-size: var(--text-xs);
+    font-weight: var(--w-medium);
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--s-2);
+
+    margin-top: var(--s-6);
+}
+
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+@media (max-width: 940px) {
+
+    .content-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* Chhoti screen pe actions upar aa jaate hain - wahi
+       ek cheez hai jo user ko karni hoti hai */
+    .right-column {
+        position: static;
+        order: -1;
+    }
+}
+
+
+@media (max-width: 620px) {
+
+    .people-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .accepted-on {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    /* Stepper ko squeeze karne ke bajaye scroll karne dete
+       hain, warna chaaron label toot jaate hain */
+    .stepper-card {
+        overflow-x: auto;
+    }
+
+    .stepper {
+        min-width: 460px;
+    }
+
+    .timeline-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+}

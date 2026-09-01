@@ -36,7 +36,10 @@ const createNeed = async (req, res) => {
 
 const getAllNeeds = async (req, res) => {
     try {
-        const needs = await NeedPost.find()
+        // Sirf wahi requests dikhao jo abhi khuli hain.
+        // matched/closed wali pehle bhi dikh rahi thi, aur unpe
+        // "I Can Help" dabane par error aata tha.
+        const needs = await NeedPost.find({ status: "open" })
             .populate("requestedBy", "name branch batch")
             .sort({ createdAt: -1 });
 

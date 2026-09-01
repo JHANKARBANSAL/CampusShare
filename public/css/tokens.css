@@ -1,0 +1,207 @@
+/* ==========================================================
+   CampusShare - DESIGN TOKENS
+
+   This is the single source of truth for colour, type,
+   spacing and radius. Every page loads this file FIRST,
+   before nav.css and before its own stylesheet.
+
+   Why this file exists:
+   Earlier the brand orange was written as #ff6845 on one
+   page, #ff6b35 on another and #ee5726 on a third - three
+   shades doing the same job. Corner radius was 10px, 12px
+   and 16px in different files. Changing anything meant
+   hunting through eight stylesheets.
+
+   Rule: no page stylesheet should contain a raw hex value.
+   Use var(--something) instead. If a colour is missing
+   here, add it here rather than inline.
+   ========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+
+    /* ---------- BRAND ---------- */
+
+    --brand:        #ff6845;   /* buttons, active nav, accents */
+    --brand-dark:   #d8471f;   /* hover, text on light orange  */
+    --brand-soft:   #fff2ed;   /* tinted backgrounds           */
+    --brand-line:   #ffd9c9;   /* orange-tinted borders        */
+
+
+    /* ---------- TEXT ----------
+       Slightly warm greys. A pure grey next to orange
+       always looks like an unpicked default. */
+
+    --ink:          #1f1a17;   /* headings                     */
+    --ink-2:        #4b423c;   /* normal text                  */
+    --muted:        #7a6e66;   /* secondary text, labels       */
+    --faint:        #9a8c82;   /* timestamps, placeholders     */
+
+
+    /* ---------- SURFACES ---------- */
+
+    --ground:       #fdfaf8;   /* page background              */
+    --card:         #ffffff;   /* cards, navbar                */
+    --line:         #ece2db;   /* every border                 */
+    --line-soft:    #f6f0ec;   /* chips, subtle fills          */
+
+
+    /* ---------- STATUS ----------
+       Deliberately NOT orange. Earlier "borrowed" and the
+       primary button were both orange, so a state and an
+       action looked identical. */
+
+    --ok:           #0f7b58;
+    --ok-bg:        #e8f6f0;
+
+    --warn:         #b45309;
+    --warn-bg:      #fdf2e3;
+
+    --danger:       #c0392b;
+    --danger-bg:    #fcecea;
+
+    --info:         #2563eb;
+    --info-bg:      #eaf1fe;
+
+    --purple:       #6d4aca;
+    --purple-bg:    #f1ecfc;
+
+
+    /* ---------- TYPE SCALE ----------
+       16px base, 1.25 ratio. Earlier the sizes were picked
+       one at a time (30, 19, 16, 15, 14, 13, 12) with no
+       relationship between them, so hierarchy read weakly. */
+
+    --text-3xl:  31px;   /* page title            */
+    --text-2xl:  25px;   /* section heading       */
+    --text-xl:   20px;   /* card heading          */
+    --text-lg:   17px;
+    --text-md:   16px;   /* body                  */
+    --text-sm:   14px;   /* secondary, card body  */
+    --text-xs:   12.5px; /* labels, chips         */
+    --text-2xs:  11.5px; /* eyebrow, status pill  */
+
+
+    /* ---------- WEIGHTS ----------
+       700+ is for headings and numbers only. Nothing in the
+       navigation bar goes above 600, or it looks heavy. */
+
+    --w-normal:  400;
+    --w-medium:  500;
+    --w-semi:    600;
+    --w-bold:    700;
+    --w-black:   800;
+
+
+    /* ---------- SPACING ---------- */
+
+    --s-1:   4px;
+    --s-2:   8px;
+    --s-3:   12px;
+    --s-4:   16px;
+    --s-6:   24px;
+    --s-8:   32px;
+    --s-12:  48px;
+    --s-16:  64px;
+
+
+    /* ---------- RADIUS ---------- */
+
+    --r-sm:   8px;    /* buttons, chips, inputs */
+    --r-md:   12px;   /* cards                  */
+    --r-lg:   16px;   /* large panels           */
+    --r-full: 999px;  /* pills, avatars         */
+
+
+    /* ---------- SHADOW ---------- */
+
+    --shadow-sm: 0 1px 2px rgba(60, 30, 15, .05);
+    --shadow-md: 0 8px 24px -12px rgba(60, 30, 15, .18);
+}
+
+
+/* ==========================================================
+   BASE RESET
+   Har page ki CSS me alag-alag reset likha tha, ab ek hi hai.
+   ========================================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    background: var(--ground);
+    color: var(--ink);
+
+    font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+    font-size: var(--text-md);
+    line-height: 1.55;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+img {
+    max-width: 100%;
+}
+
+
+/* ==========================================================
+   FOCUS RING
+
+   Across 3667 lines of CSS there were only 5 :focus rules,
+   all on text inputs. Keyboard users had no idea where they
+   were. This one block covers every interactive element.
+
+   :focus-visible (not :focus) means mouse clicks don't show
+   the ring - only keyboard navigation does.
+   ========================================================== */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid var(--brand-dark);
+    outline-offset: 2px;
+    border-radius: var(--r-sm);
+}
+
+
+/* ==========================================================
+   SHARED ICON RULE
+
+   Icons come from the sprite in js/icons.js. They inherit
+   the text colour, so no icon needs its own colour rule.
+   ========================================================== */
+
+.icon {
+    display: inline-block;
+    vertical-align: -0.15em;
+    flex-shrink: 0;
+
+    width: 1em;
+    height: 1em;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}

@@ -4,23 +4,36 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard | CampusShare</title>
+
+  <!-- Load order matters: tokens first, then shared components,
+       then the navbar, then this page's own styles. -->
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/nav.css" />
   <link rel="stylesheet" href="../css/dashboard.css" />
 </head>
 <body>
 
+  <!-- Icon sprite. Must run before the markup below is parsed,
+       so it sits at the very top of <body> without defer. -->
+  <script src="../js/icons.js"></script>
+
   <!--
-    PAGE STRUCTURE (easy to explain in 4 parts):
-    1. NAVBAR        -> logo + menu (Home/My Activity/Profile) + bell + profile
-    2. GREETING      -> "Hi, Jhankar!" welcome text
-    3. ACTION CARDS  -> 2 big buttons: "I Need Something" / "I Can Help Someone"
-    4. REQUEST LIST  -> cards of students who need help (repeated 4 times)
+    PAGE STRUCTURE (four parts):
+    1. NAVBAR      -> logo + menu (Home / My Activity / Profile) + user
+    2. HERO        -> what the product does, with illustration
+    3. METRICS     -> four live numbers from /api/users/me/stats
+    4. REQUESTS    -> cards of students who need help (built by dashboard.js)
+    5. HOW IT WORKS-> three-step explainer for first-time visitors
   -->
 
-  <!-- ================= NAVBAR ================= -->
+  <!-- ================= NAVBAR =================
+       This markup is identical on every page.
+       Styles live in nav.css, the name is filled by nav.js.
+  ========================================== -->
 
   <header class="navbar">
 
-    <!-- Logo -->
     <a href="./dashboard.html" class="logo">
       <img
         src="../images/image-removebg-preview (1).png"
@@ -29,173 +42,212 @@
       >
     </a>
 
+    <span class="nav-divider"></span>
 
-    <!-- Navigation -->
     <nav class="menu">
 
-      <a href="./dashboard.html" class="nav-link active">
-        <span>⌂</span>
-        Home
-      </a>
+        <a href="./dashboard.html" class="nav-link active">
+          <svg class="icon nav-icon" aria-hidden="true"><use href="#i-home"></use></svg>
+          <span>Home</span>
+        </a>
 
-      <a href="#requests" class="nav-link">
-        <span>⌕</span>
-        Explore
-      </a>
+        <a href="./activity.html" class="nav-link">
+          <svg class="icon nav-icon" aria-hidden="true"><use href="#i-activity"></use></svg>
+          <span>My Activity</span>
+        </a>
 
-      <a href="./activity.html" class="nav-link">
-        <span>▣</span>
-        My Activity
-      </a>
+        <a href="./post-need.html" class="nav-link">
+          <svg class="icon nav-icon" aria-hidden="true"><use href="#i-search"></use></svg>
+          <span>Looking For</span>
+        </a>
 
-      <a href="./profile.html" class="nav-link">
-        <span>♙</span>
-        Profile
-      </a>
+        <a href="./profile.html" class="nav-link">
+          <svg class="icon nav-icon" aria-hidden="true"><use href="#i-user"></use></svg>
+          <span>Profile</span>
+        </a>
 
     </nav>
 
+    <span class="nav-divider"></span>
 
-    <!-- Right side -->
     <div class="navbar-right">
 
-      <div class="nav-user">
-        <div class="nav-avatar">J</div>
-
-        <span>Jhankar</span>
-
-        <span class="arrow">⌄</span>
-      </div>
+      <a href="./profile.html" class="nav-user">
+        <span class="nav-avatar" id="navAvatar">J</span>
+        <span id="navUserName">Loading...</span>
+        <span class="arrow">
+          <svg class="icon" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+        </span>
+      </a>
 
     </div>
 
   </header>
 
 
-  <!-- ================= DASHBOARD TOP ================= -->
-
   <main class="dashboard">
 
-    <!-- HERO -->
+    <!-- ================= HERO =================
+         Earlier this only greeted the user. It now says what
+         the product actually does, which is what a first-time
+         visitor needs to read.
+    ========================================== -->
 
     <section class="hero">
 
       <div class="hero-text">
 
+        <span class="hero-badge">
+          <svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>
+          <span id="openNeedsBadge">Students are looking for help</span>
+        </span>
+
         <h1>
-          Hey, <span id="dashboardUserName">Jhankar</span>! 👋
+          Borrow what you need.<br>
+          Lend what you can.
         </h1>
 
-        <h2>
-          Let's make campus life easier together.
-        </h2>
-
         <p>
-          Find what you need or help someone who does.
+          CampusShare connects students who have something spare with
+          the ones who need it, and keeps a record of every handover.
         </p>
 
-      </div>
+        <div class="hero-actions">
 
-
-      <!-- YOUR STUDENT IMAGE -->
-
-      <div class="hero-image">
-
-        <img
-          src="../images/Happy student-pana.png"
-          alt="Campus students helping each other"
-        >
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= ACTION CARDS ================= -->
-
-    <section class="dashboard-actions">
-
-      <!-- NEED SOMETHING -->
-
-      <div class="action-card need-card">
-
-        <div class="action-icon">
-          ✎
-        </div>
-
-        <div class="action-content">
-
-          <h3>Need Something?</h3>
-
-          <p>
-            Post what you need and get<br>
-            help from your campus.
-          </p>
-
-          <a href="./post-need.html" class="action-button">
+          <a href="./post-need.html" class="btn btn-primary">
+            <svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg>
             Post a Need
-            <span>→</span>
+          </a>
+
+          <a href="#requests" class="btn btn-ghost">
+            Browse Requests
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
           </a>
 
         </div>
 
       </div>
 
-
-      <!-- HELP SOMEONE -->
-
-      <a href="#requests" class="action-card help-card">
-
-        <div class="action-icon">
-          🤝
-        </div>
-
-        <div class="action-content">
-
-          <h3>Want to Help?</h3>
-
-          <p>
-            See what's needed around<br>
-            you and lend a hand.
-          </p>
-
-          <span class="action-button">
-            Browse Requests
-            <span>→</span>
-          </span>
-
-        </div>
-
-      </a>
+      <div class="hero-image">
+        <img
+          src="../images/Happy student-pana.png"
+          alt="A student handing a book to a friend"
+        >
+      </div>
 
     </section>
 
 
-    <!-- =================================================
-         EXISTING "STUDENTS LOOKING FOR HELP" SECTION
-         ================================================= -->
+    <!-- ================= METRICS =================
+         Filled by dashboard.js from /api/users/me/stats.
+         If that call fails the cards simply stay at zero.
+    ========================================== -->
+
+    <section class="metrics">
+
+      <div class="metric">
+        <span class="metric-icon m-green">
+          <svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>
+        </span>
+        <b id="metricHelped">0</b>
+        <span class="metric-label">People you helped</span>
+      </div>
+
+      <div class="metric">
+        <span class="metric-icon m-blue">
+          <svg class="icon" aria-hidden="true"><use href="#i-hand"></use></svg>
+        </span>
+        <b id="metricAsked">0</b>
+        <span class="metric-label">Times you asked</span>
+      </div>
+
+      <div class="metric">
+        <span class="metric-icon m-orange">
+          <svg class="icon" aria-hidden="true"><use href="#i-box"></use></svg>
+        </span>
+        <b id="metricActive">0</b>
+        <span class="metric-label">Active right now</span>
+      </div>
+
+      <div class="metric">
+        <span class="metric-icon m-purple">
+          <svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg>
+        </span>
+        <b id="metricTrust">0</b>
+        <span class="metric-label">Trust score</span>
+
+        <!-- Chhota progress bar, sirf trust score ke liye -->
+        <span class="metric-track">
+          <span class="metric-fill" id="metricTrustBar" style="width: 0%"></span>
+        </span>
+      </div>
+
+    </section>
+
+
+    <!-- ================= REQUESTS =================
+         dashboard.js har open need ke liye ek .request-card
+         banata hai aur usme .help-btn daalta hai.
+    ========================================== -->
 
     <section id="requests" class="requests">
 
-      <div class="requests-heading">
-        <h2>🔶 Students looking for help</h2>
-        <button class="filter-btn">⚙️ Filter</button>
+      <h2 class="section-label">
+        Students looking for help
+        <span class="section-count" id="requestsCount"></span>
+      </h2>
+
+      <div id="requestsContainer" class="requests-grid"></div>
+
+    </section>
+
+
+    <!-- ================= HOW IT WORKS =================
+         Naye user ke liye. Teeno illustrations project ke
+         images folder se hi aa rahi hain.
+    ========================================== -->
+
+    <section class="how-it-works">
+
+      <h2 class="section-label">How CampusShare works</h2>
+
+      <div class="steps">
+
+        <div class="step">
+          <img src="../images/Stuck at Home - Happy Place.png" alt="">
+          <div>
+            <span class="step-number">Step 1</span>
+            <h3>Post what you need</h3>
+            <p>Describe the item and how long you need it for.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <img src="../images/Helping a partner-pana.png" alt="">
+          <div>
+            <span class="step-number">Step 2</span>
+            <h3>Someone offers to help</h3>
+            <p>Accept the offer from the student you want to borrow from.</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <img src="../images/Hands - Grip.png" alt="">
+          <div>
+            <span class="step-number">Step 3</span>
+            <h3>Hand over and return</h3>
+            <p>Both sides confirm, and both trust scores go up.</p>
+          </div>
+        </div>
+
       </div>
-
-      <!--
-        Every card below has the SAME structure, just different text:
-        avatar -> name/branch -> item needed -> trust badge -> buttons
-        (easiest way to explain: "this block repeats 4 times with new data")
-      -->
-
-      
-<div id="requestsContainer"></div>
-      <a href="#" class="view-all">View all requests →</a>
 
     </section>
 
   </main>
 
+  <script src="../js/toast.js"></script>
   <script src="../js/dashboard.js"></script>
+  <script src="../js/nav.js"></script>
 </body>
 </html>

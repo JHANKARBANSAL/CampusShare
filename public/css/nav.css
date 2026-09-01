@@ -1,0 +1,322 @@
+/* ==========================================================
+   CampusShare - SHARED NAVBAR
+
+   Ye markup HAR page pe bilkul same hai. Style sirf yahan
+   likhi hai - kisi page ki apni CSS me .navbar dobara mat
+   likhna, warna wo isko silently override kar degi (pehle
+   dashboard.css me exactly yahi ho raha tha).
+
+   Load order: tokens.css -> components.css -> nav.css -> page css
+
+   Design: floating white card. Pehle ye edge-to-edge bar tha
+   jiske neeche ek border line thi. Ab bar page ke kinaron se
+   thoda andar hai, corners round hain aur border ki jagah ek
+   halki shadow hai - isse navbar page ke upar "tairta" hua
+   lagta hai, chipka hua nahi.
+
+   Font kahin set nahi kiya gaya - Plus Jakarta Sans tokens.css
+   me body pe lagta hai aur yahan inherit ho jaata hai.
+   Weights: labels 500, active label aur username 600. 700 se
+   upar kuch nahi, warna navbar bhaari dikhta hai.
+   ========================================================== */
+
+
+.navbar {
+    position: sticky;
+    top: var(--s-3);
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+
+    /* Kinaron se andar. Ye margin hi wo gap banata hai jo
+       floating look ke liye zaroori hai. */
+    width: auto;
+    margin: var(--s-3) var(--s-4) var(--s-6);
+
+    height: 74px;
+    padding: 0 var(--s-6);
+
+    background: var(--card);
+    border-radius: 18px;
+
+    /* Border nahi, shadow. Do halki layers - ek tight aur ek
+       chaudi - taaki edge saaf rahe par bhaari na lage. */
+    box-shadow:
+        0 1px 2px rgba(60, 30, 15, .04),
+        0 10px 30px -14px rgba(60, 30, 15, .16);
+}
+
+
+/* ---------- LOGO ----------
+   image-removebg-preview (1).png 612x408 ka hai, par usme
+   asli wordmark sirf 541x139 ka hissa hai (bbox 39,125 se
+   580,264 tak). Matlab image ki 66% unchai khaali transparent
+   jagah hai. Isliye seedhe height: 40px dene pe wordmark sirf
+   ~14px ka dikhta tha - navbar me gayab jaisa.
+
+   Fix: .logo ek fixed-size window hai jo overflow chhupata
+   hai, aur image usse kaafi badi rakhi gayi hai. Khaali jagah
+   crop ho jaati hai aur wordmark poora bharta hai - bina koi
+   nayi image file banaye.
+
+   Ganit: wordmark ko 42px dikhana hai.
+     image height = 42 / 0.3407 = 123px
+     image width  = 123 * (612/408) = 185px
+     wordmark width = 185 * 0.884 = 163px  -> window 164px
+
+   translateY: content image ke beech se 9.5px upar hai
+   (content center 194.5 vs image center 204), jo is scale pe
+   ~3px banta hai. Us 3px ko wapas neeche dhakelte hain warna
+   logo window me thoda upar chipka lagta hai. */
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 164px;
+    height: 44px;
+    overflow: hidden;
+
+    text-decoration: none;
+}
+
+.navbar .logo-image {
+    display: block;
+
+    height: 123px;
+    width: auto;
+
+    /* tokens.css me img { max-width: 100% } hai - use yahan
+       hatana zaroori hai warna image window se chhoti ho
+       jayegi aur crop kaam nahi karega. */
+    max-width: none;
+
+    object-fit: contain;
+    transform: translateY(3px);
+}
+
+
+/* ---------- DIVIDERS ----------
+   Logo ke baad aur user ke pehle. Ye navbar ko teen saaf
+   hisson me baant dete hain: pehchaan | navigation | tum. */
+
+.navbar .nav-divider {
+    flex-shrink: 0;
+
+    width: 1px;
+    height: 30px;
+    margin: 0 var(--s-6);
+
+    background: var(--line);
+}
+
+
+/* ---------- MIDDLE MENU ---------- */
+
+.navbar .menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-8);
+
+    /* flex: 1 se menu bachi hui poori jagah le leta hai aur
+       justify-content: center use beech me rakhta hai, chahe
+       logo aur username ki chaudai kuch bhi ho. */
+    flex: 1;
+    min-width: 0;
+
+    height: 100%;
+}
+
+.navbar .nav-link {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+
+    height: 100%;
+    padding: 0 var(--s-1);
+
+    color: var(--ink-2);
+    text-decoration: none;
+
+    font-size: var(--text-sm);
+    font-weight: var(--w-medium);
+
+    white-space: nowrap;
+
+    transition: color .15s ease;
+}
+
+.navbar .nav-link:hover {
+    color: var(--brand-dark);
+}
+
+
+/* Active page.
+
+   Pehle iske neeche ek orange line thi, phir halka orange
+   background aaya. Ab wapas line hai - par is baar text bhi
+   orange hota hai, isliye ye clearly ek "tum yahan ho"
+   indicator lagta hai, sirf decoration nahi. */
+
+.navbar .nav-link.active {
+    color: var(--brand);
+    font-weight: var(--w-semi);
+}
+
+.navbar .nav-link.active::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 15px;
+
+    height: 3px;
+    border-radius: var(--r-full);
+
+    background: var(--brand);
+}
+
+/* Icon apne aap parent ka colour le leta hai (tokens.css me
+   stroke: currentColor), isliye active hone pe icon bhi
+   orange ho jaata hai - alag rule ki zaroorat nahi. */
+
+.navbar .nav-icon {
+    width: 20px;
+    height: 20px;
+}
+
+
+/* ---------- RIGHT SIDE ---------- */
+
+.navbar .navbar-right {
+    display: flex;
+    align-items: center;
+
+    flex-shrink: 0;
+}
+
+.navbar .nav-user {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+
+    /* Pehle iske charon taraf ek pill border thi. Divider
+       aane ke baad wo do lakeeren ek doosre se lad rahi
+       thi, isliye border hata di. */
+    padding: var(--s-1) var(--s-1) var(--s-1) 0;
+    border-radius: var(--r-full);
+
+    color: var(--ink);
+    text-decoration: none;
+
+    font-size: var(--text-sm);
+    font-weight: var(--w-semi);
+}
+
+.navbar .nav-user:hover {
+    color: var(--brand-dark);
+}
+
+.navbar .nav-avatar {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 40px;
+    height: 40px;
+    border-radius: var(--r-full);
+
+    background: var(--brand);
+    color: #ffffff;
+
+    font-size: var(--text-md);
+    font-weight: var(--w-semi);
+    line-height: 1;
+}
+
+.navbar .arrow {
+    display: flex;
+    align-items: center;
+
+    margin-left: var(--s-1);
+
+    color: var(--muted);
+    font-size: var(--text-sm);
+}
+
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 1100px) {
+
+    .navbar .menu {
+        gap: var(--s-6);
+    }
+
+    .navbar .nav-divider {
+        margin: 0 var(--s-4);
+    }
+}
+
+
+@media (max-width: 900px) {
+
+    .navbar {
+        height: 66px;
+        padding: 0 var(--s-4);
+        margin: var(--s-2) var(--s-3) var(--s-4);
+    }
+
+    /* Sirf labels chhupte hain, icons rehte hain - navigation
+       tab bhi kaam karti hai, bas tang ho jaati hai. */
+    .navbar .menu .nav-link span {
+        display: none;
+    }
+
+    .navbar .nav-link.active::after {
+        bottom: 11px;
+    }
+
+    .navbar .menu {
+        gap: var(--s-4);
+    }
+}
+
+
+@media (max-width: 560px) {
+
+    /* Wahi ganit, chhote wordmark (32px) ke liye:
+       32 / 0.3407 = 94px image height, wordmark width 125px */
+
+    .navbar .logo {
+        width: 126px;
+        height: 34px;
+    }
+
+    .navbar .logo-image {
+        height: 94px;
+        transform: translateY(2px);
+    }
+
+    .navbar .nav-divider {
+        margin: 0 var(--s-3);
+    }
+
+    .navbar .nav-user span:not(.nav-avatar),
+    .navbar .arrow {
+        display: none;
+    }
+
+    .navbar .nav-avatar {
+        width: 34px;
+        height: 34px;
+        font-size: var(--text-sm);
+    }
+}

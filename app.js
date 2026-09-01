@@ -2,6 +2,8 @@ const express = require("express");
 const authRoutes = require("./routes/authRoutes");
 const needRoutes = require("./routes/needRoutes");
 const userRoutes = require("./routes/userRoutes");
+const transactionRoutes = require("./routes/transactionRoutes");
+const disputeRoutes = require("./routes/disputeRoutes");
 
 
 const app = express();
@@ -22,5 +24,7 @@ app.use(express.static("public"));
 app.use("/api/auth", authRoutes);
 app.use("/api/needs", needRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/transactions", transactionRoutes);
+app.use("/api/disputes", disputeRoutes);
 
 module.exports = app;

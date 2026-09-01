@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>My Activity | CampusShare</title>
+
+  <link rel="stylesheet" href="../css/tokens.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/nav.css" />
+  <link rel="stylesheet" href="../css/activity.css">
+</head>
+
+<body>
+
+  <script src="../js/icons.js"></script>
+
+
+  <!-- ================= NAVBAR =================
+       This markup is identical on every page.
+       Styles live in nav.css, the name is filled by nav.js.
+  ========================================== -->
+
+  <header class="navbar">
+
+    <a href="./dashboard.html" class="logo">
+      <img
+        src="../images/image-removebg-preview (1).png"
+        alt="CampusShare"
+        class="logo-image"
+      >
+    </a>
+
+    <span class="nav-divider"></span>
+
+    <nav class="menu">
+
+        <a href="./dashboard.html" class="nav-link">
+          <svg class="icon nav-icon" aria-hidden="true"><use href="#i-home"></use></svg>
+          <span>Home</span>
+        </a>
+
+        <a href="./activity.html" class="nav-link active">
+          <svg class="icon nav-icon" aria-hidden="true"><use href="#i-activity"></use></svg>
+          <span>My Activity</span>
+        </a>
+
+        <a href="./post-need.html" class="nav-link">
+          <svg class="icon nav-icon" aria-hidden="true"><use href="#i-search"></use></svg>
+          <span>Looking For</span>
+        </a>
+
+        <a href="./profile.html" class="nav-link">
+          <svg class="icon nav-icon" aria-hidden="true"><use href="#i-user"></use></svg>
+          <span>Profile</span>
+        </a>
+
+    </nav>
+
+    <span class="nav-divider"></span>
+
+    <div class="navbar-right">
+
+      <a href="./profile.html" class="nav-user">
+        <span class="nav-avatar" id="navAvatar">J</span>
+        <span id="navUserName">Loading...</span>
+        <span class="arrow">
+          <svg class="icon" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+        </span>
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <!-- ================= PAGE ================= -->
+
+  <main class="page">
+
+
+    <!-- ================= CAROUSEL =================
+         Teeno illustrations pehle se images folder me hain.
+         Ye sirf dekhne ki cheez hai - iska koi API se lena
+         dena nahi. Slide badalna activity.js karta hai.
+    ========================================== -->
+
+    <section class="carousel" id="activityCarousel">
+
+      <div class="carousel-track" id="carouselTrack">
+
+        <div class="carousel-slide">
+
+          <div class="slide-text">
+            <h2>Lend what you are not using</h2>
+            <p>
+              A calculator sitting in your drawer is someone else's
+              exam tomorrow. Helping costs you nothing.
+            </p>
+          </div>
+
+          <img
+            class="slide-art"
+            src="../images/Banner1.png"
+            alt=""
+          >
+
+        </div>
+
+
+        <div class="carousel-slide slide-2">
+
+          <div class="slide-text">
+            <h2>Borrow instead of buying</h2>
+            <p>
+              Need something for three days? Someone on campus
+              already has it and is happy to share.
+            </p>
+          </div>
+
+          <img
+            class="slide-art"
+            src="../images/Banner2.png"
+            alt=""
+          >
+
+        </div>
+
+
+        <div class="carousel-slide slide-3">
+
+          <div class="slide-text">
+            <h2>Return on time, build trust</h2>
+            <p>
+              Every item returned on time makes the next request
+              easier for everyone.
+            </p>
+          </div>
+
+          <img
+            class="slide-art"
+            src="../images/Banner3.png"
+            alt=""
+          >
+
+        </div>
+
+      </div>
+
+
+      <button class="carousel-arrow previous" id="previousSlide"
+              type="button" aria-label="Previous slide">
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow-left"></use></svg>
+      </button>
+
+      <button class="carousel-arrow next" id="nextSlide"
+              type="button" aria-label="Next slide">
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+      </button>
+
+    </section>
+
+
+    <div class="carousel-dots" id="carouselDots">
+      <button class="carousel-dot active" data-slide="0" type="button"
+              aria-label="Go to slide 1"></button>
+      <button class="carousel-dot" data-slide="1" type="button"
+              aria-label="Go to slide 2"></button>
+      <button class="carousel-dot" data-slide="2" type="button"
+              aria-label="Go to slide 3"></button>
+    </div>
+
+
+    <h1 class="page-title">My Activity</h1>
+
+    <p class="page-subtitle">
+      Everything you have lent and borrowed, in one place.
+    </p>
+
+
+    <!-- ================= FILTERS =================
+         Ye sirf dikhne wale cards chhupata hai - koi nayi API
+         call nahi hoti. Andar ke status (offered, accepted,
+         borrowed, return_pending) teen buckets me map hote
+         hain: activity.js ka statusBucket() dekho.
+    ========================================== -->
+
+    <div class="activity-filters" id="activityFilters" role="group"
+         aria-label="Filter activity">
+
+      <button class="filter active" data-filter="all" type="button"
+              aria-pressed="true">
+        <svg class="icon" aria-hidden="true"><use href="#i-activity"></use></svg>
+        <span>All</span>
+        <span class="filter-count" data-count="all"></span>
+      </button>
+
+      <button class="filter" data-filter="active" type="button"
+              aria-pressed="false">
+        <svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>
+        <span>Active</span>
+        <span class="filter-count" data-count="active"></span>
+      </button>
+
+      <button class="filter" data-filter="completed" type="button"
+              aria-pressed="false">
+        <svg class="icon" aria-hidden="true"><use href="#i-check-circle"></use></svg>
+        <span>Completed</span>
+        <span class="filter-count" data-count="completed"></span>
+      </button>
+
+      <button class="filter" data-filter="rejected" type="button"
+              aria-pressed="false">
+        <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+        <span>Rejected</span>
+        <span class="filter-count" data-count="rejected"></span>
+      </button>
+
+    </div>
+
+
+    <!-- Two halves: what you are lending, what you borrowed -->
+
+    <section class="activity-block">
+
+      <div class="section-heading helping-heading">
+
+        <div class="heading-icon helping-icon">
+          <svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>
+        </div>
+
+        <h2>Helping others</h2>
+
+        <span class="section-count" id="lendingCount"></span>
+
+      </div>
+
+      <div class="activity-list" id="lendingContainer"></div>
+
+    </section>
+
+
+    <section class="activity-block">
+
+      <div class="section-heading borrowed-heading">
+
+        <div class="heading-icon borrowed-icon">
+          <svg class="icon" aria-hidden="true"><use href="#i-box"></use></svg>
+        </div>
+
+        <h2>Things you borrowed</h2>
+
+        <span class="section-count" id="borrowingCount"></span>
+
+      </div>
+
+      <div class="activity-list" id="borrowingContainer"></div>
+
+    </section>
+
+
+    <!-- ================= TIP ================= -->
+
+    <section class="tip-card">
+
+      <div class="tip-icon">
+        <svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg>
+      </div>
+
+      <div class="tip-text">
+        <strong>Tip</strong>
+        <p>
+          Open Details on any card to see the full timeline, confirm a
+          handover or return, or report an issue with the transaction.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script src="../js/toast.js"></script>
+  <script src="../js/activity.js"></script>
+  <script src="../js/nav.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Transaction Details | CampusShare</title>
+
+    <!--
+      Font Awesome ka CDN yahan se hata diya gaya hai.
+      Wo sirf is ek page pe load hota tha (~30KB) jabki
+      baaki app icons SVG sprite se leta hai. Ab ye page
+      bhi wahi sprite use karta hai (js/icons.js).
+    -->
+
+    <link rel="stylesheet" href="../css/tokens.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/nav.css" />
+    <link rel="stylesheet" href="../css/transaction-details.css" />
+</head>
+
+<body>
+
+<script src="../js/icons.js"></script>
+
+
+<!-- ================= NAVBAR =================
+     Pehle is page pe left sidebar tha, jo baaki chaar
+     pages se bilkul alag dikhta tha. Ab wahi navbar hai.
+========================================== -->
+
+<header class="navbar">
+
+  <a href="./dashboard.html" class="logo">
+    <img
+      src="../images/image-removebg-preview (1).png"
+      alt="CampusShare"
+      class="logo-image"
+    >
+  </a>
+
+  <span class="nav-divider"></span>
+
+  <nav class="menu">
+
+      <a href="./dashboard.html" class="nav-link">
+        <svg class="icon nav-icon" aria-hidden="true"><use href="#i-home"></use></svg>
+        <span>Home</span>
+      </a>
+
+      <a href="./activity.html" class="nav-link active">
+        <svg class="icon nav-icon" aria-hidden="true"><use href="#i-activity"></use></svg>
+        <span>My Activity</span>
+      </a>
+
+      <a href="./post-need.html" class="nav-link">
+        <svg class="icon nav-icon" aria-hidden="true"><use href="#i-search"></use></svg>
+        <span>Looking For</span>
+      </a>
+
+      <a href="./profile.html" class="nav-link">
+        <svg class="icon nav-icon" aria-hidden="true"><use href="#i-user"></use></svg>
+        <span>Profile</span>
+      </a>
+
+  </nav>
+
+  <span class="nav-divider"></span>
+
+  <div class="navbar-right">
+
+    <a href="./profile.html" class="nav-user">
+      <span class="nav-avatar" id="navAvatar">J</span>
+      <span id="navUserName">Loading...</span>
+      <span class="arrow">
+        <svg class="icon" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
+      </span>
+    </a>
+
+  </div>
+
+</header>
+
+
+<main class="page">
+
+    <!-- transaction-details.js is container ko dhoondhta hai
+         jab URL me koi ?id= nahi hota -->
+    <div class="page-content">
+
+
+        <!-- ---------- BACK + TITLE ---------- -->
+
+        <a href="./activity.html" class="btn btn-quiet back-link">
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-left"></use></svg>
+            Back to My Activity
+        </a>
+
+        <!-- Page ka title item ka naam hai, "Transaction Details"
+             nahi - wo har transaction pe ek jaisa padhta tha.
+             itemName ko JS bharta hai. -->
+        <h1 class="page-title" id="itemName">Loading...</h1>
+
+        <div class="title-row">
+
+            <span class="pill status-pill" id="statusPill">Loading...</span>
+
+            <span class="txn-id">
+                <span id="transactionId">&mdash;</span>
+                <button class="copy-btn" id="copyTransactionId" type="button"
+                        aria-label="Copy transaction ID">
+                    <svg class="icon" aria-hidden="true"><use href="#i-copy"></use></svg>
+                </button>
+            </span>
+
+            <span class="accepted-on" id="acceptedOn"></span>
+
+        </div>
+
+
+        <!-- ---------- HORIZONTAL STEPPER ---------- -->
+
+        <div class="card stepper-card">
+            <div class="stepper" id="stepper"></div>
+        </div>
+
+
+        <div class="content-grid">
+
+
+            <!-- ================= LEFT ================= -->
+
+            <section class="left-column">
+
+
+                <!-- ITEM -->
+
+                <div class="card">
+
+                    <h2 class="card-title">Item details</h2>
+
+                    <div class="item-row">
+
+                        <div class="item-thumb">
+                            <svg class="icon" aria-hidden="true"><use href="#i-box"></use></svg>
+                        </div>
+
+                        <div class="item-text">
+
+                            <p id="itemDescription" class="item-description">&mdash;</p>
+
+                            <div class="item-meta">
+
+                                <span class="chip">
+                                    <svg class="icon" aria-hidden="true"><use href="#i-calendar"></use></svg>
+                                    Needed by <b id="neededBy">&mdash;</b>
+                                </span>
+
+                                <span class="chip">
+                                    <svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>
+                                    <b id="duration">&mdash;</b>
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BORROWER + LENDER
+                     Pehle ye do bade alag cards the. Ab do chhote
+                     cards side-by-side hain, role label ke saath. -->
+
+                <div class="people-grid">
+
+                    <div class="card person-card">
+
+                        <span class="role-tag">Borrower</span>
+
+                        <div class="person-row">
+
+                            <img
+                                id="borrowerImage"
+                                src="../images/icons8-customer-48.png"
+                                alt=""
+                                class="person-photo"
+                            >
+
+                            <div class="person-text">
+                                <h3 id="borrowerName">Loading...</h3>
+                                <p id="borrowerDetails">&mdash;</p>
+                            </div>
+
+                            <span class="you-tag" id="borrowerYou" hidden>You</span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card person-card">
+
+                        <span class="role-tag">Lender</span>
+
+                        <div class="person-row">
+
+                            <img
+                                id="lenderImage"
+                                src="../images/icons8-customer-48.png"
+                                alt=""
+                                class="person-photo"
+                            >
+
+                            <div class="person-text">
+                                <h3 id="lenderName">Loading...</h3>
+                                <p id="lenderDetails">&mdash;</p>
+                            </div>
+
+                            <span class="you-tag" id="lenderYou" hidden>You</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TIMELINE -->
+
+                <div class="card">
+
+                    <h2 class="card-title">Timeline</h2>
+
+                    <div class="timeline" id="transactionTimeline"></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= RIGHT ================= -->
+
+            <aside class="right-column">
+
+
+                <!-- ACTIONS -->
+
+                <div class="card">
+
+                    <h2 class="card-title">What you can do</h2>
+
+                    <div id="actionContainer">
+                        <p class="loading-action">Loading...</p>
+                    </div>
+
+                    <div class="callout">
+                        <svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg>
+                        <p id="progressMessage">Loading transaction...</p>
+                    </div>
+
+                </div>
+
+
+                <!-- SUMMARY -->
+
+                <div class="card">
+
+                    <h2 class="card-title">Summary</h2>
+
+                    <div class="summary-row">
+                        <span>Borrow duration</span>
+                        <b id="sumDuration">&mdash;</b>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Handover date</span>
+                        <b id="sumHandover">&mdash;</b>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Expected return</span>
+                        <b id="sumDueAt">&mdash;</b>
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Created on</span>
+                        <b id="sumCreated">&mdash;</b>
+                    </div>
+
+                </div>
+
+
+            </aside>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- =========================================
+     REPORT AN ISSUE MODAL
+     Normally chhupa rehta hai (display: none)
+========================================== -->
+
+<div class="modal-overlay" id="disputeModal">
+
+    <div class="modal">
+
+        <button class="modal-close" id="disputeClose" type="button"
+                aria-label="Close">
+            <svg class="icon" aria-hidden="true"><use href="#i-x"></use></svg>
+        </button>
+
+        <h2>Report an Issue</h2>
+
+        <p class="modal-sub">
+            Tell us what went wrong. We will record it against this transaction.
+        </p>
+
+
+        <form id="disputeForm">
+
+
+            <!-- REASONS: JS role ke hisaab se bharta hai -->
+
+            <h3 class="field-label">Reason for the issue</h3>
+
+            <div class="reason-list" id="reasonList"></div>
+
+
+            <!-- DESCRIPTION -->
+
+            <h3 class="field-label">Describe the issue</h3>
+
+            <div class="textarea-wrap">
+
+                <textarea
+                    id="disputeDescription"
+                    maxlength="500"
+                    placeholder="Please provide more details about the issue..."
+                ></textarea>
+
+                <span class="char-count" id="charCount">0/500</span>
+
+            </div>
+
+
+            <!-- PHOTOS -->
+
+            <h3 class="field-label">Add photos (optional)</h3>
+
+            <label class="upload-box" for="disputePhotos">
+
+                <svg class="icon" aria-hidden="true"><use href="#i-upload"></use></svg>
+
+                <span><strong>Click to upload</strong> proof photos</span>
+
+                <small>PNG or JPG, up to 3 files, each under 5MB</small>
+
+            </label>
+
+            <input
+                type="file"
+                id="disputePhotos"
+                accept="image/jpeg,image/png,image/webp"
+                multiple
+                hidden
+            />
+
+            <p class="file-names" id="photoNames"></p>
+
+
+            <p class="modal-error" id="disputeError" hidden></p>
+
+
+            <div class="modal-buttons">
+
+                <button type="button" class="btn btn-ghost" id="disputeCancel">
+                    Cancel
+                </button>
+
+                <button type="submit" class="btn btn-primary" id="disputeSubmit">
+                    Submit Report
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script src="../js/toast.js"></script>
+<script src="../js/transaction-details.js"></script>
+<script src="../js/nav.js"></script>
+
+</body>
+</html>
