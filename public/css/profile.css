@@ -1,35 +1,91 @@
 /* ==========================================================
    CampusShare - PROFILE
 
-   Pehle ye file 775 lines ki thi. Uska bada hissa dotted
-   corners, ek ribbon (🏅), aur doosri decoration pe jaata
-   tha jo kuch batati nahi thi. Wo sab nikal diya.
+   Page ka order jaan-boojh kar aisa hai:
+     pehchaan -> contribution -> trust -> recent activity
+   Yaani "main kaun hoon", phir "maine kya kiya", phir
+   "log mujhpe kitna bharosa kar sakte hain".
 
-   Trust score ab page ke upar hai, neeche nahi - wahi is
-   page ki sabse zaroori cheez hai.
+   Rule wahi hai jo tokens.css me likha hai: yahan koi raw
+   hex nahi. Brand ka orange, saare greys, radius aur spacing
+   var(--...) se aate hain.
    ========================================================== */
+
+
+.profile-page {
+    /* Reference 1200-1280px ka hai. components.css ka .page
+       1120px pe rukta hai, isliye is ek page pe thoda chaura. */
+    width: min(1240px, 92%);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-8);
+}
 
 
 /* ==========================================================
-   TOP ROW: identity + trust ring
+   1. HERO
+
+   bg_profile.png me campus building daayein taraf hai aur
+   baayein taraf khaali peach jagah. Isliye:
+     - background-position: right center  (building bachi rahe)
+     - content baayein, ek max-width ke andar
+   Isse text kabhi building ke upar nahi chadhta.
    ========================================================== */
 
-.profile-top {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: var(--s-4);
+.profile-hero {
+    position: relative;
+    overflow: hidden;
 
-    margin-bottom: var(--s-4);
-}
+    min-height: 300px;
 
+    padding: var(--s-8) var(--s-12);
+    border-radius: 24px;
 
-/* ---------- IDENTITY CARD ---------- */
+    background-color: var(--brand-soft);
+    background-image: url("../images/bg_profile.png");
+    background-size: cover;
+    background-position: right center;
+    background-repeat: no-repeat;
 
-.identity-card {
     display: flex;
-    align-items: flex-start;
-    gap: var(--s-6);
+    align-items: center;
 }
+
+
+/* Baayein se daayein halka safed parda. Illustration ke
+   halke hisson pe bhi text kaala aur padhne layak rehta
+   hai, aur daayein taraf building saaf dikhti rehti hai. */
+
+.profile-hero::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+        100deg,
+        rgba(255, 255, 255, .82) 0%,
+        rgba(255, 255, 255, .62) 38%,
+        rgba(255, 255, 255, 0) 68%
+    );
+}
+
+.hero-content {
+    position: relative;   /* parde ke upar */
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    gap: var(--s-8);
+
+    /* Content ko rok kar rakhta hai taaki wo building tak
+       na pahunche */
+    max-width: 640px;
+}
+
+
+/* ---------- PHOTO ---------- */
 
 .photo-wrapper {
     position: relative;
@@ -39,34 +95,38 @@
 .profile-photo {
     display: block;
 
-    width: 92px;
-    height: 92px;
-    border-radius: 22px;
+    width: 158px;
+    height: 158px;
+    border-radius: 50%;
 
-    background: var(--line-soft);
-    border: 1px solid var(--line);
+    background: var(--card);
+    border: 4px solid var(--card);
 
     object-fit: cover;
+
+    box-shadow: 0 10px 30px -12px rgba(60, 30, 15, .35);
 }
 
-/* Camera button photo ke neeche-daayen kone par */
+/* Camera button photo ke neeche-daayein kone par */
 .camera-btn {
     position: absolute;
-    right: -6px;
-    bottom: -6px;
+    right: 6px;
+    bottom: 6px;
 
     display: grid;
     place-items: center;
 
-    width: 30px;
-    height: 30px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
 
     background: var(--brand);
     color: #ffffff;
 
-    border: 2px solid var(--card);
+    border: 3px solid var(--card);
     cursor: pointer;
+
+    transition: background 0.15s ease;
 }
 
 .camera-btn:hover {
@@ -74,14 +134,15 @@
 }
 
 .camera-btn .icon {
-    width: 15px;
-    height: 15px;
+    width: 17px;
+    height: 17px;
 }
 
 
+/* ---------- NAME + DETAILS ---------- */
+
 .identity-text {
     min-width: 0;
-    flex: 1;
 }
 
 .profile-name {
@@ -89,34 +150,38 @@
     align-items: center;
     gap: var(--s-2);
 
-    margin: 0 0 3px;
+    margin: 0 0 var(--s-2);
 
-    font-size: var(--text-xl);
+    font-size: var(--text-3xl);
     font-weight: var(--w-black);
-    letter-spacing: -0.025em;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
 }
 
 .verified-tick {
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
     color: var(--info);
 }
 
 .profile-quote {
-    margin: 0 0 var(--s-4);
+    margin: 0 0 var(--s-6);
+    max-width: 42ch;
 
-    color: var(--muted);
-    font-size: var(--text-xs);
+    color: var(--ink-2);
+    font-size: var(--text-sm);
 }
 
 
-/* Detail rows - do columns */
+/* Do column grid. Alag-alag card banane ki zaroorat nahi -
+   icon hi bata deta hai ki value kis cheez ki hai. */
+
 .detail-list {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--s-2) var(--s-6);
+    grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+    gap: var(--s-3) var(--s-8);
 
-    margin: 0;
+    margin: 0 0 var(--s-6);
     padding: 0;
     list-style: none;
 }
@@ -128,148 +193,84 @@
 
     min-width: 0;
 
-    font-size: 13px;
+    font-size: var(--text-sm);
+    font-weight: var(--w-medium);
 }
 
 .detail-row .icon {
-    width: 15px;
-    height: 15px;
+    width: 17px;
+    height: 17px;
     color: var(--muted);
 }
 
-/* "Branch", "Batch" waghairah - sirf screen reader aur
-   chhoti screen ke liye rakha hai, bade screen pe icon
-   hi kaafi batata hai. */
+/* Label sirf chhoti screen pe dikhta hai. Bade screen pe
+   icon hi kaafi batata hai, aur "Branch: CSE" likhna jagah
+   khaata hai bina kuch naya bataye. */
 .detail-label {
     display: none;
 }
 
 .detail-value {
-    color: var(--ink-2);
+    color: var(--ink);
 
-    /* Lamba email card se bahar na nikle */
+    /* Lamba email hero se bahar na nikle */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
 
-/* ---------- TRUST SUMMARY ---------- */
-
-.trust-summary {
-    display: flex;
-    align-items: center;
-    gap: var(--s-4);
+.edit-profile-btn {
+    background: rgba(255, 255, 255, .9);
+    color: var(--brand-dark);
+    border-color: var(--brand-line);
 }
 
-/* Ring: conic-gradient se. profile.js sirf percentage
-   badalta hai, koi chart library nahi lagti. */
-.score-ring {
-    display: grid;
-    place-items: center;
-    flex-shrink: 0;
-
-    width: 104px;
-    height: 104px;
-    border-radius: 50%;
-
-    background: conic-gradient(var(--brand) 0 0%, #f1e7e1 0% 100%);
-}
-
-.score-inner {
-    display: grid;
-    place-items: center;
-
-    width: 82px;
-    height: 82px;
-    border-radius: 50%;
-
-    background: var(--card);
-    line-height: 1.1;
-}
-
-.score-number {
-    font-size: var(--text-2xl);
-    font-weight: var(--w-black);
-    letter-spacing: -0.03em;
-    font-variant-numeric: tabular-nums;
-}
-
-.score-total {
-    color: var(--muted);
-    font-size: var(--text-2xs);
-    font-weight: var(--w-semi);
-}
-
-.trust-summary-text h2 {
-    margin: 0 0 var(--s-1);
-
-    font-size: 15px;
-    font-weight: var(--w-bold);
-}
-
-.trust-summary-text p {
-    margin: 0 0 var(--s-2);
-
-    color: var(--muted);
-    font-size: var(--text-xs);
-}
-
-.trust-art {
-    width: 74px;
-    height: auto;
-    margin-left: auto;
-
-    /* Ye sirf decoration hai, isliye thoda halka */
-    opacity: 0.9;
+.edit-profile-btn:hover:not(:disabled) {
+    background: var(--brand-soft);
+    border-color: var(--brand);
 }
 
 
 /* ==========================================================
-   STAT CARDS
+   2. CONTRIBUTION STATISTICS
    ========================================================== */
 
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: var(--s-3);
-
-    margin-bottom: var(--s-4);
+    gap: var(--s-4);
 }
 
 .stat-card {
-    padding: var(--s-4);
+    padding: var(--s-6);
 
     background: var(--card);
     border: 1px solid var(--line);
-    border-radius: var(--r-md);
+    border-radius: 18px;
+
+    box-shadow: var(--shadow-sm);
 }
 
 .stat-icon {
     display: grid;
     place-items: center;
 
-    width: 34px;
-    height: 34px;
-    margin-bottom: var(--s-3);
-    border-radius: 9px;
+    width: 52px;
+    height: 52px;
+    margin-bottom: var(--s-4);
+    border-radius: 50%;
 }
 
 .stat-icon .icon {
-    width: 17px;
-    height: 17px;
+    width: 24px;
+    height: 24px;
 }
-
-/* Wahi colour classes jo dashboard ke metric cards pe hain */
-.m-green  { background: var(--ok-bg);      color: var(--ok); }
-.m-blue   { background: var(--info-bg);    color: var(--info); }
-.m-orange { background: var(--brand-soft); color: var(--brand-dark); }
-.m-purple { background: var(--purple-bg);  color: var(--purple); }
 
 .stat-number {
     display: block;
 
-    font-size: var(--text-2xl);
+    font-size: 34px;
     font-weight: var(--w-black);
     line-height: 1;
     letter-spacing: -0.03em;
@@ -278,47 +279,249 @@
 
 .stat-label {
     display: block;
-    margin-top: var(--s-1);
+    margin-top: var(--s-2);
 
-    color: var(--muted);
-    font-size: var(--text-xs);
+    color: var(--ink-2);
+    font-size: var(--text-sm);
+    font-weight: var(--w-semi);
+}
+
+.stat-note {
+    display: block;
+    margin-top: var(--s-2);
+
+    font-size: var(--text-2xs);
     font-weight: var(--w-medium);
 }
 
 
+/* Har card ka apna halka rang. Background itna halka hai ki
+   chaar cards ek saath ek dashboard jaise nahi lagte. */
+
+.tone-green  { --tone: var(--ok);     --tone-bg: var(--ok-bg); }
+.tone-blue   { --tone: var(--info);   --tone-bg: var(--info-bg); }
+.tone-orange { --tone: var(--brand);  --tone-bg: var(--brand-soft); }
+.tone-purple { --tone: var(--purple); --tone-bg: var(--purple-bg); }
+.tone-red    { --tone: var(--danger); --tone-bg: var(--danger-bg); }
+
+.stat-card.tone-green,
+.stat-card.tone-blue,
+.stat-card.tone-orange,
+.stat-card.tone-purple {
+    background:
+        linear-gradient(var(--tone-bg), var(--tone-bg)) padding-box;
+}
+
+.stat-card .stat-icon {
+    background: var(--card);
+    color: var(--tone);
+}
+
+.stat-card .stat-note {
+    color: var(--tone);
+}
+
+
 /* ==========================================================
-   TRUST BREAKDOWN
+   3. TRUST SCORE
    ========================================================== */
 
-.trust-detail {
-    margin-bottom: var(--s-4);
+.trust-panel {
+    display: grid;
+    grid-template-columns: 32% 1fr;
+    gap: var(--s-8);
+
+    padding: var(--s-8);
+    border-radius: 20px;
+}
+
+
+/* ---------- LEFT ---------- */
+
+.trust-left {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-right: var(--s-8);
+    border-right: 1px solid var(--line);
+}
+
+.trust-left-head {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--s-3);
+
+    width: 100%;
+    margin-bottom: var(--s-8);
+}
+
+.trust-badge {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+
+    background: var(--brand-soft);
+    color: var(--brand);
+}
+
+.trust-badge .icon {
+    width: 21px;
+    height: 21px;
+}
+
+.trust-left-head h2 {
+    margin: 0 0 3px;
+
+    font-size: var(--text-xl);
+    font-weight: var(--w-bold);
+    letter-spacing: -0.02em;
+}
+
+.trust-left-head p {
+    margin: 0;
+
+    color: var(--muted);
+    font-size: var(--text-xs);
+}
+
+
+/* Ring: conic-gradient se. profile.js sirf percentage
+   badalta hai, koi chart library nahi lagti. */
+
+.score-ring {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+
+    background: conic-gradient(var(--brand) 0 0%, var(--line-soft) 0% 100%);
+}
+
+.score-inner {
+    display: grid;
+    place-items: center;
+
+    width: 164px;
+    height: 164px;
+    border-radius: 50%;
+
+    background: var(--card);
+    line-height: 1.05;
+}
+
+.score-number {
+    font-size: 52px;
+    font-weight: var(--w-black);
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+}
+
+.score-total {
+    color: var(--muted);
+    font-size: var(--text-sm);
+    font-weight: var(--w-semi);
+}
+
+.trust-pill {
+    margin-top: var(--s-6);
+
+    background: var(--ok-bg);
+    color: var(--ok);
+}
+
+/* Naya user - abhi koi transaction poora nahi hua.
+   0/100 dikhana thik hai, par use "bharosemand nahi" jaisa
+   nahi dikhna chahiye. profile.js ye class lagata hai. */
+.trust-pill.is-new {
+    background: var(--info-bg);
+    color: var(--info);
+}
+
+/* Yahan reference me ek chhota plant/books ka illustration
+   hai. Waisi koi image images folder me nahi hai, aur jo hai
+   (Hands - Grip.png) wo 90px pe crop hokar ek pehchaan me na
+   aane wale dhabbe jaisi dikhti thi - decoration jo dhyaan
+   bhatkaye, wo na hone se bura hai. Isliye chhupa di gayi
+   hai; sahi illustration aate hi ye display hata dena. */
+
+.trust-art {
+    display: none;
+}
+
+
+/* ---------- RIGHT ---------- */
+
+.trust-right-title {
+    margin: 0 0 var(--s-6);
+
+    font-size: var(--text-xl);
+    font-weight: var(--w-bold);
+    letter-spacing: -0.02em;
 }
 
 .trust-rows {
     display: flex;
     flex-direction: column;
-    gap: var(--s-4);
+    gap: var(--s-6);
 }
 
 .trust-row {
     display: grid;
-    grid-template-columns: 1fr 56px;
-    align-items: center;
-    gap: var(--s-3);
+    grid-template-columns: 40px 1fr auto;
+    align-items: start;
+    gap: var(--s-4);
+}
+
+.row-icon {
+    display: grid;
+    place-items: center;
+
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+    background: var(--tone-bg);
+    color: var(--tone);
+}
+
+.row-icon .icon {
+    width: 19px;
+    height: 19px;
+}
+
+.trust-info {
+    min-width: 0;
 }
 
 .trust-info h4 {
-    margin: 0 0 6px;
+    margin: 0;
 
-    font-size: 13px;
-    font-weight: var(--w-semi);
+    font-size: var(--text-sm);
+    font-weight: var(--w-bold);
+}
+
+.trust-info p {
+    margin: 2px 0 var(--s-3);
+
+    color: var(--muted);
+    font-size: var(--text-xs);
 }
 
 .bar {
-    height: 7px;
+    height: 6px;
     border-radius: var(--r-full);
 
-    background: #f1e7e1;
+    background: var(--line-soft);
     overflow: hidden;
 }
 
@@ -326,33 +529,230 @@
     display: block;
     height: 100%;
     border-radius: var(--r-full);
+
+    transition: width 0.4s ease;
 }
 
 .fill-green  { background: var(--ok); }
 .fill-blue   { background: var(--info); }
-.fill-orange { background: var(--warn); }
+.fill-orange { background: var(--brand); }
 .fill-red    { background: var(--danger); }
 
 .trust-value {
-    text-align: right;
+    padding-top: 2px;
 
-    font-size: var(--text-xs);
+    color: var(--ink);
+    font-size: var(--text-sm);
     font-weight: var(--w-bold);
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
 }
 
-.callout p {
+.trust-right .callout {
+    margin-top: var(--s-8);
+}
+
+.trust-right .callout p {
     margin: 0;
 }
 
 
 /* ==========================================================
-   LOG OUT
+   4. RECENT ACTIVITY + COMMUNITY
+   ========================================================== */
+
+.bottom-grid {
+    display: grid;
+    grid-template-columns: 60% 1fr;
+    gap: var(--s-4);
+
+    align-items: stretch;
+}
+
+
+/* ---------- RECENT ---------- */
+
+.recent-card {
+    display: flex;
+    flex-direction: column;
+
+    padding: var(--s-6);
+    border-radius: 20px;
+}
+
+.recent-title {
+    margin: 0 0 var(--s-2);
+
+    font-size: var(--text-lg);
+    font-weight: var(--w-bold);
+    letter-spacing: -0.02em;
+}
+
+/* Har row ka apna card nahi - sirf ek patli lakeer. Teen
+   rows ke liye teen boxes zaroorat se zyada bhaari lagte. */
+
+.recent-list {
+    flex: 1;
+}
+
+.recent-row {
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    align-items: center;
+    gap: var(--s-3);
+
+    padding: var(--s-4) 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.recent-row:last-child {
+    border-bottom: 0;
+}
+
+.recent-icon {
+    display: grid;
+    place-items: center;
+
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+
+    background: var(--tone-bg);
+    color: var(--tone);
+}
+
+.recent-icon .icon {
+    width: 17px;
+    height: 17px;
+}
+
+.recent-text {
+    min-width: 0;
+
+    color: var(--ink-2);
+    font-size: var(--text-sm);
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.recent-text b {
+    color: var(--ink);
+    font-weight: var(--w-semi);
+}
+
+.recent-when {
+    color: var(--muted);
+    font-size: var(--text-xs);
+    white-space: nowrap;
+}
+
+.recent-loading,
+.recent-empty {
+    margin: var(--s-6) 0;
+
+    color: var(--muted);
+    font-size: var(--text-xs);
+    text-align: center;
+}
+
+.recent-link {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-end;
+    gap: var(--s-2);
+
+    margin-top: var(--s-4);
+
+    color: var(--brand-dark);
+    text-decoration: none;
+
+    font-size: var(--text-sm);
+    font-weight: var(--w-semi);
+}
+
+.recent-link:hover {
+    text-decoration: underline;
+}
+
+.recent-link .icon {
+    width: 16px;
+    height: 16px;
+}
+
+
+/* ---------- COMMUNITY ---------- */
+
+.community-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    border: 1px solid var(--brand-line);
+    border-radius: 20px;
+
+    background: var(--brand-soft);
+    text-align: center;
+}
+
+/* Illustration khadi (portrait) hai aur uska upar wala
+   aadha hissa khaali aasman hai. object-position: bottom
+   se wo khaali hissa crop ho jaata hai aur dono students
+   dikhte hain. */
+.community-art {
+    display: block;
+
+    width: 100%;
+    height: 210px;
+
+    object-fit: cover;
+    object-position: center 78%;
+}
+
+.community-text {
+    padding: var(--s-6);
+}
+
+.community-text h3 {
+    margin: 0 0 var(--s-2);
+
+    font-size: var(--text-lg);
+    font-weight: var(--w-bold);
+    letter-spacing: -0.02em;
+}
+
+.community-text p {
+    margin: 0;
+
+    color: var(--ink-2);
+    font-size: var(--text-xs);
+    line-height: 1.7;
+}
+
+
+/* ==========================================================
+   5. LOG OUT
+   Quiet secondary action. Page ka main content ise ignore
+   kar sakta hai - isliye ghost button, danger nahi.
    ========================================================== */
 
 .logout-row {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+
+    padding-top: var(--s-2);
+}
+
+.logout-btn {
+    background: transparent;
+    color: var(--muted);
+    border-color: transparent;
+}
+
+.logout-btn:hover:not(:disabled) {
+    background: var(--danger-bg);
+    color: var(--danger);
 }
 
 
@@ -360,23 +760,88 @@
    RESPONSIVE
    ========================================================== */
 
-@media (max-width: 1000px) {
+/* ---------- TABLET ---------- */
 
-    .profile-top {
-        grid-template-columns: 1fr;
-    }
+@media (max-width: 1040px) {
 
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .bottom-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .community-art {
+        height: 240px;
+    }
 }
 
-@media (max-width: 620px) {
 
-    .identity-card {
+@media (max-width: 900px) {
+
+    .profile-hero {
+        padding: var(--s-8);
+    }
+
+    .trust-panel {
+        grid-template-columns: 1fr;
+        gap: var(--s-8);
+    }
+
+    .trust-left {
+        padding-right: 0;
+        padding-bottom: var(--s-8);
+
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .trust-art {
+        display: none;
+    }
+}
+
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 680px) {
+
+    .profile-hero {
+        min-height: 0;
+        padding: var(--s-6);
+
+        /* Building ab background me peeche chali jaati hai,
+           warna chhoti screen pe wo text ke peeche aa jaati */
+        background-position: right bottom;
+    }
+
+    .profile-hero::before {
+        background: rgba(255, 255, 255, .8);
+    }
+
+    .hero-content {
         flex-direction: column;
         align-items: center;
         text-align: center;
+        gap: var(--s-4);
+    }
+
+    .profile-photo {
+        width: 118px;
+        height: 118px;
+    }
+
+    .camera-btn {
+        width: 34px;
+        height: 34px;
+        right: 2px;
+        bottom: 2px;
+    }
+
+    .profile-name {
+        justify-content: center;
+        font-size: var(--text-2xl);
     }
 
     .detail-list {
@@ -385,7 +850,7 @@
     }
 
     /* Chhoti screen pe icon ke saath label bhi dikhao,
-       warna pata nahi chalta ki wo number kis cheez ka hai */
+       warna pata nahi chalta ki value kis cheez ki hai */
     .detail-label {
         display: inline;
 
@@ -394,11 +859,30 @@
         font-weight: var(--w-semi);
     }
 
-    .trust-art {
-        display: none;
-    }
-
     .stats-grid {
         grid-template-columns: 1fr;
+    }
+
+    .trust-panel {
+        padding: var(--s-6);
+    }
+
+    .score-ring {
+        width: 168px;
+        height: 168px;
+    }
+
+    .score-inner {
+        width: 138px;
+        height: 138px;
+    }
+
+    .score-number {
+        font-size: 44px;
+    }
+
+    .trust-row {
+        grid-template-columns: 36px 1fr auto;
+        gap: var(--s-3);
     }
 }

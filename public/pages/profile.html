@@ -76,22 +76,22 @@
   </header>
 
 
-  <main class="page">
+  <main class="page profile-page">
 
 
     <!-- =========================================
-         TOP ROW: identity card + trust score
-         The trust score used to sit at the very bottom of
-         the page. It is the most important thing here, so
-         it now sits above the fold.
+         1. HERO
+
+         Background image bg_profile.png hai. Us illustration
+         me campus building daayein taraf hai aur baayein
+         taraf khaali peach jagah - isliye saari profile
+         information baayein rakhi hai, wo building ke upar
+         nahi chadhti.
     ========================================== -->
 
-    <section class="profile-top">
+    <section class="profile-hero">
 
-
-      <!-- ---------- IDENTITY ---------- -->
-
-      <div class="card identity-card">
+      <div class="hero-content">
 
         <div class="photo-wrapper">
 
@@ -122,37 +122,47 @@
 
           <h1 class="profile-name">
             <span id="profileName">Loading...</span>
-            <svg class="icon verified-tick" aria-hidden="true"
-                 title="Verified student"><use href="#i-check-circle"></use></svg>
+
+            <!-- hidden rehta hai. profile.js ise sirf tab
+                 dikhata hai jab backend user.isVerified true
+                 bhejta hai - warna ye jhoothi verification
+                 ho jaati. -->
+            <svg class="icon verified-tick" id="verifiedTick" hidden
+                 aria-label="Verified student" role="img">
+              <title>Verified student</title>
+              <use href="#i-check-circle"></use>
+            </svg>
           </h1>
 
           <p class="profile-quote" id="profileQuote">
             Helping today, building trust for a better campus tomorrow.
           </p>
 
-          <!-- Detail rows. Pehle ye ek lambi vertical list thi;
-               ab do columns me hai, isliye card chhota lagta hai. -->
+
+          <!-- Do column grid. Har cell ka apna id hai; jis
+               field ki value backend se nahi aati, profile.js
+               us cell ko chhupa deta hai. -->
           <ul class="detail-list">
 
-            <li class="detail-row">
+            <li class="detail-row" id="branchRow">
               <svg class="icon" aria-hidden="true"><use href="#i-cap"></use></svg>
               <span class="detail-label">Branch</span>
               <span id="profileBranch" class="detail-value">&mdash;</span>
             </li>
 
-            <li class="detail-row">
+            <li class="detail-row" id="batchRow">
               <svg class="icon" aria-hidden="true"><use href="#i-calendar"></use></svg>
               <span class="detail-label">Batch</span>
               <span id="profileBatch" class="detail-value">&mdash;</span>
             </li>
 
-            <li class="detail-row">
+            <li class="detail-row" id="courseRow">
               <svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg>
               <span class="detail-label">Course</span>
-              <span id="profileCourse" class="detail-value">B.Tech</span>
+              <span id="profileCourse" class="detail-value">&mdash;</span>
             </li>
 
-            <li class="detail-row">
+            <li class="detail-row" id="emailRow">
               <svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg>
               <span class="detail-label">Email</span>
               <span id="profileEmail" class="detail-value">&mdash;</span>
@@ -160,17 +170,91 @@
 
           </ul>
 
+
+          <button class="btn edit-profile-btn" id="editProfileBtn" type="button">
+            <svg class="icon" aria-hidden="true"><use href="#i-pencil"></use></svg>
+            Edit Profile
+          </button>
+
         </div>
 
       </div>
 
+    </section>
 
-      <!-- ---------- TRUST SCORE RING ---------- -->
 
-      <div class="card trust-summary">
+    <!-- =========================================
+         2. CONTRIBUTION STATISTICS
+    ========================================== -->
 
-        <!-- Ring conic-gradient se bana hai, koi library nahi.
-             profile.js sirf percentage badalta hai. -->
+    <section class="stats-grid">
+
+      <div class="stat-card tone-green">
+        <span class="stat-icon">
+          <svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>
+        </span>
+        <span id="peopleHelpedCount" class="stat-number">0</span>
+        <span class="stat-label">People helped</span>
+        <span class="stat-note" id="peopleHelpedNote">Keep it up</span>
+      </div>
+
+      <div class="stat-card tone-blue">
+        <span class="stat-icon">
+          <svg class="icon" aria-hidden="true"><use href="#i-hand"></use></svg>
+        </span>
+        <span id="askedCount" class="stat-number">0</span>
+        <span class="stat-label">Times you asked</span>
+        <span class="stat-note">Asking is how it starts</span>
+      </div>
+
+      <div class="stat-card tone-orange">
+        <span class="stat-icon">
+          <svg class="icon" aria-hidden="true"><use href="#i-send"></use></svg>
+        </span>
+        <span id="activeHelpsCount" class="stat-number">0</span>
+        <span class="stat-label">Active helps</span>
+        <span class="stat-note">Currently lent out</span>
+      </div>
+
+      <div class="stat-card tone-purple">
+        <span class="stat-icon">
+          <svg class="icon" aria-hidden="true"><use href="#i-box"></use></svg>
+        </span>
+        <span id="activeBorrowsCount" class="stat-number">0</span>
+        <span class="stat-label">Active borrows</span>
+        <span class="stat-note">Currently with you</span>
+      </div>
+
+    </section>
+
+
+    <!-- =========================================
+         3. TRUST SCORE
+    ========================================== -->
+
+    <section class="card trust-panel">
+
+
+      <!-- ---------- LEFT: the ring ---------- -->
+
+      <div class="trust-left">
+
+        <div class="trust-left-head">
+
+          <span class="trust-badge">
+            <svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg>
+          </span>
+
+          <div>
+            <h2>Trust Score</h2>
+            <p>How reliable you have been in the community.</p>
+          </div>
+
+        </div>
+
+
+        <!-- Ring conic-gradient se bana hai, koi chart library
+             nahi. profile.js sirf percentage badalta hai. -->
         <div id="scoreRing" class="score-ring">
 
           <div class="score-inner">
@@ -180,24 +264,113 @@
 
         </div>
 
-        <div class="trust-summary-text">
 
-          <h2>Trust Score</h2>
+        <span class="pill trust-pill" id="trustPill">
+          <svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg>
+          <span id="trustPillText">Trusted member</span>
+        </span>
 
-          <p>How reliable you have been in the community.</p>
 
-          <span class="pill st-completed">
-            <svg class="icon" aria-hidden="true"><use href="#i-shield"></use></svg>
-            Trusted member
-          </span>
+        <img src="../images/Hands - Grip.png" alt="" class="trust-art">
+
+      </div>
+
+
+      <!-- ---------- RIGHT: the breakdown ---------- -->
+
+      <div class="trust-right">
+
+        <h3 class="trust-right-title">How your trust score is calculated</h3>
+
+        <div class="trust-rows">
+
+          <div class="trust-row">
+
+            <span class="row-icon tone-green">
+              <svg class="icon" aria-hidden="true"><use href="#i-check-circle"></use></svg>
+            </span>
+
+            <div class="trust-info">
+              <h4>Successful returns</h4>
+              <p>Items returned successfully</p>
+              <div class="bar">
+                <span id="successBar" class="fill fill-green" style="width: 0%"></span>
+              </div>
+            </div>
+
+            <span id="successValue" class="trust-value">0/0</span>
+
+          </div>
+
+
+          <div class="trust-row">
+
+            <span class="row-icon tone-green">
+              <svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>
+            </span>
+
+            <div class="trust-info">
+              <h4>Returned on time</h4>
+              <p>Items returned on or before the due date</p>
+              <div class="bar">
+                <span id="onTimeBar" class="fill fill-green" style="width: 0%"></span>
+              </div>
+            </div>
+
+            <span id="onTimeValue" class="trust-value">0/0</span>
+
+          </div>
+
+
+          <div class="trust-row">
+
+            <span class="row-icon tone-orange">
+              <svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>
+            </span>
+
+            <div class="trust-info">
+              <h4>Late returns</h4>
+              <p>Items returned after the due date</p>
+              <div class="bar">
+                <span id="lateBar" class="fill fill-orange" style="width: 0%"></span>
+              </div>
+            </div>
+
+            <span id="lateValue" class="trust-value">0/0</span>
+
+          </div>
+
+
+          <div class="trust-row">
+
+            <span class="row-icon tone-red">
+              <svg class="icon" aria-hidden="true"><use href="#i-alert"></use></svg>
+            </span>
+
+            <div class="trust-info">
+              <h4>Issues reported against you</h4>
+              <p>Valid issues reported by other members</p>
+              <div class="bar">
+                <span id="issuesBar" class="fill fill-red" style="width: 0%"></span>
+              </div>
+            </div>
+
+            <span id="issuesValue" class="trust-value">0/0</span>
+
+          </div>
 
         </div>
 
-        <img
-          src="../images/Hands - Grip.png"
-          alt=""
-          class="trust-art"
-        >
+
+        <!-- Formula likha hua hai, taaki number samajh aaye -->
+        <div class="callout">
+          <svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg>
+          <p>
+            70% of the score comes from returning items on time and 30% from
+            completing them successfully, minus 5 points for every issue
+            reported against you.
+          </p>
+        </div>
 
       </div>
 
@@ -205,138 +378,60 @@
 
 
     <!-- =========================================
-         STAT CARDS
+         4. RECENT ACTIVITY + COMMUNITY
     ========================================== -->
 
-    <section class="stats-grid">
+    <section class="bottom-grid">
 
-      <div class="stat-card">
-        <span class="stat-icon m-green">
-          <svg class="icon" aria-hidden="true"><use href="#i-users"></use></svg>
-        </span>
-        <span id="peopleHelpedCount" class="stat-number">0</span>
-        <span class="stat-label">People helped</span>
+
+      <div class="card recent-card">
+
+        <h3 class="recent-title">Recent activity</h3>
+
+        <!-- profile.js ise /api/transactions/me se bharta hai.
+             Koi hardcoded row nahi. -->
+        <div class="recent-list" id="recentList">
+          <p class="recent-loading">Loading...</p>
+        </div>
+
+        <a href="./activity.html" class="recent-link">
+          View all activity
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"></use></svg>
+        </a>
+
       </div>
 
-      <div class="stat-card">
-        <span class="stat-icon m-blue">
-          <svg class="icon" aria-hidden="true"><use href="#i-hand"></use></svg>
-        </span>
-        <span id="askedCount" class="stat-number">0</span>
-        <span class="stat-label">Times you asked</span>
-      </div>
 
-      <div class="stat-card">
-        <span class="stat-icon m-orange">
-          <svg class="icon" aria-hidden="true"><use href="#i-send"></use></svg>
-        </span>
-        <span id="activeHelpsCount" class="stat-number">0</span>
-        <span class="stat-label">Active helps</span>
-      </div>
+      <aside class="community-card">
 
-      <div class="stat-card">
-        <span class="stat-icon m-purple">
-          <svg class="icon" aria-hidden="true"><use href="#i-box"></use></svg>
-        </span>
-        <span id="activeBorrowsCount" class="stat-number">0</span>
-        <span class="stat-label">Active borrows</span>
-      </div>
+        <img src="../images/campus-background.png" alt="" class="community-art">
+
+        <div class="community-text">
+          <h3>Small actions. Stronger campus.</h3>
+          <p>
+            Every help you give or receive builds a better and more
+            trusted community.
+          </p>
+        </div>
+
+      </aside>
 
     </section>
 
 
     <!-- =========================================
-         TRUST BREAKDOWN
+         5. LOG OUT
+         Ek quiet secondary action, page ke sabse neeche.
     ========================================== -->
 
-    <section class="card trust-detail">
+    <div class="logout-row">
 
-      <h2 class="card-title">How your trust score is calculated</h2>
-
-      <div class="trust-rows">
-
-        <div class="trust-row">
-
-          <div class="trust-info">
-            <h4>Successful returns</h4>
-            <div class="bar">
-              <span id="successBar" class="fill fill-green" style="width: 0%"></span>
-            </div>
-          </div>
-
-          <span id="successValue" class="trust-value">0/0</span>
-
-        </div>
-
-
-        <div class="trust-row">
-
-          <div class="trust-info">
-            <h4>Returned on time</h4>
-            <div class="bar">
-              <span id="onTimeBar" class="fill fill-blue" style="width: 0%"></span>
-            </div>
-          </div>
-
-          <span id="onTimeValue" class="trust-value">0/0</span>
-
-        </div>
-
-
-        <div class="trust-row">
-
-          <div class="trust-info">
-            <h4>Late returns</h4>
-            <div class="bar">
-              <span id="lateBar" class="fill fill-orange" style="width: 0%"></span>
-            </div>
-          </div>
-
-          <span id="lateValue" class="trust-value">0/0</span>
-
-        </div>
-
-
-        <div class="trust-row">
-
-          <div class="trust-info">
-            <h4>Issues reported against you</h4>
-            <div class="bar">
-              <span id="issuesBar" class="fill fill-red" style="width: 0%"></span>
-            </div>
-          </div>
-
-          <span id="issuesValue" class="trust-value">0/0</span>
-
-        </div>
-
-      </div>
-
-      <!-- Formula likha hua hai, taaki number samajh aaye -->
-      <div class="callout">
-        <svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg>
-        <p>
-          70% of the score comes from returning items on time and 30% from
-          completing them successfully, minus 5 points for every issue
-          reported against you.
-        </p>
-      </div>
-
-    </section>
-
-
-    <!-- =========================================
-         LOG OUT
-    ========================================== -->
-
-    <section class="logout-row">
-
-      <button id="logoutBtn" class="btn btn-danger" type="button">
+      <button id="logoutBtn" class="btn logout-btn" type="button">
         <svg class="icon" aria-hidden="true"><use href="#i-logout"></use></svg>
-        Log Out
+        Log out
       </button>
 
-    </section>
+    </div>
 
 
   </main>

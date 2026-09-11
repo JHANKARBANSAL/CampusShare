@@ -127,6 +127,31 @@
             </div>
 
 
+            <!-- AI Post Assistant: student ek line likhta hai,
+                 AI use itemName/description/date/duration mein
+                 tod ke form khud bhar deta hai. Student check
+                 karke submit karta hai, seedha post nahi hota. -->
+            <section class="ai-assist-box">
+
+                <label for="aiText">
+                    Ya bas ek line mein bata do kya chahiye
+                </label>
+
+                <textarea
+                    id="aiText"
+                    placeholder="e.g. kal subah exam ke liye calculator chahiye, 2 ghante ke liye"
+                    rows="2"
+                ></textarea>
+
+                <button type="button" id="aiFillBtn" class="ai-fill-btn">
+                    AI Se Form Bharo
+                </button>
+
+                <p id="aiStatus" class="ai-status"></p>
+
+            </section>
+
+
             <!-- Message shown after the form is submitted (hidden until JS shows it) -->
             <div id="successMessage" class="success-message">
                 ✅ Your request has been posted!

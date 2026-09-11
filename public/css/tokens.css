@@ -149,6 +149,16 @@ img {
     max-width: 100%;
 }
 
+/* hidden attribute ki apni style sirf `display: none` hai,
+   jo kisi bhi `display: flex` / `display: grid` rule se haar
+   jaati hai. Iske bina element hidden hone ke baad bhi dikhta
+   rehta hai - profile page ke detail rows aur transaction
+   details ke "You" tag dono me yahi ho raha tha. */
+
+[hidden] {
+    display: none !important;
+}
+
 
 /* ==========================================================
    FOCUS RING
