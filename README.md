@@ -76,6 +76,9 @@ If an item comes back damaged, never comes back, or wasn't what was promised, ei
 - A detailed page for every transaction, with a timeline, both participants, and the next available action
 - Profile photo uploads, stored on Cloudinary
 
+### 🎓 Students only
+Only **`@bmu.edu.in`** addresses can sign up. After signing up, a **6-digit code** is emailed to your university inbox. The account can't log in until the code is entered, which confirms you actually own that address. Codes expire after 10 minutes, allow 5 attempts, and can be resent once a minute.
+
 ### 🔒 Privacy by default
 Students sign up with their enrollment number, but **it is never shown to other users**. Your classmates see your branch and batch, not your university ID.
 
@@ -125,11 +128,12 @@ CampusShare/
 │   ├── authMiddleware.js  # Verifies the JWT on protected routes
 │   └── uploadMiddleware.js# Multer config for image uploads
 ├── utils/
-│   └── uploadBuffer.js    # Streams an in-memory file to Cloudinary
+│   ├── uploadBuffer.js    # Streams an in-memory file to Cloudinary
+│   └── sendEmail.js       # Sends the verification code through Brevo
 │
 └── public/                # Everything the browser sees
-    ├── pages/             # signup, login, dashboard, post-need,
-    │                      # activity, transaction-details, profile
+    ├── pages/             # signup, verify-email, login, dashboard,
+    │                      # post-need, activity, transaction-details, profile
     ├── css/               # tokens → components → nav → page styles
     ├── js/                # One script per page, plus shared helpers
     └── images/
@@ -144,6 +148,7 @@ CampusShare/
 - A **MongoDB** database (local, or a free MongoDB Atlas cluster)
 - A **Cloudinary** account (free tier), used for profile and proof photos
 - A **Google Gemini API key**, used only for the AI Post Assistant
+- A **Brevo** account (free tier, 300 emails a day), used to email the signup verification code. Optional for local testing: without it, the code is printed in the terminal.
 
 ### 1. Clone and install
 
@@ -164,6 +169,9 @@ CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 
 GEMINI_API_KEY=your_gemini_key
+
+BREVO_API_KEY=your_brevo_api_key
+EMAIL_FROM=the_sender_address_you_verified_in_brevo
 ```
 
 > ⚠️ `.env` is already listed in `.gitignore`. Please keep it there. Pushing your database password to GitHub is a mistake you only make once.
@@ -190,8 +198,10 @@ Authorization: Bearer <token>
 ### Auth
 | Method | Endpoint | Description |
 |---|---|---|
-| `POST` | `/api/auth/signup` | Create an account |
-| `POST` | `/api/auth/login` | Log in and receive a JWT |
+| `POST` | `/api/auth/signup` | Create an account (`@bmu.edu.in` only) and email a 6-digit code |
+| `POST` | `/api/auth/verify-otp` | Check the code and mark the email as verified |
+| `POST` | `/api/auth/resend-otp` | Send a new code (at most once a minute) |
+| `POST` | `/api/auth/login` | Log in and receive a JWT (verified accounts only) |
 
 ### Needs
 | Method | Endpoint | Auth | Description |
@@ -242,6 +252,8 @@ To deploy your own copy:
 3. **Start command:** `npm start`
 4. Add every variable from your `.env` file under **Environment**
 
+> 📧 **Why Brevo and not Gmail?** Render's free plan blocks the ports that email servers like Gmail use (SMTP ports 25, 465 and 587). Brevo sends email through a normal web request instead, which isn't blocked.
+
 ---
 
 ## 🧭 Known limitations
@@ -250,7 +262,6 @@ Being honest about what isn't built yet:
 
 - **Profile details can't be edited after signup.** Only the profile photo can change right now.
 - **There is no in-app chat.** Borrowers and lenders arrange handovers outside the app.
-- **Nothing checks that a signup email belongs to your university**, so anyone with an email address can create an account.
 - **Admins can't act on disputes yet.** Reports are recorded and affect trust scores, but there is no admin panel to review them.
 
 Contributions on any of these are welcome.

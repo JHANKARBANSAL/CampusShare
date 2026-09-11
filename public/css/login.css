@@ -189,3 +189,75 @@ body {
   font-weight: bold;
   text-decoration: none;
 }
+
+
+/* ==========================================================
+   VERIFY EMAIL PAGE (OTP)
+   verify-email.html bhi yahi file use karta hai. Neeche sirf
+   wo cheezein hain jo login page pe nahi hain.
+   ========================================================== */
+
+/* 6 digit boxes - flex: 1 se har screen pe barabar baant jaate hain */
+.otp-boxes {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.otp-box {
+  flex: 1;
+  min-width: 0;
+  height: 52px;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  font-family: inherit;
+  color: #1F2933;
+  border: 1px solid #F1E6DF;
+  border-radius: 10px;
+  background: #FDF6F2;
+}
+
+.otp-box:focus {
+  outline: none;
+  border-color: #FF6B45;
+  background: white;
+}
+
+/* #message upar red hai; sahi code pe green */
+#message.is-success {
+  color: #0F7B58;
+}
+
+.login-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* "Resend code" link jaisa dikhta hai, par button hai */
+.resend-btn {
+  padding: 0;
+  border: none;
+  background: none;
+  color: #FF6B45;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.resend-btn:disabled {
+  color: #8A8F98;
+  cursor: default;
+}
+
+.resend-text {
+  margin-top: 18px;
+}
+
+.hint-text {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #8A8F98;
+}

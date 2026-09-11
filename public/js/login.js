@@ -22,6 +22,13 @@ meraForm.addEventListener("submit", async (event) => {
 
     const data = await response.json();
 
+    // Account hai par email verify nahi hui - code daalne ke page pe bhejo
+    if (response.status === 403 && data.needsVerification) {
+        window.location.href =
+            "./verify-email.html?email=" + encodeURIComponent(data.email);
+        return;
+    }
+
     // Backend ka message ab page par bhi dikhega (sirf console mein nahi)
     document.getElementById("message").textContent = data.message;
 

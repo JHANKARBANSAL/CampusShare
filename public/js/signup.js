@@ -49,10 +49,15 @@ signupForm.addEventListener("submit", async (event) => {
         data.message;
 
 
-    // Agar signup successful hua, to thodi der baad login page par le jao
+    // Signup ke baad seedha login nahi - pehle email verify karni hai.
+    // Verify page ko email chahiye (kis account ka code check karna hai),
+    // aur sent=1 batata hai ki code abhi-abhi bheja gaya hai.
     if (response.ok) {
         setTimeout(() => {
-            window.location.href = "./login.html";
+            window.location.href =
+                "./verify-email.html?email=" +
+                encodeURIComponent(data.email) +
+                "&sent=1";
         }, 1200);
     }
 

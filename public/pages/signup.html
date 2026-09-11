@@ -248,11 +248,15 @@
               University Email
             </label>
 
+            <!-- pattern sirf browser me turant warning ke liye hai.
+                 Asli rok server pe hai (authController.js). -->
             <input
               type="email"
               id="email"
               name="email"
-              placeholder="name@university.edu"
+              placeholder="yourid@bmu.edu.in"
+              pattern="[^@\s]+@bmu\.edu\.in"
+              title="Use your BMU email address, ending in @bmu.edu.in"
               required
             >
 

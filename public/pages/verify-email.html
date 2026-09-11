@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verify Email | CampusShare</title>
+
+  <!-- Login page ki hi CSS - card, button, message sab wahi.
+       Sirf digit boxes ki style login.css ke neeche add ki hai. -->
+  <link rel="stylesheet" href="../css/login.css" />
+</head>
+<body>
+
+  <!--
+    PAGE STRUCTURE:
+    1. Back arrow (signup page)
+    2. Card: kis email pe code gaya, 6 digit boxes,
+       Verify button, Resend button
+    Email address URL se aata hai: ?email=...
+  -->
+
+  <div class="page">
+
+    <a href="./signup.html" class="back-arrow" aria-label="Back to signup">←</a>
+
+    <div class="login-card">
+
+      <h1 class="login-title">Check your email</h1>
+
+      <p class="login-subtitle">
+        <span id="verifyIntro">Enter the 6-digit code sent to</span>
+        <strong id="emailShown">your university email</strong>.
+        The code expires in 10 minutes.
+      </p>
+
+      <!-- Backend ka message (galat code, expire, success) -->
+      <p id="message" role="status"></p>
+
+      <form id="otpForm" novalidate>
+
+        <div class="otp-boxes">
+          <input class="otp-box" type="text" inputmode="numeric" autocomplete="one-time-code" aria-label="Digit 1">
+          <input class="otp-box" type="text" inputmode="numeric" aria-label="Digit 2">
+          <input class="otp-box" type="text" inputmode="numeric" aria-label="Digit 3">
+          <input class="otp-box" type="text" inputmode="numeric" aria-label="Digit 4">
+          <input class="otp-box" type="text" inputmode="numeric" aria-label="Digit 5">
+          <input class="otp-box" type="text" inputmode="numeric" aria-label="Digit 6">
+        </div>
+
+        <button type="submit" class="login-btn" id="verifyBtn">Verify email</button>
+
+      </form>
+
+      <p class="signup-text resend-text">
+        Didn't get the code?
+        <button type="button" class="resend-btn" id="resendBtn">Resend code</button>
+      </p>
+
+      <p class="hint-text">Check your spam folder if you don't see it.</p>
+
+    </div>
+  </div>
+
+  <script src="../js/verify-email.js"></script>
+</body>
+</html>
