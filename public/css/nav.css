@@ -113,22 +113,27 @@
     background: var(--line);
 }
 
+.navbar .nav-divider:last-of-type {
+    margin-left: auto;
+}
+
 
 /* ---------- MIDDLE MENU ---------- */
 
 .navbar .menu {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--s-8);
 
-    /* flex: 1 se menu bachi hui poori jagah le leta hai aur
-       justify-content: center use beech me rakhta hai, chahe
-       logo aur username ki chaudai kuch bhi ho. */
-    flex: 1;
-    min-width: 0;
-
+    /* Dead-center positioning guarantees the menu remains in the exact center
+       of the navbar without shifting when profile name or avatar width changes */
     height: 100%;
+    pointer-events: auto;
 }
 
 .navbar .nav-link {
@@ -239,6 +244,15 @@
     font-size: var(--text-md);
     font-weight: var(--w-semi);
     line-height: 1;
+
+    overflow: hidden;
+}
+
+.navbar .nav-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 
 .navbar .arrow {

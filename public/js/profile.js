@@ -164,6 +164,14 @@ async function loadProfile() {
       profileImage.src =
         user.profileImage;
 
+      localStorage.setItem("userProfileImage", user.profileImage);
+
+      const navAvatar = document.getElementById("navAvatar");
+      if (navAvatar) {
+        navAvatar.innerHTML = `<img src="${user.profileImage}" alt="${user.name}">`;
+        navAvatar.style.background = "transparent";
+      }
+
     }
 
   }
@@ -262,6 +270,13 @@ profilePhotoInput.addEventListener(
       profileImage.src =
         data.profileImage;
 
+      localStorage.setItem("userProfileImage", data.profileImage);
+
+      const navAvatar = document.getElementById("navAvatar");
+      if (navAvatar) {
+        navAvatar.innerHTML = `<img src="${data.profileImage}" alt="Profile">`;
+        navAvatar.style.background = "transparent";
+      }
 
       showToast("Profile photo updated");
 
