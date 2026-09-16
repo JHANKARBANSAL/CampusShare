@@ -62,3 +62,14 @@ signupForm.addEventListener("submit", async (event) => {
     }
 
 });
+
+// Password visibility toggle
+const togglePassword = document.querySelector(".toggle-password");
+const passwordInput = document.getElementById("password");
+if (togglePassword && passwordInput) {
+    togglePassword.addEventListener("click", () => {
+        const isPassword = passwordInput.type === "password";
+        passwordInput.type = isPassword ? "text" : "password";
+        togglePassword.textContent = isPassword ? "🙈" : "👁️";
+    });
+}
