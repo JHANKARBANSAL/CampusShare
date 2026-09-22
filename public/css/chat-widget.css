@@ -505,3 +505,22 @@
     padding: 2px 7px;
     border-radius: 10px;
 }
+
+/* ---------- 7. MOBILE RESPONSIVE ---------- */
+@media (max-width: 600px) {
+    .cs-chat-widget {
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        max-width: 100vw;
+        height: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+        border: none;
+    }
+    .cs-chat-minimized-pill {
+        bottom: 16px;
+        right: 16px;
+    }
+}

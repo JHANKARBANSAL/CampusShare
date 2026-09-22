@@ -86,10 +86,13 @@ const createOffer = async (req, res) => {
 
                 if (borrower && borrower.email) {
                     const lenderName = lender?.name || "A classmate";
+                    const baseUrl = process.env.APP_URL || `http://localhost:${process.env.PORT || 7000}`;
+                    const chatUrl = `${baseUrl}/pages/activity.html?chat=${transaction._id}`;
+
                     await sendEmail({
                         to: borrower.email,
                         subject: `CampusShare: ${lenderName} offered to help with "${need.itemName}"!`,
-                        text: `Hi ${borrower.name},\n\nGreat news! ${lenderName} offered to lend you "${need.itemName}".\n\nLog in to CampusShare to chat with ${lenderName} and coordinate the handover:\nhttps://campusshare-8594.onrender.com/pages/activity.html\n\nBest,\nCampusShare Team`,
+                        text: `Hi ${borrower.name},\n\nGreat news! ${lenderName} offered to lend you "${need.itemName}".\n\nLog in to CampusShare to chat directly with ${lenderName}:\n${chatUrl}\n\nBest,\nCampusShare Team`,
                         html: `
                             <div style="font-family: sans-serif; max-width: 520px; margin: auto; padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px; background-color: #ffffff;">
                                 <div style="display: flex; align-items: center; margin-bottom: 16px;">
@@ -104,10 +107,14 @@ const createOffer = async (req, res) => {
                                     You can now chat directly in real-time to discuss where and when to meet on campus.
                                 </p>
                                 <div style="margin: 28px 0;">
-                                    <a href="https://campusshare-8594.onrender.com/pages/activity.html" style="background-color: #ff5a1f; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; display: inline-block;">
+                                    <a href="${chatUrl}" style="background-color: #ff5a1f; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; display: inline-block;">
                                         Open CampusShare to Chat
                                     </a>
                                 </div>
+                                <p style="color: #6b7280; font-size: 12px; margin: 0 0 16px;">
+                                    Direct link: <br />
+                                    <a href="${chatUrl}" style="color: #ff5a1f; word-break: break-all;">${chatUrl}</a>
+                                </p>
                                 <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;" />
                                 <p style="color: #6b7280; font-size: 12px; margin: 0;">
                                     CampusShare • Peer-to-peer sharing for college students.

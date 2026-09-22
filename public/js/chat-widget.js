@@ -277,7 +277,9 @@
 
         const token = localStorage.getItem("token");
         if (!token) {
-            window.location.href = "./login.html";
+            sessionStorage.setItem("cs_active_chat_txn", transactionId);
+            const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
+            window.location.href = `./login.html?redirect=${returnUrl}`;
             return;
         }
 
@@ -549,12 +551,17 @@
     // ---------- Expose Global Function ----------
     window.openChatWidget = openChatWidget;
 
-    // ---------- Auto-restore on page load if user was chatting ----------
+    // ---------- Auto-restore or open from email URL (?chat=ID) ----------
     document.addEventListener("DOMContentLoaded", () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const chatTxnFromUrl = urlParams.get("chat");
         const savedTxn = sessionStorage.getItem("cs_active_chat_txn");
         const token = localStorage.getItem("token");
 
-        if (savedTxn && token) {
+        // Agar URL me ?chat=ID aaya hai to turant chat box kholo
+        if (chatTxnFromUrl) {
+            openChatWidget(chatTxnFromUrl);
+        } else if (savedTxn && token) {
             openChatWidget(savedTxn);
         }
     });

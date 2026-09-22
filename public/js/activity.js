@@ -14,7 +14,8 @@
 const token = localStorage.getItem("token");
 
 if (!token) {
-    window.location.href = "./login.html";
+    const returnUrl = encodeURIComponent(window.location.pathname + window.location.search);
+    window.location.href = `./login.html?redirect=${returnUrl}`;
 }
 
 

@@ -23,10 +23,18 @@ meraForm.addEventListener("submit", async (event) => {
     msgEl.textContent = data.message;
     msgEl.style.color = response.ok ? "#22c55e" : "#ef4444";
 
-    // Agar login successful hua, token save karo aur dashboard par jao
+    // Agar login successful hua, token save karo
     if (response.ok) {
         localStorage.setItem("token", data.token);
-        window.location.href = "./dashboard.html";
+
+        // Agar email link se kisi specific chat pe jana tha to wahan bhej do
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirect = urlParams.get("redirect");
+        if (redirect) {
+            window.location.href = redirect;
+        } else {
+            window.location.href = "./dashboard.html";
+        }
     }
 });
 
