@@ -48,6 +48,12 @@ const needPostSchema = new mongoose.Schema({
             type: String,
             enum: ["open", "matched", "closed"],
             default: "open"
+        },
+
+        // Priority bump for users who have helped others
+        isPriority: {
+            type: Boolean,
+            default: false
         }
     },
 

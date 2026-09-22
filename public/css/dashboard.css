@@ -358,3 +358,93 @@
         grid-template-columns: 1fr;
     }
 }
+
+
+/* ==========================================================
+   TOP HELPERS / HALL OF FAME & PRIORITY BADGES
+   ========================================================== */
+
+.helper-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.helper-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.helper-rank {
+    font-size: 14px;
+    font-weight: 800;
+    color: #ff5a1f;
+    width: 22px;
+    text-align: center;
+}
+
+.helper-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    color: #475569;
+}
+
+.helper-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.helper-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.helper-badge-pill {
+    font-size: 11px;
+    font-weight: 600;
+    color: #ff5a1f;
+    display: block;
+    margin-top: 1px;
+}
+
+.helper-count {
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 3px 8px;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+/* Priority Request Pill */
+.priority-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #b45309;
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    padding: 2px 8px;
+    border-radius: var(--r-full);
+    margin-bottom: 8px;
+}

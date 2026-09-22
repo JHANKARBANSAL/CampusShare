@@ -209,13 +209,23 @@ const getMyStats = async (req, res) => {
     }
 
 
+    let helperBadge = "New Member";
+    if (peopleHelped >= 5) {
+      helperBadge = "👑 Legend Lender";
+    } else if (peopleHelped >= 3) {
+      helperBadge = "🌟 Campus Hero";
+    } else if (peopleHelped >= 1) {
+      helperBadge = "🌱 Helpful Peer";
+    }
+
     return res.status(200).json({
 
       stats: {
         peopleHelped: peopleHelped,
         askedForHelp: askedForHelp,
         activeHelps: activeHelps,
-        activeBorrows: activeBorrows
+        activeBorrows: activeBorrows,
+        helperBadge: helperBadge
       },
 
       trust: {
@@ -244,9 +254,61 @@ const getMyStats = async (req, res) => {
 };
 
 
+// ========================================
+// GET TOP HELPERS (Campus Hall of Fame)
+// ========================================
+const getTopHelpers = async (req, res) => {
+  try {
+    const topLenders = await Transaction.aggregate([
+      { $match: { status: "completed" } },
+      { $group: { _id: "$lender", helpCount: { $sum: 1 } } },
+      { $sort: { helpCount: -1 } },
+      { $limit: 5 },
+      {
+        $lookup: {
+          from: "users",
+          localField: "_id",
+          foreignField: "_id",
+          as: "user"
+        }
+      },
+      { $unwind: "$user" },
+      {
+        $project: {
+          _id: 1,
+          helpCount: 1,
+          name: "$user.name",
+          branch: "$user.branch",
+          batch: "$user.batch",
+          profileImage: "$user.profileImage"
+        }
+      }
+    ]);
+
+    // Format with badges
+    const formatted = topLenders.map((h, index) => {
+      let badge = "🌱 Helpful Peer";
+      if (h.helpCount >= 5) badge = "👑 Legend Lender";
+      else if (h.helpCount >= 3) badge = "🌟 Campus Hero";
+
+      return {
+        ...h,
+        rank: index + 1,
+        badge: badge
+      };
+    });
+
+    return res.status(200).json({ topHelpers: formatted });
+  } catch (error) {
+    console.log("Top helpers error:", error);
+    return res.status(500).json({ message: "Unable to load top helpers" });
+  }
+};
+
 
 module.exports = {
   getMyProfile,
   uploadProfilePhoto,
-  getMyStats
+  getMyStats,
+  getTopHelpers
 };

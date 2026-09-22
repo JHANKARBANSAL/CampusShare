@@ -89,6 +89,11 @@ const transactionSchema = new mongoose.Schema(
     }
 );
 
+// Indexes for fast querying and preventing race condition bottlenecks
+transactionSchema.index({ needPost: 1, lender: 1 });
+transactionSchema.index({ borrower: 1, status: 1 });
+transactionSchema.index({ lender: 1, status: 1 });
+
 const Transaction = mongoose.model("Transaction", transactionSchema);
 
 module.exports = Transaction;

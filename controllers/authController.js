@@ -248,9 +248,20 @@ const verifyOtp = async (req, res) => {
 
         await user.save();
 
+        // Account verify hote hi JWT token de do taaki direct dashboard ja sake
+        const token = jwt.sign(
+            {
+                userId: user._id
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "1d"
+            }
+        );
 
         return res.status(200).json({
-            message: "Email verified. You can log in now."
+            message: "Email verified successfully!",
+            token: token
         });
 
     } catch (error) {
@@ -368,17 +379,6 @@ const login = async (req, res) => {
         }
 
 
-        // Email verify nahi hui to token nahi milega. Frontend
-        // needsVerification dekh ke code daalne wale page pe bhejta hai.
-        if (!user.isVerified) {
-            return res.status(403).json({
-                message: "Please verify your email before logging in.",
-                needsVerification: true,
-                email: user.email
-            });
-        }
-
-
         // Password correct → JWT token generate
         const token = jwt.sign(
             {
@@ -399,8 +399,6 @@ const login = async (req, res) => {
 
     } catch (error) {
 
-        // Pehle yahan error print hi nahi hota tha - login fail
-        // hone pe Render logs me koi nishaan nahi milta tha
         console.log(error);
 
         return res.status(500).json({
@@ -410,9 +408,147 @@ const login = async (req, res) => {
 };
 
 
+// ==========================================
+// FORGOT PASSWORD
+// POST /api/auth/forgot-password  { email }
+// ==========================================
+const forgotPassword = async (req, res) => {
+    try {
+        const email = cleanEmail(req.body.email);
+
+        if (!email) {
+            return res.status(400).json({ message: "Please enter your university email." });
+        }
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: "No account found with this email." });
+        }
+
+        // Resend rate limit check (60s)
+        if (user.otpSentAt) {
+            const secondsPassed = (Date.now() - user.otpSentAt.getTime()) / 1000;
+            if (secondsPassed < RESEND_SECONDS) {
+                const secondsLeft = Math.ceil(RESEND_SECONDS - secondsPassed);
+                return res.status(429).json({
+                    message: `Please wait ${secondsLeft} seconds before requesting a new code.`
+                });
+            }
+        }
+
+        const otp = crypto.randomInt(100000, 1000000).toString();
+        user.otpHash = await bcrypt.hash(otp, 10);
+        user.otpExpiresAt = new Date(Date.now() + OTP_MINUTES * 60 * 1000);
+        user.otpAttempts = 0;
+        user.otpSentAt = new Date();
+        await user.save();
+
+        await sendEmail({
+            to: user.email,
+            subject: "CampusShare Password Reset Code",
+            text: `Your CampusShare password reset code is ${otp}. It expires in ${OTP_MINUTES} minutes.`,
+            html: `
+                <div style="font-family: sans-serif; max-width: 500px; margin: auto; padding: 24px; border: 1px solid #eee; border-radius: 12px; background: #ffffff;">
+                    <h2 style="color: #ff5a1f; margin-top: 0;">CampusShare Password Reset</h2>
+                    <p style="color: #333; font-size: 15px;">Hi <b>${user.name}</b>,</p>
+                    <p style="color: #444; font-size: 14px;">We received a request to reset your password. Use this 6-digit verification code:</p>
+                    <div style="margin: 24px 0; font-size: 26px; font-weight: bold; letter-spacing: 6px; color: #ff5a1f; background: #fff4ed; padding: 14px; text-align: center; border-radius: 8px; border: 1px solid #ffe2d4;">
+                        ${otp}
+                    </div>
+                    <p style="color: #666; font-size: 13px;">This code expires in ${OTP_MINUTES} minutes. If you did not request this, you can safely ignore this email.</p>
+                </div>
+            `
+        });
+
+        return res.status(200).json({
+            message: "A 6-digit reset code has been emailed to you."
+        });
+
+    } catch (error) {
+        console.log("Forgot password error:", error);
+        return res.status(500).json({
+            message: "Unable to send reset code. Please try again."
+        });
+    }
+};
+
+
+// ==========================================
+// RESET PASSWORD
+// POST /api/auth/reset-password  { email, otp, newPassword }
+// ==========================================
+const resetPassword = async (req, res) => {
+    try {
+        const email = cleanEmail(req.body.email);
+        const otp = String(req.body.otp || "").trim();
+        const newPassword = String(req.body.newPassword || "");
+
+        if (!email || !/^\d{6}$/.test(otp) || !newPassword) {
+            return res.status(400).json({
+                message: "Please enter your email, the 6-digit code, and your new password."
+            });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({
+                message: "New password must be at least 6 characters long."
+            });
+        }
+
+        const user = await User.findOne({ email }).select("+otpHash");
+
+        if (!user) {
+            return res.status(404).json({ message: "No account found with this email." });
+        }
+
+        if (!user.otpHash || !user.otpExpiresAt || user.otpExpiresAt < new Date()) {
+            return res.status(400).json({
+                message: "This code has expired. Please request a new one."
+            });
+        }
+
+        if (user.otpAttempts >= MAX_ATTEMPTS) {
+            return res.status(429).json({
+                message: "Too many incorrect attempts. Please request a new code."
+            });
+        }
+
+        const isCorrect = await bcrypt.compare(otp, user.otpHash);
+
+        if (!isCorrect) {
+            user.otpAttempts += 1;
+            await user.save();
+            return res.status(400).json({
+                message: `Wrong code. Attempts left: ${MAX_ATTEMPTS - user.otpAttempts}`
+            });
+        }
+
+        // Hash new password and save
+        user.password = await bcrypt.hash(newPassword, 10);
+        user.otpHash = "";
+        user.otpExpiresAt = undefined;
+        user.otpAttempts = 0;
+        await user.save();
+
+        return res.status(200).json({
+            message: "Password reset successful! You can now log in with your new password."
+        });
+
+    } catch (error) {
+        console.log("Reset password error:", error);
+        return res.status(500).json({
+            message: "Unable to reset password. Please try again."
+        });
+    }
+};
+
+
 module.exports = {
     signup,
     login,
     verifyOtp,
-    resendOtp
+    resendOtp,
+    forgotPassword,
+    resetPassword
 };

@@ -4,6 +4,7 @@ const needRoutes = require("./routes/needRoutes");
 const userRoutes = require("./routes/userRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
 const disputeRoutes = require("./routes/disputeRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 
 
 const app = express();
@@ -26,5 +27,6 @@ app.use("/api/needs", needRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/disputes", disputeRoutes);
+app.use("/api/chat", chatRoutes);
 
 module.exports = app;

@@ -1,7 +1,6 @@
 // ==========================================================
 // VERIFY EMAIL (OTP)
-// Signup ya login yahan bhejte hain: verify-email.html?email=...
-// signup ke baad &sent=1 bhi hota hai (code abhi-abhi gaya hai).
+// Signup ke baad yahan aate hain: verify-email.html?email=...&sent=1
 // ==========================================================
 
 const params = new URLSearchParams(window.location.search);
@@ -31,7 +30,7 @@ function showMessage(text, isSuccess) {
 if (!email) {
 
     // Bina email ke pata hi nahi ki kis account ka code check karein
-    showMessage("We don't know which email to verify. Please sign up or log in again.");
+    showMessage("We don't know which email to verify. Please sign up again.");
 
     verifyBtn.disabled = true;
     resendBtn.disabled = true;
@@ -170,9 +169,16 @@ otpForm.addEventListener("submit", async (event) => {
 
         showMessage(data.message, true);
 
-        setTimeout(() => {
-            window.location.href = "./login.html";
-        }, 1500);
+        if (data.token) {
+            localStorage.setItem("token", data.token);
+            setTimeout(() => {
+                window.location.href = "./dashboard.html";
+            }, 1500);
+        } else {
+            setTimeout(() => {
+                window.location.href = "./login.html";
+            }, 1500);
+        }
 
     }
 

@@ -1,5 +1,7 @@
 const Transaction = require("../models/Transaction");
 const NeedPost = require("../models/NeedPost");
+const User = require("../models/User");
+const sendEmail = require("../utils/sendEmail");
 
 
 // ==========================================
@@ -74,6 +76,51 @@ const createOffer = async (req, res) => {
             status: "offered"
         });
 
+        // Borrower ko email notification bhejo (background me, failure won't block response)
+        (async () => {
+            try {
+                const [borrower, lender] = await Promise.all([
+                    User.findById(need.requestedBy).select("name email"),
+                    User.findById(req.user.id).select("name")
+                ]);
+
+                if (borrower && borrower.email) {
+                    const lenderName = lender?.name || "A classmate";
+                    await sendEmail({
+                        to: borrower.email,
+                        subject: `CampusShare: ${lenderName} offered to help with "${need.itemName}"!`,
+                        text: `Hi ${borrower.name},\n\nGreat news! ${lenderName} offered to lend you "${need.itemName}".\n\nLog in to CampusShare to chat with ${lenderName} and coordinate the handover:\nhttps://campusshare-8594.onrender.com/pages/activity.html\n\nBest,\nCampusShare Team`,
+                        html: `
+                            <div style="font-family: sans-serif; max-width: 520px; margin: auto; padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px; background-color: #ffffff;">
+                                <div style="display: flex; align-items: center; margin-bottom: 16px;">
+                                    <h2 style="color: #ff5a1f; margin: 0; font-size: 20px;">CampusShare</h2>
+                                </div>
+                                <h3 style="color: #111827; margin-top: 0;">Help is on the way! 🎉</h3>
+                                <p style="color: #374151; font-size: 15px; line-height: 1.5;">Hi <b>${borrower.name}</b>,</p>
+                                <p style="color: #374151; font-size: 15px; line-height: 1.5;">
+                                    <b>${lenderName}</b> just offered to lend you <b>"${need.itemName}"</b>.
+                                </p>
+                                <p style="color: #374151; font-size: 15px; line-height: 1.5;">
+                                    You can now chat directly in real-time to discuss where and when to meet on campus.
+                                </p>
+                                <div style="margin: 28px 0;">
+                                    <a href="https://campusshare-8594.onrender.com/pages/activity.html" style="background-color: #ff5a1f; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; display: inline-block;">
+                                        Open CampusShare to Chat
+                                    </a>
+                                </div>
+                                <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;" />
+                                <p style="color: #6b7280; font-size: 12px; margin: 0;">
+                                    CampusShare • Peer-to-peer sharing for college students.
+                                </p>
+                            </div>
+                        `
+                    });
+                }
+            } catch (emailErr) {
+                console.log("Email notification error (offer):", emailErr);
+            }
+        })();
+
         return res.status(201).json({
             message: "Offer sent",
             transaction
@@ -120,6 +167,19 @@ const acceptOffer = async (req, res) => {
             });
         }
 
+        // Atomic compare-and-swap: Sirf tabhi accept hoga agar need abhi bhi "open" hai (Fix 4: Race Condition)
+        const matchedNeed = await NeedPost.findOneAndUpdate(
+            { _id: transaction.needPost, status: "open" },
+            { status: "matched" },
+            { new: true }
+        );
+
+        if (!matchedNeed) {
+            return res.status(400).json({
+                message: "This request is no longer open or was already accepted"
+            });
+        }
+
         transaction.status = "accepted";
         transaction.acceptedAt = new Date();
         await transaction.save();
@@ -134,12 +194,6 @@ const acceptOffer = async (req, res) => {
             {
                 status: "rejected"
             }
-        );
-
-        // Need ab matched
-        await NeedPost.findByIdAndUpdate(
-            transaction.needPost,
-            { status: "matched" }
         );
 
         return res.status(200).json({

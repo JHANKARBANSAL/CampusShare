@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="../css/components.css" />
   <link rel="stylesheet" href="../css/nav.css" />
   <link rel="stylesheet" href="../css/dashboard.css" />
+  <link rel="stylesheet" href="../css/chat-widget.css" />
 </head>
 <body>
 
@@ -185,6 +186,20 @@
     </section>
 
 
+    <!-- ================= TOP HELPERS (HALL OF FAME) =================
+         Recognizes campus students who have helped the most.
+    =============================================================== -->
+    <section class="top-helpers-section" id="topHelpersSection" style="margin-bottom: 32px;">
+      <div class="top-helpers-header">
+        <h2 class="section-label" style="display: flex; align-items: center; gap: 8px;">
+          <span>🏆 Top Campus Helpers</span>
+          <span class="badge badge-subtle" style="font-size: 11px; padding: 2px 8px; border-radius: 12px; background: #fff4ed; color: #ff5a1f; font-weight: 600;">Hall of Fame</span>
+        </h2>
+      </div>
+      <div class="top-helpers-grid" id="topHelpersContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-top: 12px;"></div>
+    </section>
+
+
     <!-- ================= REQUESTS =================
          dashboard.js har open need ke liye ek .request-card
          banata hai aur usme .help-btn daalta hai.
@@ -246,7 +261,9 @@
 
   </main>
 
+  <script src="/socket.io/socket.io.js"></script>
   <script src="../js/toast.js"></script>
+  <script src="../js/chat-widget.js"></script>
   <script src="../js/dashboard.js"></script>
   <script src="../js/nav.js"></script>
 </body>

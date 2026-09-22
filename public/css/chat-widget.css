@@ -1,0 +1,507 @@
+/* ==========================================================
+   CAMPUSSHARE FLOATING CHAT WIDGET
+   Design matches Message.png mockup:
+   - Clean header with avatar, online indicator, minimize/expand/close
+   - Item banner with thumbnail, title and status pill
+   - Modern conversation bubbles with orange accents
+   - Floating at bottom-right corner
+   ========================================================== */
+
+.cs-chat-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 380px;
+    max-width: calc(100vw - 32px);
+    height: 580px;
+    max-height: calc(100vh - 48px);
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.14), 0 2px 10px rgba(0, 0, 0, 0.06);
+    border: 1px solid #edf0f2;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 10000;
+    font-family: inherit;
+    animation: csChatSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+@keyframes csChatSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.cs-chat-widget.hidden {
+    display: none !important;
+}
+
+/* ---------- 1. HEADER ---------- */
+.cs-chat-header {
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffff;
+    border-bottom: 1px solid #f2f4f6;
+    user-select: none;
+}
+
+.cs-chat-header-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cs-chat-avatar-wrap {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+}
+
+.cs-chat-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #475569;
+    font-size: 16px;
+}
+
+.cs-chat-online-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #22c55e;
+    border: 2px solid #ffffff;
+}
+
+.cs-chat-online-dot.offline {
+    background: #94a3b8;
+}
+
+.cs-chat-user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.cs-chat-user-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.2;
+}
+
+.cs-chat-user-status {
+    font-size: 12px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 2px;
+}
+
+.cs-chat-user-status .status-dot-inline {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #22c55e;
+}
+
+.cs-chat-user-status .status-dot-inline.offline {
+    background: #94a3b8;
+}
+
+.cs-chat-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cs-chat-btn-control {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #64748b;
+    padding: 6px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+}
+
+.cs-chat-btn-control:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.cs-chat-btn-control svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ---------- 2. ITEM CONTEXT BANNER ---------- */
+.cs-chat-item-banner {
+    margin: 12px 16px 6px 16px;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border: 1px solid #edf2f7;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cs-chat-item-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: #eef2f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #ff5a1f;
+}
+
+.cs-chat-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.cs-chat-item-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.cs-chat-item-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cs-chat-status-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 12px;
+    background: #fff4ed;
+    color: #ff5a1f;
+    text-transform: capitalize;
+    flex-shrink: 0;
+}
+
+.cs-chat-item-sub {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ---------- 3. DATE DIVIDER ---------- */
+.cs-chat-date-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 12px 18px 8px 18px;
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.cs-chat-date-divider::before,
+.cs-chat-date-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.cs-chat-date-divider span {
+    padding: 0 10px;
+}
+
+/* ---------- 4. MESSAGES CONTAINER ---------- */
+.cs-chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.cs-chat-messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+.cs-chat-messages::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+/* Single Message Rows */
+.cs-message-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    max-width: 82%;
+}
+
+.cs-message-row.incoming {
+    align-self: flex-start;
+}
+
+.cs-message-row.outgoing {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.cs-message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+    flex-shrink: 0;
+}
+
+.cs-message-bubble-wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.cs-message-row.outgoing .cs-message-bubble-wrap {
+    align-items: flex-end;
+}
+
+.cs-message-bubble {
+    padding: 11px 16px;
+    font-size: 14px;
+    line-height: 1.45;
+    word-break: break-word;
+}
+
+.cs-message-row.incoming .cs-message-bubble {
+    background: #f1f3f5;
+    color: #1e293b;
+    border-radius: 18px 18px 18px 4px;
+}
+
+.cs-message-row.outgoing .cs-message-bubble {
+    background: #ff5a1f;
+    color: #ffffff;
+    border-radius: 18px 18px 4px 18px;
+}
+
+.cs-message-meta {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.cs-message-row.outgoing .cs-message-meta {
+    color: #ff5a1f;
+}
+
+.cs-double-check {
+    display: inline-flex;
+    color: #ff5a1f;
+    font-weight: 700;
+}
+
+/* Typing Indicator */
+.cs-typing-indicator {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #64748b;
+    padding: 6px 16px;
+}
+
+.cs-typing-dots {
+    display: inline-flex;
+    gap: 3px;
+}
+
+.cs-typing-dot {
+    width: 5px;
+    height: 5px;
+    background: #94a3b8;
+    border-radius: 50%;
+    animation: csTypingBounce 1.2s infinite ease-in-out;
+}
+
+.cs-typing-dot:nth-child(1) { animation-delay: 0s; }
+.cs-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.cs-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes csTypingBounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-4px); }
+}
+
+/* ---------- 5. FOOTER / INPUT BAR ---------- */
+.cs-chat-footer {
+    padding: 12px 16px 14px 16px;
+    background: #ffffff;
+    border-top: 1px solid #f2f4f6;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cs-chat-attach-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #64748b;
+    padding: 6px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s;
+}
+
+.cs-chat-attach-btn:hover {
+    color: #ff5a1f;
+}
+
+.cs-chat-input-wrap {
+    flex: 1;
+    position: relative;
+}
+
+.cs-chat-input {
+    width: 100%;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 10px 16px;
+    font-size: 14px;
+    color: #0f172a;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.cs-chat-input:focus {
+    border-color: #ff5a1f;
+    box-shadow: 0 0 0 3px rgba(255, 90, 31, 0.12);
+}
+
+.cs-chat-send-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: #ff5a1f;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.cs-chat-send-btn:hover {
+    background: #e84c12;
+}
+
+.cs-chat-send-btn:active {
+    transform: scale(0.95);
+}
+
+.cs-chat-send-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ---------- 6. MINIMIZED LAUNCHER / PILL ---------- */
+.cs-chat-minimized-pill {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 28px;
+    padding: 8px 18px 8px 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    z-index: 9999;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.cs-chat-minimized-pill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.16);
+}
+
+.cs-chat-min-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #ff5a1f;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.cs-chat-min-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.cs-chat-min-badge {
+    background: #ef4444;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 10px;
+}

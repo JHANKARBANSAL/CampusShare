@@ -370,6 +370,12 @@ async function loadStats() {
     document.getElementById("activeBorrowsCount").textContent =
       stats.activeBorrows;
 
+    const badgeEl = document.getElementById("profileHelperBadge");
+    if (badgeEl && stats.helperBadge) {
+      badgeEl.textContent = stats.helperBadge;
+      badgeEl.style.display = "inline-block";
+    }
+
 
     // ---- score number ----
 

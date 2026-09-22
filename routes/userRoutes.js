@@ -11,8 +11,12 @@ const upload =
 const {
   getMyProfile,
   uploadProfilePhoto,
-  getMyStats
+  getMyStats,
+  getTopHelpers
 } = require("../controllers/userController");
+
+// Public campus leaderboard: Top Helpers
+router.get("/top-helpers", getTopHelpers);
 
 
 

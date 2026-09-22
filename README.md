@@ -35,9 +35,6 @@ The first student buys a new calculator, uses it once, and it ends up in *their*
 ### 🙋 Post a need
 Say what you need, why you need it, when, and for how long. Your request shows up on the campus feed right away.
 
-### 🤖 AI Post Assistant
-Too busy to fill in a form? Type one casual sentence, for example *"need a drafter tomorrow for my engineering graphics lab, 2 days"*, and **Google Gemini** splits it into item name, description, deadline, and duration for you. Nobody should have to fill in a form while panicking.
-
 ### 🤝 Offer help
 Browse what classmates are looking for and offer your item with one click.
 
@@ -93,7 +90,6 @@ Students sign up with their enrollment number, but **it is never shown to other 
 | **Database** | MongoDB with Mongoose |
 | **Authentication** | JSON Web Tokens and bcrypt password hashing |
 | **File uploads** | Multer (in memory) and Cloudinary (storage) |
-| **AI** | Google Gemini API |
 | **Frontend** | Plain HTML, CSS, and JavaScript. No framework, no build step. |
 | **Hosting** | Render |
 
@@ -147,7 +143,6 @@ CampusShare/
 - **Node.js** 18 or newer
 - A **MongoDB** database (local, or a free MongoDB Atlas cluster)
 - A **Cloudinary** account (free tier), used for profile and proof photos
-- A **Google Gemini API key**, used only for the AI Post Assistant
 - A **Brevo** account (free tier, 300 emails a day), used to email the signup verification code. Optional for local testing: without it, the code is printed in the terminal.
 
 ### 1. Clone and install
@@ -168,8 +163,6 @@ CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 
-GEMINI_API_KEY=your_gemini_key
-
 BREVO_API_KEY=your_brevo_api_key
 EMAIL_FROM=the_sender_address_you_verified_in_brevo
 ```
@@ -184,7 +177,7 @@ npm run dev     # development, restarts automatically on file changes
 npm start       # production
 ```
 
-Then open **http://localhost:4000**. It will take you straight to the signup page.
+Then open **http://localhost:3000**. It will take you straight to the signup page.
 
 ---
 
@@ -201,7 +194,7 @@ Authorization: Bearer <token>
 | `POST` | `/api/auth/signup` | Create an account (`@bmu.edu.in` only) and email a 6-digit code |
 | `POST` | `/api/auth/verify-otp` | Check the code and mark the email as verified |
 | `POST` | `/api/auth/resend-otp` | Send a new code (at most once a minute) |
-| `POST` | `/api/auth/login` | Log in and receive a JWT (verified accounts only) |
+| `POST` | `/api/auth/login` | Log in with email and password to receive a JWT |
 
 ### Needs
 | Method | Endpoint | Auth | Description |
@@ -209,7 +202,6 @@ Authorization: Bearer <token>
 | `GET` | `/api/needs` | — | All open requests on campus |
 | `GET` | `/api/needs/mine` | ✅ | Requests you have posted |
 | `POST` | `/api/needs` | ✅ | Post a new request |
-| `POST` | `/api/needs/ai-parse` | ✅ | Turn one sentence into a structured request |
 
 ### Transactions
 | Method | Endpoint | Who can call it | Description |
@@ -261,7 +253,6 @@ To deploy your own copy:
 Being honest about what isn't built yet:
 
 - **Profile details can't be edited after signup.** Only the profile photo can change right now.
-- **There is no in-app chat.** Borrowers and lenders arrange handovers outside the app.
 - **Admins can't act on disputes yet.** Reports are recorded and affect trust scores, but there is no admin panel to review them.
 
 Contributions on any of these are welcome.

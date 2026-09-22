@@ -11,12 +11,19 @@
 // ==========================================================
 
 
-// Date ko chhota aur padhne layak banao.
-// Pehle toLocaleString() use hota tha jo poora
-// "9/3/2026, 12:00:00 AM" chhaap deta tha - card me
-// wo ek line kha jaata tha.
-function shortDate(value) {
+// HTML Escaping to prevent XSS (Fix 1)
+function escapeHTML(str) {
+    if (!str) return "";
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 
+// Date ko chhota aur padhne layak banao.
+function shortDate(value) {
     return new Date(value).toLocaleDateString("en-IN", {
         day: "numeric",
         month: "short"
@@ -25,10 +32,65 @@ function shortDate(value) {
 
 
 // ==========================================================
-// OPEN NEEDS LOAD KARNA
+// 1. TOP HELPERS (Campus Hall of Fame)
+// ==========================================================
+
+async function loadTopHelpers() {
+    const container = document.getElementById("topHelpersContainer");
+    const section = document.getElementById("topHelpersSection");
+    if (!container) return;
+
+    try {
+        const response = await fetch("/api/users/top-helpers");
+        if (!response.ok) return;
+
+        const data = await response.json();
+        const helpers = data.topHelpers || [];
+
+        if (helpers.length === 0) {
+            if (section) section.style.display = "none";
+            return;
+        }
+
+        if (section) section.style.display = "block";
+        container.innerHTML = "";
+
+        const medals = ["🥇", "🥈", "🥉", "4th", "5th"];
+
+        helpers.forEach((helper, index) => {
+            const card = document.createElement("div");
+            card.className = "helper-card";
+
+            const avatarContent = helper.profileImage
+                ? `<img class="helper-avatar" src="${escapeHTML(helper.profileImage)}" alt="${escapeHTML(helper.name)}">`
+                : `<div class="helper-avatar">${escapeHTML(helper.name.slice(0, 2).toUpperCase())}</div>`;
+
+            card.innerHTML = `
+                <span class="helper-rank">${medals[index] || index + 1}</span>
+                ${avatarContent}
+                <div class="helper-details">
+                    <span class="helper-name">${escapeHTML(helper.name)}</span>
+                    <span class="helper-badge-pill">${escapeHTML(helper.badge)}</span>
+                </div>
+                <span class="helper-count">${helper.helpCount} helped</span>
+            `;
+
+            container.appendChild(card);
+        });
+
+    } catch (err) {
+        console.log("Top helpers load error:", err);
+    }
+}
+
+
+// ==========================================================
+// 2. OPEN NEEDS LOAD KARNA
 // ==========================================================
 
 document.addEventListener("DOMContentLoaded", async () => {
+
+    loadTopHelpers();
 
     const container = document.getElementById("requestsContainer");
 
@@ -87,23 +149,33 @@ document.addEventListener("DOMContentLoaded", async () => {
             card.className = "request-card";
 
             const initials =
-                need.requestedBy.name.slice(0, 2).toUpperCase();
+                escapeHTML(need.requestedBy.name.slice(0, 2).toUpperCase());
+
+            const avatarHtml = need.requestedBy.profileImage
+                ? '<img class="avatar" src="' + escapeHTML(need.requestedBy.profileImage) + '" style="object-fit:cover;" alt="">'
+                : '<div class="avatar">' + initials + '</div>';
+
+            const priorityBadge = need.isPriority
+                ? '<span class="priority-pill">⭐ Priority Request • Helpful Member</span>'
+                : '';
 
 
             card.innerHTML =
 
+                priorityBadge +
+
                 // ---- kaun maang raha hai ----
                 '<div class="student-row">' +
 
-                    '<div class="avatar">' + initials + "</div>" +
+                    avatarHtml +
 
                     '<div class="student-info">' +
                         '<p class="student-name">' +
-                            need.requestedBy.name +
+                            escapeHTML(need.requestedBy.name) +
                         "</p>" +
                         '<p class="student-branch">' +
-                            need.requestedBy.branch +
-                            " · Batch " + need.requestedBy.batch +
+                            escapeHTML(need.requestedBy.branch) +
+                            " · Batch " + escapeHTML(need.requestedBy.batch) +
                         "</p>" +
                     "</div>" +
 
@@ -112,8 +184,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 // ---- kya chahiye ----
                 '<div class="item-info">' +
-                    '<p class="item-title">' + need.itemName + "</p>" +
-                    '<p class="item-desc">' + need.description + "</p>" +
+                    '<p class="item-title">' + escapeHTML(need.itemName) + "</p>" +
+                    '<p class="item-desc">' + escapeHTML(need.description) + "</p>" +
                 "</div>" +
 
 
@@ -122,7 +194,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                     '<span class="chip">' +
                         icon("clock") +
-                        need.durationValue + " " + need.durationUnit +
+                        escapeHTML(need.durationValue) + " " + escapeHTML(need.durationUnit) +
                     "</span>" +
 
                     '<span class="chip">' +
@@ -134,8 +206,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
                 // ---- button ----
-                // .help-btn aur data-need-id bilkul same hain,
-                // niche wala click handler inhi pe chalta hai.
                 '<div class="action-buttons">' +
                     '<button class="btn btn-primary btn-sm help-btn" ' +
                         'data-need-id="' + need._id + '">' +
@@ -269,10 +339,29 @@ document.addEventListener("click", async (event) => {
         }
 
 
-        showToast("Offer sent. Track it under My Activity.");
+        showToast("Offer sent & borrower notified via email!");
 
         button.innerHTML = icon("check") + " Offer Sent";
         button.disabled = true;
+
+        const actionButtons = button.closest(".action-buttons");
+        if (actionButtons && data.transaction && data.transaction._id) {
+            const chatBtn = document.createElement("button");
+            chatBtn.className = "btn btn-ghost btn-sm";
+            chatBtn.style.marginLeft = "8px";
+            chatBtn.innerHTML = "💬 Chat";
+            chatBtn.addEventListener("click", () => {
+                if (typeof openChatWidget === "function") {
+                    openChatWidget(data.transaction._id);
+                }
+            });
+            actionButtons.appendChild(chatBtn);
+
+            // Automatically open the chat widget right away!
+            if (typeof openChatWidget === "function") {
+                openChatWidget(data.transaction._id);
+            }
+        }
 
     }
 

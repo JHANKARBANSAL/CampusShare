@@ -616,6 +616,20 @@ function renderAction(transaction, myRole) {
     }
 
 
+    // ---------- live chat button ----------
+    if (!["rejected", "withdrawn"].includes(status)) {
+        const chatButton = document.createElement("button");
+        chatButton.className = "btn btn-ghost btn-full action-button";
+        chatButton.style.marginTop = "8px";
+        chatButton.innerHTML = "💬 Open Live Chat";
+        chatButton.addEventListener("click", () => {
+            if (typeof openChatWidget === "function") {
+                openChatWidget(transaction._id);
+            }
+        });
+        container.appendChild(chatButton);
+    }
+
     // ---------- report an issue ----------
 
     if (REPORTABLE.includes(status)) {

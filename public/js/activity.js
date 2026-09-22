@@ -363,6 +363,12 @@ function makeCard(transaction, role) {
                 "Details" +
             "</a>" +
 
+            // Live Chat widget button
+            '<button type="button" class="btn btn-ghost btn-sm chat-open-btn" ' +
+                'data-txn-id="' + transaction._id + '">' +
+                "💬 Chat" +
+            "</button>" +
+
             actionHtml +
 
         "</div>";
@@ -764,6 +770,17 @@ if (carousel && carouselTrack) {
 
     startCarousel();
 }
+
+
+// Click handler for opening chat from activity cards
+document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".chat-open-btn");
+    if (btn && btn.dataset.txnId) {
+        if (typeof openChatWidget === "function") {
+            openChatWidget(btn.dataset.txnId);
+        }
+    }
+});
 
 
 
