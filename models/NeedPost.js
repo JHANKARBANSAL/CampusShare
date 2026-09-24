@@ -34,7 +34,8 @@ const needPostSchema = new mongoose.Schema({
     durationValue:
     {
         type:Number,
-        required: true
+        required: true,
+        min: 1
     },
 
      durationUnit: {

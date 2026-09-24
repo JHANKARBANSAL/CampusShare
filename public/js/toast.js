@@ -49,10 +49,19 @@ function showToast(message, type) {
 
     const iconName = (type === "error") ? "alert" : "check-circle";
 
+    const escapeHTML = (str) => {
+        return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    };
+
     toast.innerHTML =
         '<svg class="icon toast-icon" aria-hidden="true">' +
         '<use href="#i-' + iconName + '"></use></svg>' +
-        "<span>" + message + "</span>";
+        "<span>" + escapeHTML(message) + "</span>";
 
 
     box.appendChild(toast);

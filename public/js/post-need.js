@@ -1,6 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("needForm");
   const successMessage = document.getElementById("successMessage");
+  
+  // Prevent selecting past dates
+  const neededByInput = document.getElementById("neededBy");
+  if (neededByInput) {
+    const today = new Date().toISOString().split("T")[0];
+    neededByInput.setAttribute("min", today);
+  }
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
