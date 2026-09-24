@@ -29,7 +29,8 @@ function cleanEmail(email) {
 
 // Sirf college ki email chalegi: kuch bhi + @bmu.edu.in
 function isCollegeEmail(email) {
-    return /^[^\s@]+@bmu\.edu\.in$/.test(email);
+    // [TESTING] Temporarily allowing @gmail.com for testing Brevo inbox delivery
+    return /^[^\s@]+@(bmu\.edu\.in|gmail\.com)$/.test(email);
 }
 
 
