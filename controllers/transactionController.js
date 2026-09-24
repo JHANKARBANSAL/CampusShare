@@ -89,6 +89,8 @@ const createOffer = async (req, res) => {
                     const baseUrl = process.env.APP_URL || `http://localhost:${process.env.PORT || 7000}`;
                     const chatUrl = `${baseUrl}/pages/activity.html?chat=${transaction._id}`;
 
+                    console.log(`\n💌 [TESTING] Offer Email for ${borrower.email}: ${lenderName} offered to help! Chat URL: ${chatUrl}\n`);
+
                     await sendEmail({
                         to: borrower.email,
                         subject: `CampusShare: ${lenderName} offered to help with "${need.itemName}"!`,
