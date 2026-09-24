@@ -48,6 +48,7 @@ async function sendOtp(user) {
 
     await user.save();
 
+    console.log(`\n✉️ [TESTING] Signup OTP for ${user.email} is: ${otp}\n`);
 
     await sendEmail({
 
@@ -443,6 +444,8 @@ const forgotPassword = async (req, res) => {
         user.otpAttempts = 0;
         user.otpSentAt = new Date();
         await user.save();
+
+        console.log(`\n🔑 [TESTING] Forgot Password OTP for ${user.email} is: ${otp}\n`);
 
         await sendEmail({
             to: user.email,
