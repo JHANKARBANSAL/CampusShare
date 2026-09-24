@@ -306,6 +306,10 @@ html, body {
   background-position: right 14px top 50%;
   background-size: 10px auto;
 }
+.form-group select:invalid {
+  color: #566174;   /* "Select your school" placeholder */
+}
+
 
 .form-group input:focus,
 .form-group select:focus {
