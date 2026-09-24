@@ -367,7 +367,8 @@ function makeCard(transaction, role) {
             // Live Chat widget button
             '<button type="button" class="btn btn-ghost btn-sm chat-open-btn" ' +
                 'data-txn-id="' + transaction._id + '">' +
-                "💬 Chat" +
+                '<img src="../images/send.png" alt="Chat" style="width: 16px; height: 16px; margin-right: 6px; vertical-align: middle;">' +
+                "Chat" +
             "</button>" +
 
             actionHtml +

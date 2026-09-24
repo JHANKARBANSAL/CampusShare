@@ -621,7 +621,7 @@ function renderAction(transaction, myRole) {
         const chatButton = document.createElement("button");
         chatButton.className = "btn btn-ghost btn-full action-button";
         chatButton.style.marginTop = "8px";
-        chatButton.innerHTML = "💬 Open Live Chat";
+        chatButton.innerHTML = '<img src="../images/send.png" alt="Chat" style="width: 18px; height: 18px; margin-right: 6px; vertical-align: middle;"> Open Live Chat';
         chatButton.addEventListener("click", () => {
             if (typeof openChatWidget === "function") {
                 openChatWidget(transaction._id);

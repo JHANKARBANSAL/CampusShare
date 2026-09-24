@@ -349,7 +349,7 @@ document.addEventListener("click", async (event) => {
             const chatBtn = document.createElement("button");
             chatBtn.className = "btn btn-ghost btn-sm";
             chatBtn.style.marginLeft = "8px";
-            chatBtn.innerHTML = "💬 Chat";
+            chatBtn.innerHTML = '<img src="../images/send.png" alt="Chat" style="width: 16px; height: 16px; margin-right: 6px; vertical-align: middle;"> Chat';
             chatBtn.addEventListener("click", () => {
                 if (typeof openChatWidget === "function") {
                     openChatWidget(data.transaction._id);
