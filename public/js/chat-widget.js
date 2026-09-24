@@ -123,7 +123,7 @@
 
             <!-- 5. Typing Indicator -->
             <div id="csChatTyping" class="cs-typing-indicator">
-                <span id="csChatTypingName">Rahul</span> is typing
+                <span id="csChatTypingName"></span> is typing
                 <span class="cs-typing-dots">
                     <span class="cs-typing-dot"></span>
                     <span class="cs-typing-dot"></span>
@@ -258,6 +258,7 @@
 
         socket.on("user_typing", ({ transactionId, userId }) => {
             if (transactionId === activeTransactionId && userId !== currentUserId) {
+                document.getElementById("csChatTypingName").textContent = currentChatData.otherUser.name; 
                 const typingEl = document.getElementById("csChatTyping");
                 if (typingEl) typingEl.style.display = "flex";
             }
