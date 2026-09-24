@@ -727,6 +727,14 @@ async function updateTransaction(action) {
         }
 
 
+        if (action === "withdraw") {
+            showToast("Offer withdrawn successfully.");
+            setTimeout(() => {
+                window.location.href = "./activity.html";
+            }, 800);
+            return;
+        }
+
         // UI khud se badalne ke bajaye DB se fresh data lo
         await loadTransaction();
 

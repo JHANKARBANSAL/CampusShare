@@ -72,6 +72,32 @@ const getMyNeeds = async (req, res) => {
 };
 
 
+const deleteNeed = async (req, res) => {
+    try {
+        const need = await NeedPost.findById(req.params.id);
+
+        if (!need) {
+            return res.status(404).json({ message: "Request not found" });
+        }
+
+        if (need.requestedBy.toString() !== req.user.id) {
+            return res.status(403).json({ message: "You can only delete your own requests" });
+        }
+
+        if (need.status !== "open") {
+            return res.status(400).json({ message: "Cannot delete a matched request" });
+        }
+
+        await NeedPost.findByIdAndDelete(req.params.id);
+
+        return res.status(200).json({ message: "Request deleted successfully" });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Something went wrong" });
+    }
+};
+
 module.exports = {
-    createNeed, getAllNeeds, getMyNeeds
+    createNeed, getAllNeeds, getMyNeeds, deleteNeed
 };

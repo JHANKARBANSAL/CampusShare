@@ -95,6 +95,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     const container = document.getElementById("requestsContainer");
 
     try {
+        const token = localStorage.getItem("token");
+        let myId = null;
+        if (token) {
+            try {
+                const meResponse = await fetch("/api/users/me", {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                if (meResponse.ok) {
+                    const meData = await meResponse.json();
+                    myId = meData.user._id;
+                }
+            } catch (err) { console.log(err); }
+        }
 
         const response = await fetch("/api/needs");
         const data = await response.json();
@@ -207,10 +220,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 // ---- button ----
                 '<div class="action-buttons">' +
-                    '<button class="btn btn-primary btn-sm help-btn" ' +
-                        'data-need-id="' + need._id + '">' +
-                        icon("hand") + " I Can Help" +
-                    "</button>" +
+                    (need.requestedBy._id === myId
+                        ? '<button class="btn btn-outline btn-sm delete-need-btn" data-need-id="' + need._id + '">' +
+                            icon("trash") + " Mark as Resolved" +
+                          "</button>"
+                        : '<button class="btn btn-primary btn-sm help-btn" data-need-id="' + need._id + '">' +
+                            icon("hand") + " I Can Help" +
+                          "</button>"
+                    ) +
                 "</div>";
 
 
@@ -371,4 +388,47 @@ document.addEventListener("click", async (event) => {
         showToast("Something went wrong", "error");
     }
 
+});
+
+
+// ==========================================================
+// Apni khud ki request ko delete karna (Mark as Resolved)
+// ==========================================================
+document.addEventListener("click", async (event) => {
+    const button = event.target.closest(".delete-need-btn");
+    if (!button) return;
+
+    if (!confirm("Are you sure you want to resolve/delete this request?")) {
+        return;
+    }
+
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+        const response = await fetch(`/api/needs/${button.dataset.needId}`, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+            showToast(data.message || "Unable to delete request", "error");
+            return;
+        }
+
+        showToast("Request marked as resolved!");
+        button.closest(".request-card").remove();
+
+        // Update counts visually
+        const countLabel = document.getElementById("requestsCount");
+        const badge = document.getElementById("openNeedsBadge");
+        const cards = document.querySelectorAll(".request-card");
+        if (countLabel) countLabel.textContent = "· " + cards.length;
+        if (badge) badge.textContent = cards.length === 1 ? "1 student needs help right now" : cards.length + " students need help right now";
+
+    } catch (err) {
+        console.log("Delete need error:", err);
+        showToast("Something went wrong", "error");
+    }
 });

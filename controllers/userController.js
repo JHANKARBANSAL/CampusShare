@@ -183,10 +183,15 @@ const getMyStats = async (req, res) => {
       reportedAgainst: me
     });
 
+    const withdrawals = await Transaction.countDocuments({
+      lender: me,
+      status: "withdrawn"
+    });
+
 
     // Formula easy hai:
     // time par wapas kiya = 70 marks, wapas to kiya = 30 marks,
-    // har issue pe -5. Aakhir me 0 se 100 ke beech rakh dete hain.
+    // har issue pe -5. Har withdrawal pe -2. Aakhir me 0 se 100 ke beech rakh dete hain.
 
     let score = 0;
 
@@ -195,7 +200,8 @@ const getMyStats = async (req, res) => {
       score =
         (onTime / total) * 70 +
         (successful / total) * 30 -
-        (issues * 5);
+        (issues * 5) -
+        (withdrawals * 2);
 
       score = Math.round(score);
 
