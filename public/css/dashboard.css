@@ -126,6 +126,12 @@
     height: 17px;
 }
 
+.metric-img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
 /* Har metric ka apna colour. Ye status colours nahi hain -
    sirf cards ko alag karne ke liye hain. */
 .m-green  { background: var(--ok-bg);     color: var(--ok); }
