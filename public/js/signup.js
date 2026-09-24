@@ -18,6 +18,19 @@ signupForm.addEventListener("submit", async (event) => {
         document.getElementById("enrollmentNumber").value;
     const password = document.getElementById("password").value;
     
+    // Validate Enrollment Number
+    const currentYearShort = new Date().getFullYear() % 100;
+    
+    if (!/^\d{6}$/.test(enrollmentNumber)) {
+        document.getElementById("message").textContent = "Enter valid enrollment number";
+        return;
+    }
+    
+    const firstTwoDigits = parseInt(enrollmentNumber.substring(0, 2), 10);
+    if (firstTwoDigits > currentYearShort) {
+        document.getElementById("message").textContent = "Enter valid enrollment number";
+        return;
+    }
 
 
     // Backend ko request bheji
