@@ -1,42 +1,121 @@
 const meraForm = document.getElementById("loginForm");
 
-meraForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
+if (meraForm) {
+    meraForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+        const emailEl = document.getElementById("loginEmail") || document.getElementById("email");
+        const passwordEl = document.getElementById("loginPassword") || document.getElementById("password");
+        const email = emailEl ? emailEl.value.trim() : "";
+        const password = passwordEl ? passwordEl.value : "";
 
-    const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            email: email,
-            password: password
-        })
-    });
+        const response = await fetch("/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        });
 
-    const data = await response.json();
+        const data = await response.json();
 
-    const msgEl = document.getElementById("message");
-    msgEl.textContent = data.message;
-    msgEl.style.color = response.ok ? "#22c55e" : "#ef4444";
-
-    // Agar login successful hua, token save karo
-    if (response.ok) {
-        localStorage.setItem("token", data.token);
-
-        // Agar email link se kisi specific chat pe jana tha to wahan bhej do
-        const urlParams = new URLSearchParams(window.location.search);
-        const redirect = urlParams.get("redirect");
-        if (redirect) {
-            window.location.href = redirect;
-        } else {
-            window.location.href = "./dashboard.html";
+        const msgEl = document.getElementById("loginMessage") || document.getElementById("message");
+        if (msgEl) {
+            msgEl.textContent = data.message;
+            msgEl.style.color = response.ok ? "#22c55e" : "#ef4444";
         }
+
+        // Agar login successful hua, token save karo
+        if (response.ok) {
+            localStorage.setItem("token", data.token);
+
+            // Agar email link se kisi specific chat pe jana tha to wahan bhej do
+            const urlParams = new URLSearchParams(window.location.search);
+            const redirect = urlParams.get("redirect");
+            if (redirect) {
+                window.location.href = redirect;
+            } else {
+                window.location.href = "./dashboard.html";
+            }
+        }
+    });
+}
+
+// ==========================================
+// SMOOTH TRANSITION BETWEEN SIGNUP & LOGIN
+// ==========================================
+const signupCard = document.getElementById("signupCard");
+const loginCard = document.getElementById("loginCard");
+const toLoginBtn = document.getElementById("toLoginBtn");
+const toSignupBtn = document.getElementById("toSignupBtn");
+
+function showLogin() {
+    if (!loginCard || !signupCard) return;
+    signupCard.classList.add("hidden");
+    signupCard.classList.remove("fade-in");
+    loginCard.classList.remove("hidden");
+    loginCard.classList.add("fade-in");
+    const emailEl = document.getElementById("loginEmail") || document.getElementById("email");
+    if (emailEl) emailEl.focus();
+}
+
+function showSignup() {
+    if (!loginCard || !signupCard) return;
+    loginCard.classList.add("hidden");
+    loginCard.classList.remove("fade-in");
+    signupCard.classList.remove("hidden");
+    signupCard.classList.add("fade-in");
+    const nameEl = document.getElementById("fullName");
+    if (nameEl) nameEl.focus();
+}
+
+if (toLoginBtn) {
+    toLoginBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        showLogin();
+        try {
+            const url = new URL(window.location.href);
+            url.searchParams.set("mode", "login");
+            history.replaceState(null, "", url.toString());
+        } catch (err) {}
+    });
+}
+
+if (toSignupBtn) {
+    toSignupBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        showSignup();
+        try {
+            const url = new URL(window.location.href);
+            url.searchParams.delete("mode");
+            history.replaceState(null, "", url.toString());
+        } catch (err) {}
+    });
+}
+
+// Auto-switch to login if page URL has ?mode=login
+document.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("mode") === "login") {
+        showLogin();
     }
 });
+
+// Password visibility toggle for login
+const toggleLoginPassword = document.getElementById("toggleLoginPassword");
+if (toggleLoginPassword) {
+    toggleLoginPassword.addEventListener("click", () => {
+        const passEl = document.getElementById("loginPassword") || document.getElementById("password");
+        if (passEl) {
+            const isPassword = passEl.type === "password";
+            passEl.type = isPassword ? "text" : "password";
+            toggleLoginPassword.textContent = isPassword ? "🙈" : "👁️";
+        }
+    });
+}
 
 
 // ==========================================
@@ -57,7 +136,8 @@ let resetTargetEmail = "";
 if (forgotLink) {
     forgotLink.addEventListener("click", (e) => {
         e.preventDefault();
-        const currentEmail = document.getElementById("email").value.trim();
+        const emailEl = document.getElementById("loginEmail") || document.getElementById("email");
+        const currentEmail = emailEl ? emailEl.value.trim() : "";
         if (currentEmail) {
             document.getElementById("forgotEmail").value = currentEmail;
         }
@@ -165,12 +245,16 @@ if (forgotStep2Form) {
 
             // Success! Close modal and show message on login page
             forgotModal.style.display = "none";
-            document.getElementById("email").value = resetTargetEmail;
-            document.getElementById("password").value = "";
+            const resetEmailInput = document.getElementById("loginEmail") || document.getElementById("email");
+            const resetPassInput = document.getElementById("loginPassword") || document.getElementById("password");
+            if (resetEmailInput) resetEmailInput.value = resetTargetEmail;
+            if (resetPassInput) resetPassInput.value = "";
 
-            const mainMsg = document.getElementById("message");
-            mainMsg.textContent = "Password reset successful! Please log in with your new password.";
-            mainMsg.style.color = "#16a34a";
+            const mainMsg = document.getElementById("loginMessage") || document.getElementById("message");
+            if (mainMsg) {
+                mainMsg.textContent = "Password reset successful! Please log in with your new password.";
+                mainMsg.style.color = "#16a34a";
+            }
 
         } catch (err) {
             forgotMessage.textContent = "Something went wrong. Please try again.";

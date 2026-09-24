@@ -4,105 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login | CampusShare</title>
-  <link rel="stylesheet" href="../css/login.css" />
+  <script>
+    // Redirect to the unified authentication page in Login mode
+    const extraParams = window.location.search ? "&" + window.location.search.replace(/^\?/, "") : "";
+    window.location.replace("./signup.html?mode=login" + extraParams);
+  </script>
 </head>
 <body>
-
-  <!--
-    PAGE STRUCTURE (easy to explain):
-    1. Back arrow (goes to signup page)
-    2. White card with the login form inside it
-  -->
-
-  <div class="page">
-
-    <a href="./signup.html" class="back-arrow">←</a>
-
-    <div class="login-card">
-
-      <h1 class="login-title">Welcome back! 👋</h1>
-      <p class="login-subtitle">Login to continue</p>
-
-      <!-- Backend ka message (success/error) yahan dikhega -->
-      <p id="message"></p>
-
-      <!-- Login form -->
-      <form id="loginForm">
-
-        <div class="form-group">
-          <label for="email">Email / University Email</label>
-          <input type="email" id="email" name="email" placeholder="e.g. jhankar@bmu.edu.in" required>
-        </div>
-
-        <div class="form-group">
-          <div class="label-row">
-            <label for="password">Password</label>
-            <a href="#" class="forgot-link" id="forgotLink">Forgot?</a>
-          </div>
-          <input type="password" id="password" name="password" placeholder="Enter your password" required>
-        </div>
-
-        <button type="submit" class="login-btn">Login</button>
-
-      </form>
-
-      <!-- Divider -->
-      <div class="divider">
-        <span>or continue with</span>
-      </div>
-
-      <!-- Other login options -->
-      <div class="social-buttons">
-        <button type="button" class="social-btn">
-          <span>🔵</span> Google
-        </button>
-        <button type="button" class="social-btn">
-          <span>🎓</span> University Email
-        </button>
-      </div>
-
-      <p class="signup-text">Don't have an account? <a href="./signup.html">Signup</a></p>
-
-    </div>
-  </div>
-
-  <!-- Forgot Password Modal -->
-  <div id="forgotModal" class="forgot-modal-overlay" style="display: none;">
-    <div class="forgot-modal-card">
-      <div class="forgot-modal-header">
-        <h2 style="font-size: 1.25rem; font-weight: 750; color: #1F2933; margin: 0;">Reset Password</h2>
-        <button type="button" id="closeForgotModal" class="close-modal-btn" aria-label="Close">&times;</button>
-      </div>
-      <p style="font-size: 0.85rem; color: #616E7C; margin: 8px 0 16px 0;">
-        Enter your university email to receive a 6-digit verification code.
-      </p>
-
-      <p id="forgotMessage" style="font-size: 0.85rem; margin-bottom: 12px; font-weight: 600; min-height: 1.2rem;"></p>
-
-      <!-- Step 1: Send OTP -->
-      <form id="forgotStep1Form">
-        <div class="form-group">
-          <label for="forgotEmail">University Email</label>
-          <input type="email" id="forgotEmail" placeholder="e.g. name@bmu.edu.in" required>
-        </div>
-        <button type="submit" id="sendResetCodeBtn" class="login-btn" style="margin-top: 8px;">Send Reset Code</button>
-      </form>
-
-      <!-- Step 2: Enter OTP & New Password -->
-      <form id="forgotStep2Form" style="display: none;">
-        <div class="form-group">
-          <label for="resetOtp">6-Digit Code</label>
-          <input type="text" id="resetOtp" maxlength="6" pattern="[0-9]{6}" placeholder="Enter 6-digit code" required>
-        </div>
-        <div class="form-group">
-          <label for="resetNewPassword">New Password</label>
-          <input type="password" id="resetNewPassword" minlength="6" placeholder="At least 6 characters" required>
-        </div>
-        <button type="submit" id="confirmResetBtn" class="login-btn" style="margin-top: 8px;">Update Password</button>
-      </form>
-    </div>
-  </div>
-
-  <script src="../js/login.js"></script>
 </body>
 </html>

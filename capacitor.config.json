@@ -1,9 +1,0 @@
-{
-  "appId": "com.campusshare.app",
-  "appName": "CampusShare",
-  "webDir": "public",
-  "server": {
-    "url": "http://10.7.7.168:7000",
-    "cleartext": true
-  }
-}

@@ -392,8 +392,8 @@ html, body {
 }
 
 .login-text a {
-  text-decoration: none;
   color: #ff6845;
+  text-decoration: none;
   font-weight: 600;
 }
 
@@ -405,24 +405,97 @@ html, body {
   .page {
     height: auto;
     min-height: 100vh;
-    display: block;
-    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .signup-left {
-    display: none;
+    display: flex;
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    padding: 32px 24px 24px 24px;
+    background-size: cover;
+    background-position: center bottom;
+    border-bottom: 1px solid #ffd8c7;
+  }
+
+  .brand-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .brand-logo img {
+    width: 180px;
+    margin: 0 auto;
+  }
+
+  .left-content {
+    margin-top: 6px;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .hero-title {
+    font-size: 26px;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+
+  .hero-description {
+    font-size: 13.5px;
+    line-height: 1.5;
+    margin: 0 auto 16px auto;
+    max-width: 480px;
+  }
+
+  .feature {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    max-width: 440px;
+    margin: 0 auto 10px auto;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(4px);
+    padding: 10px 14px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  .feature-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
+
+  .feature-img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .feature h3 {
+    font-size: 13.5px;
+    margin-bottom: 2px;
+  }
+
+  .feature p {
+    font-size: 12px;
+    line-height: 1.35;
   }
 
   .signup-right {
     width: 100%;
     height: auto;
-    min-height: 100vh;
-    padding: 40px 24px;
+    min-height: auto;
+    padding: 28px 20px 48px 20px;
     overflow-y: visible;
   }
 
-  .signup-card {
-    max-width: 520px;
+  .auth-card {
+    max-width: 480px;
     margin: 0 auto;
   }
 }
@@ -432,4 +505,89 @@ html, body {
     grid-template-columns: 1fr;
     gap: 0;
   }
+}
+
+/* ==========================================================
+   AUTH CARDS SWITCH TRANSITION (Smooth & Fast)
+   ========================================================== */
+.auth-card {
+  width: 100%;
+  max-width: 500px;
+  margin: auto 0;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.auth-card.hidden {
+  display: none !important;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.auth-card.fade-in {
+  display: block;
+  animation: authFadeIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes authFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.auth-feedback-msg {
+  font-size: 13.5px;
+  margin-bottom: 12px;
+  text-align: center;
+  font-weight: 600;
+  min-height: 18px;
+}
+
+/* Forgot Password Modal */
+.forgot-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 35, 61, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+  animation: authFadeIn 0.2s ease-out;
+}
+
+.forgot-modal-card {
+  background: #ffffff;
+  border-radius: 16px;
+  max-width: 400px;
+  width: 100%;
+  padding: 24px;
+  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.forgot-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-modal-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+
+.close-modal-btn:hover {
+  color: #10233d;
 }
